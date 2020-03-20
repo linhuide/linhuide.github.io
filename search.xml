@@ -19,49 +19,43 @@
   <entry>
     <title>git的使用</title>
     <url>/2020/03/20/use-of-git.html</url>
-    <content><![CDATA[<h2 id="1-基本信息设置"><a href="#1-基本信息设置" class="headerlink" title="1.基本信息设置"></a>1.基本信息设置</h2><p>git config –global user.name ‘XXXXX’</p>
-<p>git config –global user.email ‘XXXXX@qq.com’</p>
-<h2 id="2-创建文件夹"><a href="#2-创建文件夹" class="headerlink" title="2.创建文件夹"></a>2.创建文件夹</h2><p>mkdir XXXX</p>
+    <content><![CDATA[<p>​    这是Git的基本使用方法</p>
 <a id="more"></a>
 
-<h2 id="3-文件内初始化git"><a href="#3-文件内初始化git" class="headerlink" title="3.文件内初始化git"></a>3.文件内初始化git</h2><p>cd XXX</p>
-<p>git init</p>
-<h2 id="4-增加文件"><a href="#4-增加文件" class="headerlink" title="4.增加文件"></a>4.增加文件</h2><p>git status</p>
-<p>git add XXX</p>
-<p>git status</p>
-<p>git commit -m ‘XXXXXXXXX’</p>
-<p>git status</p>
-<h2 id="5-修改文件"><a href="#5-修改文件" class="headerlink" title="5.修改文件"></a>5.修改文件</h2><p>修改文件</p>
-<p>git status</p>
-<p>git add XXX</p>
-<p>git status</p>
-<p>git commit -m ‘XXXXXXXXX’</p>
-<p>git status</p>
-<h2 id="6-删除文件"><a href="#6-删除文件" class="headerlink" title="6.删除文件"></a>6.删除文件</h2><p>rm -f XXX（删除文件）</p>
-<p>git rm XXX</p>
-<p>git commit -m ‘XXXXX’</p>
-<h2 id="7-远程访问仓库"><a href="#7-远程访问仓库" class="headerlink" title="7.远程访问仓库"></a>7.远程访问仓库</h2><h3 id="1-先克隆"><a href="#1-先克隆" class="headerlink" title="1.先克隆"></a>1.先克隆</h3><p>git clone XXXX</p>
-<p>git add XXX</p>
-<p>git commit -m ‘XXXXXXXXX’</p>
-<p>git push</p>
+<h2 id="1-基本信息设置"><a href="#1-基本信息设置" class="headerlink" title="1.基本信息设置"></a>1.基本信息设置</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &#39;XXXXX&#39;</span><br><span class="line">用户名字设置</span><br><span class="line">git config --global user.email &#39;XXXXX@qq.com&#39;</span><br><span class="line">用户邮箱设置</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-创建文件夹"><a href="#2-创建文件夹" class="headerlink" title="2.创建文件夹"></a>2.创建文件夹</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir XXXX</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-文件内初始化git"><a href="#3-文件内初始化git" class="headerlink" title="3.文件内初始化git"></a>3.文件内初始化git</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd XXX</span><br><span class="line">进入文件夹路径</span><br><span class="line">git init</span><br><span class="line">初始化git</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-增加文件"><a href="#4-增加文件" class="headerlink" title="4.增加文件"></a>4.增加文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">查看状态</span><br><span class="line">git add XXX</span><br><span class="line">git status</span><br><span class="line">增加，查看状态</span><br><span class="line">git commit -m &#39;XXXXXXXXX&#39;</span><br><span class="line">git status</span><br><span class="line">提交，查看状态</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-修改文件"><a href="#5-修改文件" class="headerlink" title="5.修改文件"></a>5.修改文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">查看状态</span><br><span class="line">git add XXX</span><br><span class="line">git status</span><br><span class="line">增加，查看状态</span><br><span class="line">git commit -m &#39;XXXXXXXXX&#39;</span><br><span class="line">git status</span><br><span class="line">提交，查看状态</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-删除文件"><a href="#6-删除文件" class="headerlink" title="6.删除文件"></a>6.删除文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rm -f XXX（删除文件）</span><br><span class="line">删除文件</span><br><span class="line">git rm XXX</span><br><span class="line">git删除文件</span><br><span class="line">git commit -m &#39;XXXXX&#39;</span><br><span class="line">提交删除文件描述</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-远程访问仓库"><a href="#7-远程访问仓库" class="headerlink" title="7.远程访问仓库"></a>7.远程访问仓库</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">先克隆github上面的仓库</span><br><span class="line">git clone XXXX</span><br><span class="line">克隆</span><br><span class="line">git add XXX</span><br><span class="line">增加</span><br><span class="line">git commit -m &#39;XXXXXXXXX&#39;</span><br><span class="line">提交描述</span><br><span class="line">git push</span><br><span class="line">提交到github上面</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>后端</category>
         <category>版本管理</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
     <title>建立个人博客</title>
     <url>/2020/03/19/create-a-personal-blog.html</url>
-    <content><![CDATA[<h2 id="1-安装node-js"><a href="#1-安装node-js" class="headerlink" title="1.安装node.js"></a>1.安装node.js</h2><p>去官网下载：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
+    <content><![CDATA[<p>​    创建自己的个人博客，记录步骤，希望可以帮上忙</p>
+<a id="more"></a>
+
+<h2 id="1-安装node-js"><a href="#1-安装node-js" class="headerlink" title="1.安装node.js"></a>1.安装node.js</h2><p>​    去官网下载：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
+<p><img src="/2020/03/19/create-a-personal-blog.htm/1-anzhuang.jpg" alt="1-anzhuang"></p>
 <p>一直next，修改存放地址，版本选第三个</p>
 <p>安装完后进行测试</p>
 <p>在桌面打开cmd，对node和npm进行测试</p>
-<a id="more"></a>
-
 <p>node -v</p>
 <p>npm -v</p>
 <p>两个都有版本号，就安装成功</p>
