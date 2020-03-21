@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linhuide.github.io/"/>
-  <updated>2020-03-21T05:08:32.697Z</updated>
+  <updated>2020-03-21T09:24:17.717Z</updated>
   <id>https://linhuide.github.io/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>全部面试笔记1</title>
+    <link href="https://linhuide.github.io/post/448efa24.html"/>
+    <id>https://linhuide.github.io/post/448efa24.html</id>
+    <published>2020-03-21T06:26:12.000Z</published>
+    <updated>2020-03-21T09:24:17.717Z</updated>
+    
+    <content type="html"><![CDATA[<p>​    Java面试的笔记，全面回忆</p><a id="more"></a><!--toc--><p>[TOC]</p><h1 id="1-java基础"><a href="#1-java基础" class="headerlink" title="1.java基础"></a>1.java基础</h1><h2 id="1-1-java的跨平台原理"><a href="#1-1-java的跨平台原理" class="headerlink" title="1-1.java的跨平台原理"></a>1-1.java的跨平台原理</h2><p>​    由于各操作系统支持的指令集，不是完全一致。不同的操作系统上要执行不同程序代码，但相同代码会使程序执行不了。所以，java开发了适用于不同操作系统及位数的java虚拟机(jvm)来屏蔽各个系统之间的差异，提供统一的接口(java API)。</p><p>​    对于java开发者而言，只需要在不同系统上安装对应不同的虚拟机。只要java程序遵循java规范，可以在所有操作系统上运行java程序</p><p><img src="../images/%E5%85%A8%E9%9D%A2%E7%AC%94%E8%AE%B01/1.png" alt="1"></p><h2 id="1-2-搭建java开发环境的步骤"><a href="#1-2-搭建java开发环境的步骤" class="headerlink" title="1-2.搭建java开发环境的步骤"></a>1-2.搭建java开发环境的步骤</h2><p>​    1、适用于我们开发环境的jdk</p><p>​    2、对应开发环境eclipse或idea</p><p>​    3、还需要web服务器(tomcat)</p><h2 id="1-3-int占几个字节"><a href="#1-3-int占几个字节" class="headerlink" title="1-3.int占几个字节"></a>1-3.int占几个字节</h2><p>​    java有8个基本数据类型：byte，shot，int，long，float，double，char，boolean</p><p>byte：8位    shot：16位    int：32位，占4个字节    </p><p>long：64位    float：32位    double：64位    </p><p>char：16位    boolean：1位    </p><h2 id="1-4-面向对象的特征有哪些方面"><a href="#1-4-面向对象的特征有哪些方面" class="headerlink" title="1-4.面向对象的特征有哪些方面"></a>1-4.面向对象的特征有哪些方面</h2><p>​    四大基本特征：封装，抽象，继承，多态</p><ul><li>封装：将对象封装成一个高度自治和相对封闭的个体，对象状态（属性由这个对象自己的行为（方法）来读取和改变。</li><li>抽象：做出一些事物的相似和共性之处，归为一个类。（把现实生活中的对象，抽象为类）</li><li>继承：在一个已经存在的类的基础之上进行，将其定义的内容作为自己的，可以加入若干新内容，或修改原来的方法，符合需求。</li><li>多态：<ul><li>程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是在程序运行期间才确定。</li><li>即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。</li><li>引用变量所指向的具体实例对象的方法，也就是内存里正在运行的那个对象的方法，而不是引用变量的类型中定义的方法。 </li></ul></li></ul><h2 id="1-5-基本数据类型，为什么还需要包装类型"><a href="#1-5-基本数据类型，为什么还需要包装类型" class="headerlink" title="1-5.基本数据类型，为什么还需要包装类型"></a>1-5.基本数据类型，为什么还需要包装类型</h2><p>​    每一个基本数据类型会对于一个包装类型：boolean–&gt;Boolean    int–&gt;Integer</p><ul><li>基本数据类型，包装类型–&gt;装箱和拆箱</li></ul><p>​    装箱：把基本的数据类型转换成对应的包装类型</p><p>​        Integer i = 1–&gt;Integer .valueOf(1)</p><p>​        自动装箱，实际上在编译时会调用Integer .valueOf方法来装箱</p><p>​    拆箱：把包装类型转换为基本数据类型.基本数据类型</p><p>​        Integer i = 1;</p><p>​        int j = i–&gt;自动拆箱</p><p>​        int j = i.intValue()i–&gt;手动拆箱</p><p>​        自动拆箱：实际上会在编译调用intValue    （源码）</p><ul><li><p>Java是一个面向对象的语言，而基本的数据类型，不具备面向对象的特性</p><p>面向对象特性：null，max，min</p><p>例子：Integer和int分别表示Person这个类的ID，可以null，判断一下</p></li><li><p>包装类型：对象有缓存–&gt;Integer i=1、Integer j= 1、i ==j</p></li></ul><h2 id="1-6"><a href="#1-6" class="headerlink" title="1-6."></a>1-6.</h2><h1 id="2-javaweb"><a href="#2-javaweb" class="headerlink" title="2.javaweb"></a>2.javaweb</h1><h1 id="3-数据库"><a href="#3-数据库" class="headerlink" title="3.数据库"></a>3.数据库</h1><h1 id="4-前端"><a href="#4-前端" class="headerlink" title="4.前端"></a>4.前端</h1><h1 id="5-后端"><a href="#5-后端" class="headerlink" title="5.后端"></a>5.后端</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;​    Java面试的笔记，全面回忆&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="后端" scheme="https://linhuide.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+      <category term="JAVA" scheme="https://linhuide.github.io/categories/%E5%90%8E%E7%AB%AF/JAVA/"/>
+    
+    
+      <category term="Java面试" scheme="https://linhuide.github.io/tags/Java%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>maven的使用</title>
+    <link href="https://linhuide.github.io/post/c1734c25.html"/>
+    <id>https://linhuide.github.io/post/c1734c25.html</id>
+    <published>2020-03-21T05:20:11.000Z</published>
+    <updated>2020-03-21T05:47:54.875Z</updated>
+    
+    <content type="html"><![CDATA[<p>​    这是Maven的基本使用方法</p><a id="more"></a><h2 id="1-基本信息"><a href="#1-基本信息" class="headerlink" title="1.基本信息"></a>1.基本信息</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;​    这是Maven的基本使用方法&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="后端" scheme="https://linhuide.github.io/categories/%E5%90%8E%E7%AB%AF/"/>
+    
+    
+      <category term="Maven" scheme="https://linhuide.github.io/tags/Maven/"/>
+    
+  </entry>
   
   <entry>
     <title>博客的完善</title>
