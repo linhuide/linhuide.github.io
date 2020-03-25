@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>java8新特性</title>
+    <url>/post/f41870e2.html</url>
+    <content><![CDATA[<p>​    关于java8的新特性</p>
+<a id="more"></a>
+
+<ul>
+<li>速度更快<ul>
+<li>修改底层数据结构：HashMap（数组-链表-红黑数），HashSet，ConcurrentHashMap（CAS算法）</li>
+<li>修改垃圾回收机制（内存结构）：取消堆中的永久区（PremGen）-&gt;回收条件苛刻，使用元空间（MetaSpace）-&gt;直接使用物理内存-&gt;加载类文件</li>
+</ul>
+</li>
+</ul>
+<p>底层数据结构：最核心HashMap：</p>
+<p>​    HashMap如果不用哈希算法，用equals，效率极低。对比HashCode，没有直接进来。相同，通过equals内容比较不同，形成链表，后加的放前边，称为碰撞，但碰撞应该避免，因为链表元素过多，效率低。</p>
+<p>​    equals和HashCode重写方法严谨一点，但还是避免不了，因为数组的索引值就几个。方法，提供加载因子，默认0,75，当元素到达哈希表的75%，进行扩容。把链表里面的元素进行重排序，新位置，碰撞概率变低。</p>
+<p>​    但极端情况，查找元素，查找到链表，查找到最后一个，查找效率变低。<br><img src="../images/java8%E6%96%B0%E7%89%B9%E6%80%A7/1.png" alt="1"></p>
+<p>​    所以jdk1.8后，数组+链表+红黑数（二叉树一种）</p>
+<p>​    链表元素长度（个数）大于8，容量大于64，转换为红黑树。</p>
+<p>​    链表转为红黑树后，除了添加以外，其他的效率都高了。添加，链表直接在后面添加，在红黑树要比较大小后才添加。</p>
+<p>​    扩容以后，换位置不用重新计算，在原来哈希表的总长度+当前的位置，原来5，+3，在第8个位置。</p>
+<ul>
+<li>代码更少（增加了新的语法 Lambda  表达式）</li>
+<li>强大的 Stream API</li>
+<li>便于并行</li>
+<li>最大化减少空指针异常 Optional</li>
+</ul>
+<h2 id="1-Lambda-表达式"><a href="#1-Lambda-表达式" class="headerlink" title="1.Lambda 表达式"></a>1.Lambda 表达式</h2><p>​    Lambda 是一个 匿名函数，我们可以把 Lambda表达式理解为是 一段可以传递的代码（将代码<br>像数据一样进行传递）。可以写出更简洁、更灵活的代码。作为一种更紧凑的代码风格，使Java的语言表达能力得到了提升。</p>
+<h2 id="2-函数式接口"><a href="#2-函数式接口" class="headerlink" title="2.函数式接口"></a>2.函数式接口</h2><h2 id="3-方法引用与构造器引用"><a href="#3-方法引用与构造器引用" class="headerlink" title="3.方法引用与构造器引用"></a>3.方法引用与构造器引用</h2><h2 id="4-Stream-API"><a href="#4-Stream-API" class="headerlink" title="4.Stream API"></a>4.Stream API</h2><h2 id="5-接口中的默认方法与静态方法"><a href="#5-接口中的默认方法与静态方法" class="headerlink" title="5.接口中的默认方法与静态方法"></a>5.接口中的默认方法与静态方法</h2><h2 id="6-新时间日期-API"><a href="#6-新时间日期-API" class="headerlink" title="6.新时间日期 API"></a>6.新时间日期 API</h2><h2 id="7-其他新特性"><a href="#7-其他新特性" class="headerlink" title="7.其他新特性"></a>7.其他新特性</h2>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>全部面试笔记-2</title>
     <url>/post/c0e5897b.html</url>
     <content><![CDATA[<p>​    Java面试的笔记-2，全面回忆</p>
