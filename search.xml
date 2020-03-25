@@ -6,8 +6,6 @@
     <content><![CDATA[<p>​    Java面试的笔记，全面回忆</p>
 <a id="more"></a>
 
-<!--toc-->
-
 <p>[TOC]</p>
 <h1 id="1-java基础"><a href="#1-java基础" class="headerlink" title="1.java基础"></a>1.java基础</h1><h2 id="1-1-java的跨平台原理"><a href="#1-1-java的跨平台原理" class="headerlink" title="1-1.java的跨平台原理"></a>1-1.java的跨平台原理</h2><p>​    由于各操作系统支持的指令集，不是完全一致。不同的操作系统上要执行不同程序代码，但相同代码会使程序执行不了。所以，java开发了适用于不同操作系统及位数的java虚拟机(jvm)来屏蔽各个系统之间的差异，提供统一的接口(java API)。</p>
 <p>​    对于java开发者而言，只需要在不同系统上安装对应不同的虚拟机。只要java程序遵循java规范，可以在所有操作系统上运行java程序</p>
@@ -51,7 +49,32 @@
 <li><p>包装类型：对象有缓存–&gt;Integer i=1、Integer j= 1、i ==j</p>
 </li>
 </ul>
-<h2 id="1-6"><a href="#1-6" class="headerlink" title="1-6."></a>1-6.</h2><h1 id="2-javaweb"><a href="#2-javaweb" class="headerlink" title="2.javaweb"></a>2.javaweb</h1><h1 id="3-数据库"><a href="#3-数据库" class="headerlink" title="3.数据库"></a>3.数据库</h1><h1 id="4-前端"><a href="#4-前端" class="headerlink" title="4.前端"></a>4.前端</h1><h1 id="5-后端"><a href="#5-后端" class="headerlink" title="5.后端"></a>5.后端</h1>]]></content>
+<h2 id="1-6-和equals有什么区别"><a href="#1-6-和equals有什么区别" class="headerlink" title="1-6.==和equals有什么区别"></a>1-6.==和equals有什么区别</h2><p>​    ==，用来判断两个变量之间的的值是否相等。</p>
+<p>​    变量就可以分为基本数据类型变量，引用类型。</p>
+<p>​    如果是基本数据类型的变量直接比较值，而引用类型要比较对应的引用的内存的首地址。</p>
+<p>​    equals 用来比较两个对象长得是否一样。</p>
+<p>​    判断两个对象的某些特征是否一样。实际上就是调用对象的equals方法进行比较。</p>
+<h2 id="1-7-String和StringBuilder的区别？StringBuffer和StringBuilder的区别"><a href="#1-7-String和StringBuilder的区别？StringBuffer和StringBuilder的区别" class="headerlink" title="1-7.String和StringBuilder的区别？StringBuffer和StringBuilder的区别?"></a>1-7.String和StringBuilder的区别？StringBuffer和StringBuilder的区别?</h2><p>​    String、StringBuillder、StringBuffer三个类是来表示和操作字符串：字符串就是多个字符的集合。</p>
+<p>​    String是内容不可变的字符串。String底层使用了一个不可变的字符数组(final char[])</p>
+<p><img src="../images/%E5%85%A8%E9%9D%A2%E7%AC%94%E8%AE%B01/2.png" alt="2"></p>
+<p>​    StringBuillder、StringBuffer：是内容可以改变的字符串。StringBuillder、StringBuffer底层使用的可变的字符数组（没有使用final来修饰） </p>
+<p><img src="../images/%E5%85%A8%E9%9D%A2%E7%AC%94%E8%AE%B01/3.png" alt="3"></p>
+<p><strong>拼接字符串：</strong></p>
+<p>​    String进行拼接：String c = “a”+”b”</p>
+<p>​    StringBuilder或者StringBuffer ：</p>
+<p>​        StringBuilder sb = new StringBuilder();    </p>
+<p>​        sb.apend(“a”).apend(“b”)</p>
+<p>​    拼接字符串不能使用String进行拼接，要使用StringBuilder或者StringBuffer</p>
+<p><strong>区别：</strong></p>
+<p>​    StringBuilder是线程不安全的，效率较高    而StringBuffer是线程安全的，效率较低。</p>
+<h2 id="1-8-java中的集合"><a href="#1-8-java中的集合" class="headerlink" title="1-8.java中的集合?"></a>1-8.java中的集合?</h2><p>​    Java中的集合为两种：Conllection：value，Map：key–vale</p>
+<p>Conllection：存储值有分为List 和Set</p>
+<ul>
+<li>List是有序的，可以重复的。</li>
+<li>Set是无序的，不可以重复的。根据equals和hashcode判断，也就是如果一个对象要存储在Set中，必须重写equals和hashCode方法。</li>
+</ul>
+<p>map：存储key-value</p>
+<h2 id="1-9-ArrayList和LinkedList的区别"><a href="#1-9-ArrayList和LinkedList的区别" class="headerlink" title="1-9.ArrayList和LinkedList的区别?"></a>1-9.ArrayList和LinkedList的区别?</h2><h2 id="1-10"><a href="#1-10" class="headerlink" title="1-10."></a>1-10.</h2><h2 id="1-11"><a href="#1-11" class="headerlink" title="1-11."></a>1-11.</h2><h2 id="1-12"><a href="#1-12" class="headerlink" title="1-12."></a>1-12.</h2><h2 id="1-13"><a href="#1-13" class="headerlink" title="1-13."></a>1-13.</h2><h2 id="1-14"><a href="#1-14" class="headerlink" title="1-14."></a>1-14.</h2><h1 id="2-javaweb"><a href="#2-javaweb" class="headerlink" title="2.javaweb"></a>2.javaweb</h1><h1 id="3-数据库"><a href="#3-数据库" class="headerlink" title="3.数据库"></a>3.数据库</h1><h1 id="4-前端"><a href="#4-前端" class="headerlink" title="4.前端"></a>4.前端</h1><h1 id="5-后端"><a href="#5-后端" class="headerlink" title="5.后端"></a>5.后端</h1>]]></content>
       <categories>
         <category>后端</category>
         <category>JAVA</category>
