@@ -1,6 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>设计模式</title>
+    <url>/post/364ea8cc.html</url>
+    <content><![CDATA[<p>设计模式一部分</p>
+<a id="more"></a>
+
+<h2 id="1-面向对象思想设计原则"><a href="#1-面向对象思想设计原则" class="headerlink" title="1.面向对象思想设计原则"></a>1.面向对象思想设计原则</h2><h3 id="1-1-单一职责原则"><a href="#1-1-单一职责原则" class="headerlink" title="1-1.单一职责原则"></a>1-1.单一职责原则</h3><ul>
+<li>其实就是开发人员经常说的”高内聚，低耦合“</li>
+<li>也就是说，每个类应该只有一个职责，对外只能提供一种功能，而引起类变化的原因应该只有一个。在设计模式中，所有的设计模式都遵循这一原则</li>
+</ul>
+<h3 id="1-2-开闭原则"><a href="#1-2-开闭原则" class="headerlink" title="1-2.开闭原则"></a>1-2.开闭原则</h3><ul>
+<li>核心思想是：一个对象对扩展开放，对修改关闭。</li>
+<li>其实开闭原则的意思就是：对类的改动是通过增加代码进行的，而不是修改现有代码。</li>
+<li>也就是说软件开发人员一旦写出了可以运行的代码，就不应该去改动它，而是要保证它能一直运行下去，如何能够做到这一点呢?这就需要借助于抽象和多态，即把可能变化的内容抽象出来，从而使抽象的部分是相对稳定的，而具体的实现则是可以改变和扩展的。</li>
+</ul>
+<h3 id="1-3-里氏替换原则"><a href="#1-3-里氏替换原则" class="headerlink" title="1-3.里氏替换原则"></a>1-3.里氏替换原则</h3><ul>
+<li>核心思想：在任何父类出现的地方都可以用它的子类来替代。</li>
+<li>其实就是说：同一个继承体系中的对象应该有共同的行为特征。</li>
+</ul>
+<h3 id="1-4-依赖注入原则"><a href="#1-4-依赖注入原则" class="headerlink" title="1-4.依赖注入原则"></a>1-4.依赖注入原则</h3><ul>
+<li>核心思想：要依赖于抽象，不要依赖于具体实现。</li>
+<li>其实就是说：在应用程序中，所有的类如果使用或依赖于其他的类，则应该依赖这些其他类的抽象类，而不是这些其他类的具体类。为了实现这一原则，就要求我们在编程的时候针对抽象类或者接口编程，而不是针对具体实现编程。</li>
+</ul>
+<h3 id="1-5-接口分离原则"><a href="#1-5-接口分离原则" class="headerlink" title="1-5.接口分离原则"></a>1-5.接口分离原则</h3><ul>
+<li>核心思想：不应该强迫程序依赖它们不需要使用的方法。</li>
+<li>其实就是说：一个接口不需要提供太多的行为，一个接口应该只提供一种对外的功能，不应该把所有的操作都封装到一个接口中。</li>
+</ul>
+<h3 id="1-6-迪米特原则"><a href="#1-6-迪米特原则" class="headerlink" title="1-6.迪米特原则"></a>1-6.迪米特原则</h3><ul>
+<li>核心思想：一个对象应当对其他对象尽可能少的了解</li>
+<li>其实就是说：降低各个对象之间的耦合，提高系统的可维护性。在模块之间应该只通过接口编程，而不理会模块的内部工作原理，它可以使各个模块耦合度降到最低，促进软件的复用</li>
+</ul>
+<h2 id="2-设计模式"><a href="#2-设计模式" class="headerlink" title="2.设计模式"></a>2.设计模式</h2><p>​    设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性。</p>
+<p>​    设计模式不是一种方法和技术，而是一种思想</p>
+<p>​    设计模式和具体的语言无关，学习设计模式就是要建立面向对象的思想，尽可能的面向接口编程，低耦合，高内聚，是设计的程序可复用</p>
+<p>​    学习设计模式能够促进对面向对象思想的理解，反之亦然。它们相辅相成</p>
+<p><strong>设计模式的几个要素：</strong></p>
+<ul>
+<li>名字：必须有一个简单，有意义的名字</li>
+<li>问题：描述在何时使用模式</li>
+<li>解决方案：描述设计的组成部分以及如何解决问题</li>
+<li>效果：描述模式的效果以及优缺点</li>
+</ul>
+<p><strong>设计模式的分类：</strong></p>
+<ul>
+<li><p>创建型模式：对象的创建</p>
+</li>
+<li><p>结构型模式：对象的组成(结构)</p>
+</li>
+<li><p>行为型模式：对象的行为</p>
+</li>
+<li><p>创建型模式</p>
+<ul>
+<li>简单工厂模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式，单例模式。(6个)</li>
+</ul>
+</li>
+<li><p>结构型模式</p>
+<ul>
+<li>外观模式、适配器模式、代理模式、装饰模式、桥接模式、组合模式、享元模式。(7个)</li>
+</ul>
+</li>
+<li><p>行为型模式</p>
+<ul>
+<li>模版方法模式、观察者模式、状态模式、职责链模式、命令模式、访问者模式、策略模式、备忘录模式、迭代器模式、解释器模式。(10个)</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-简单工厂模式"><a href="#3-简单工厂模式" class="headerlink" title="3.简单工厂模式"></a>3.简单工厂模式</h2><p><strong>工厂方法模式概述：</strong></p>
+<ul>
+<li>工厂方法模式中抽象工厂类负责定义创建对象的接口，具体对象的创建工作由继承抽象工厂的具体类实现。</li>
+</ul>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>客户端不需要在负责对象的创建，从而明确了各个类的职责，如果有新的对象增加，只需要增加一个具体的类和具体的工厂类即可，不影响已有的代码，后期维护容易，增强了系统的扩展性</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>需要额外的编写代码，增加了工作量</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//猫工厂</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"猫吃鱼"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//狗工厂</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"狗吃肉"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//优化，动物工厂</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnimalFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">AnimalFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dog <span class="title">createDog</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Dog();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Cat <span class="title">createCat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Cat();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//优化，动物</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Animal <span class="title">createAnimal</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"dog"</span>.equals(type)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Dog();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"cat"</span>.equals(type)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Cat();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//测试类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnimalDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 具体类调用</span></span><br><span class="line">        Dog d = <span class="keyword">new</span> Dog();</span><br><span class="line">        d.eat();</span><br><span class="line">        Cat c = <span class="keyword">new</span> Cat();</span><br><span class="line">        c.eat();</span><br><span class="line">        System.out.println(<span class="string">"------------"</span>);</span><br><span class="line">        <span class="comment">// 工厂有了后，通过工厂给造</span></span><br><span class="line">        Dog dd = AnimalFactory.createDog();</span><br><span class="line">        Cat cc = AnimalFactory.createCat();</span><br><span class="line">        dd.eat();</span><br><span class="line">        cc.eat();</span><br><span class="line">        System.out.println(<span class="string">"------------"</span>);</span><br><span class="line">        <span class="comment">// 工厂改进后</span></span><br><span class="line">        Animal a = AnimalFactory.createAnimal(<span class="string">"dog"</span>);</span><br><span class="line">        a.eat();</span><br><span class="line">        a = AnimalFactory.createAnimal(<span class="string">"cat"</span>);</span><br><span class="line">        a.eat();</span><br><span class="line">        <span class="comment">// NullPointerException</span></span><br><span class="line">        a = AnimalFactory.createAnimal(<span class="string">"pig"</span>);</span><br><span class="line">        <span class="keyword">if</span> (a != <span class="keyword">null</span>) &#123;</span><br><span class="line">            a.eat();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"对不起，暂时不提供这种动物"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-工厂方法"><a href="#4-工厂方法" class="headerlink" title="4.工厂方法"></a>4.工厂方法</h2><p><strong>工厂方法模式概述：</strong></p>
+<ul>
+<li>工厂方法模式中抽象工厂类负责定义创建对象的接口，具体对象的创建工作由继承抽象工厂的具体类实现。</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>客户端不需要在负责对象的创建，从而明确了各个类的职责，如果有新的对象增加，只需要增加一个具体的类和具体的工厂类即可，不影响已有的代码，后期维护容易，增强了系统的扩展性</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>需要额外的编写代码，增加了工作量</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//动物</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//工厂</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Animal <span class="title">createAnimal</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//狗</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"狗吃肉"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//狗工厂</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DogFactory</span> <span class="keyword">implements</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Animal <span class="title">createAnimal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Dog();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"猫吃鱼"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CatFactory</span> <span class="keyword">implements</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Animal <span class="title">createAnimal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Cat();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnimalDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 需求：我要买只狗</span></span><br><span class="line">        <span class="comment">// 启动工厂</span></span><br><span class="line">		Factory f = <span class="keyword">new</span> DogFactory();</span><br><span class="line">		Animal a = f.createAnimal();</span><br><span class="line">		a.eat();</span><br><span class="line">		System.out.println(<span class="string">"-------"</span>);</span><br><span class="line">		<span class="comment">//需求：我要买只猫</span></span><br><span class="line">		f = <span class="keyword">new</span> CatFactory();</span><br><span class="line">		a = f.createAnimal();</span><br><span class="line">		a.eat();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-单例模式"><a href="#5-单例模式" class="headerlink" title="5.单例模式"></a>5.单例模式</h2><p><strong>单例设计模式概述：</strong></p>
+<ul>
+<li>单例模式就是要确保类在内存中只有一个对象，该实例必须自动创建，并且对外提供。</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>在系统内存中只存在一个对象，因此可以节约系统资源，对于一些需要频繁创建和销毁的对象单例模式无疑可以提高系统的性能。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li><p>没有抽象层，因此扩展很难。</p>
+</li>
+<li><p>职责过重，在一定程序上违背了单一职责</p>
+</li>
+</ul>
+<p>单例模式：保证类在内存中只有一个对象。</p>
+<p><strong>如何保证类在内存中只有一个对象呢?</strong></p>
+<ul>
+<li>把构造方法私有</li>
+<li>在成员位置自己创建一个对象</li>
+<li>通过一个公共的方法提供访问</li>
+</ul>
+<h3 id="5-1-饿汉式：类一加载就创建对象"><a href="#5-1-饿汉式：类一加载就创建对象" class="headerlink" title="5-1.饿汉式：类一加载就创建对象"></a>5-1.饿汉式：类一加载就创建对象</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 构造私有</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Student</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 自己造一个</span></span><br><span class="line">	<span class="comment">// 静态方法只能访问静态成员变量，加静态</span></span><br><span class="line">	<span class="comment">// 为了不让外界直接访问修改这个值，加private</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Student s = <span class="keyword">new</span> Student();</span><br><span class="line">	<span class="comment">// 提供公共的访问方式</span></span><br><span class="line">	<span class="comment">// 为了保证外界能够直接使用该方法，加静态</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Student <span class="title">getStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> s;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//一开始</span></span><br><span class="line">		Student s1 = <span class="keyword">new</span> Student();</span><br><span class="line">		Student s2 = <span class="keyword">new</span> Student();</span><br><span class="line">		System.out.println(s1 == s2); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// 通过单例如何得到对象呢?</span></span><br><span class="line">		Student s1 = Student.getStudent();</span><br><span class="line">		Student s2 = Student.getStudent();</span><br><span class="line">		System.out.println(s1 == s2);</span><br><span class="line">		<span class="comment">// 外部修改对象</span></span><br><span class="line">		<span class="comment">// Student.s = null;</span></span><br><span class="line">		System.out.println(s1); <span class="comment">// null，cn.itcast_03.Student@175078b</span></span><br><span class="line">		System.out.println(s2);<span class="comment">// null，cn.itcast_03.Student@175078b</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-懒汉式：用的时候，才去创建对象"><a href="#5-2-懒汉式：用的时候，才去创建对象" class="headerlink" title="5-2.懒汉式：用的时候，才去创建对象"></a>5-2.懒汉式：用的时候，才去创建对象</h3><p><strong>面试题：单例模式的思想是什么?请写一个代码体现。</strong></p>
+<ul>
+<li>开发：饿汉式(是不会出问题的单例模式)</li>
+<li>面试：懒汉式(可能会出问题的单例模式)<br>懒加载(延迟加载) ，可能会线程安全问题，要加synchronized</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Teacher</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Teacher</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Teacher t = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//改良，加synchronized</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> Teacher <span class="title">getTeacher</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// t1,t2,t3</span></span><br><span class="line">		<span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">//t1,t2,t3</span></span><br><span class="line">			t = <span class="keyword">new</span> Teacher();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> t;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TeacherDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Teacher t1 = Teacher.getTeacher();</span><br><span class="line">		Teacher t2 = Teacher.getTeacher();</span><br><span class="line">		System.out.println(t1 == t2);</span><br><span class="line">		System.out.println(t1); <span class="comment">// cn.itcast_03.Teacher@175078b</span></span><br><span class="line">		System.out.println(t2);<span class="comment">// cn.itcast_03.Teacher@175078b</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-Runtime类的概述和使用"><a href="#5-3-Runtime类的概述和使用" class="headerlink" title="5-3.Runtime类的概述和使用"></a>5-3.Runtime类的概述和使用</h3><p>Runtime类概述</p>
+<ul>
+<li>每个 Java 应用程序都有一个 Runtime 类实例，使应用程序能够与其运行的环境相连接。可以通过 getRuntime 方法获取当前运行时。 </li>
+<li>应用程序不能创建自己的 Runtime 类实例。 </li>
+</ul>
+<p>Runtime类使用</p>
+<ul>
+<li>public Process  exec(String command)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RuntimeDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		Runtime r = Runtime.getRuntime();</span><br><span class="line">        <span class="comment">//打开扫雷</span></span><br><span class="line">        r.exec(<span class="string">"winmine"</span>);</span><br><span class="line">        <span class="comment">//打开记事本</span></span><br><span class="line">		r.exec(<span class="string">"notepad"</span>);</span><br><span class="line">        <span class="comment">//打开计算器</span></span><br><span class="line">		r.exec(<span class="string">"calc"</span>);</span><br><span class="line">        <span class="comment">//关机，10000秒后</span></span><br><span class="line">        r.exec(<span class="string">"shutdown -s -t 10000"</span>);</span><br><span class="line">        <span class="comment">//取消关机命令</span></span><br><span class="line">		r.exec(<span class="string">"shutdown -a"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//源码，提供一个静态的公共对象，饿汉式</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * class Runtime &#123;</span></span><br><span class="line"><span class="comment"> * 		private Runtime() &#123;&#125;</span></span><br><span class="line"><span class="comment"> * 		private static Runtime currentRuntime = new Runtime();</span></span><br><span class="line"><span class="comment"> * 		public static Runtime getRuntime() &#123;</span></span><br><span class="line"><span class="comment"> *       	return currentRuntime;</span></span><br><span class="line"><span class="comment"> *   	&#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>线程-2</title>
     <url>/post/94189774.html</url>
     <content><![CDATA[<p>​    线程的使用，第二部分</p>
@@ -233,7 +378,7 @@
 </ul>
 ]]></content>
       <tags>
-        <tag>JAVA</tag>
+        <tag>JAVA线程</tag>
       </tags>
   </entry>
   <entry>
@@ -461,7 +606,7 @@
 <h2 id="5-以前的线程安全的类"><a href="#5-以前的线程安全的类" class="headerlink" title="5.以前的线程安全的类"></a>5.以前的线程安全的类</h2><p>线程安全：StringBuffer、Vector、Hashtable<br>如何把一个线程不安全的集合类变成一个线程安全的集合类？<br>用Collections工具类的方法即可。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadDemo</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 线程安全的类</span></span><br><span class="line">      <span class="comment">// 里面有些方法加synchronized</span></span><br><span class="line">      StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">      Vector&lt;String&gt; v = <span class="keyword">new</span> Vector&lt;String&gt;();</span><br><span class="line">      Hashtable&lt;String, String&gt; h = <span class="keyword">new</span> Hashtable&lt;String, String&gt;();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Vector是线程安全的时候才去考虑使用的，但是我还说过即使要安全，我也不用你</span></span><br><span class="line">      <span class="comment">// 那么到底用谁呢?</span></span><br><span class="line">      <span class="comment">// public static &lt;T&gt; List&lt;T&gt; synchronizedList(List&lt;T&gt; list)</span></span><br><span class="line">      List&lt;String&gt; list1 = <span class="keyword">new</span> ArrayList&lt;String&gt;();<span class="comment">// 线程不安全</span></span><br><span class="line">      List&lt;String&gt; list2 = Collections</span><br><span class="line">            .synchronizedList(<span class="keyword">new</span> ArrayList&lt;String&gt;()); <span class="comment">// 线程安全</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <tags>
-        <tag>JAVA</tag>
+        <tag>JAVA线程</tag>
       </tags>
   </entry>
   <entry>
