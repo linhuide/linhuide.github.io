@@ -1,6 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>rides的学习与使用</title>
+    <url>/post/2c753e03.html</url>
+    <content><![CDATA[<p>rides的学习与使用</p>
+<a id="more"></a>
+
+<h1 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h1><p>​    redis是一款高性能的NOSQL系列的非关系型数据库</p>
+<ul>
+<li>关系型数据库：mysql，oracle<ul>
+<li>数据之间有关联关系</li>
+<li>数据存储在硬盘的文件上</li>
+</ul>
+</li>
+<li>非关系型数据库（NoSQL）：redis，hbase<ul>
+<li>存储 Key：value</li>
+<li>数据之间没有关联关系</li>
+<li>数据存储在内存中</li>
+</ul>
+</li>
+</ul>
+<p>如果经常查询一些不太经常发生变化的数据</p>
+<p><img src="../images/rides/1.png" alt="1"></p>
+<h2 id="1-1-什么是NOSQL"><a href="#1-1-什么是NOSQL" class="headerlink" title="1.1.什么是NOSQL"></a>1.1.什么是NOSQL</h2><p>​    NoSQL(NoSQL = Not Only SQL)，意即“不仅仅是SQL”，是一项全新的数据库理念，泛指非关系型的数据库。</p>
+<p>​    随着互联网web2.0网站的兴起，传统的关系数据库在应付web2.0网站，特别是超大规模和高并发的SNS类型的web2.0纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于其本身的特点得到了非常迅速的发展。NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。</p>
+<h3 id="1-1-1-NOSQL和关系型数据库比较"><a href="#1-1-1-NOSQL和关系型数据库比较" class="headerlink" title="1.1.1.NOSQL和关系型数据库比较"></a>1.1.1.NOSQL和关系型数据库比较</h3><ul>
+<li>优点：<ul>
+<li>成本：nosql数据库简单易部署，基本都是开源软件，不需要像使用oracle那样花费大量成本购买使用，相比关系型数据库价格便宜。</li>
+<li>查询速度：nosql数据库将数据存储于缓存之中，关系型数据库将数据存储在硬盘中，自然查询速度远不及nosql数据库。</li>
+<li>存储数据的格式：nosql的存储格式是key,value形式、文档形式、图片形式等等，所以可以存储基础类型以及对象或者是集合等各种格式，而数据库则只支持基础类型。</li>
+<li>扩展性：关系型数据库有类似join这样的多表查询机制的限制导致扩展很艰难。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>维护的工具和资料有限，因为nosql是属于新的技术，不能和关系型数据库10几年的技术同日而语。</li>
+<li>不提供对sql的支持，如果不支持sql这样的工业标准，将产生一定用户的学习和使用成本。</li>
+<li>不提供关系型数据库对事务的处理。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-2-非关系型数据库的优势："><a href="#1-1-2-非关系型数据库的优势：" class="headerlink" title="1.1.2.非关系型数据库的优势："></a>1.1.2.非关系型数据库的优势：</h3><ul>
+<li>性能NOSQL是基于键值对的，可以想象成表中的主键和值的对应关系，而且不需要经过SQL层的解析，所以性能非常高。</li>
+<li>可扩展性同样也是因为基于键值对，数据之间没有耦合性，所以非常容易水平扩展。</li>
+</ul>
+<h3 id="1-1-3-关系型数据库的优势："><a href="#1-1-3-关系型数据库的优势：" class="headerlink" title="1.1.3.关系型数据库的优势："></a>1.1.3.关系型数据库的优势：</h3><ul>
+<li>复杂查询可以用SQL语句方便的在一个表以及多个表之间做非常复杂的数据查询。</li>
+<li>事务支持使得对于安全性能很高的数据访问要求得以实现。对于这两类数据库，对方的优势就是自己的弱势，反之亦然。</li>
+</ul>
+<h3 id="1-1-4-总结"><a href="#1-1-4-总结" class="headerlink" title="1.1.4.总结"></a>1.1.4.总结</h3><ul>
+<li>关系型数据库与NoSQL数据库并非对立而是互补的关系，即通常情况下使用关系型数据库，在适合使用NoSQL的时候使用NoSQL数据库，让NoSQL数据库对关系型数据库的不足进行弥补。</li>
+<li>一般会将数据存储在关系型数据库中，在nosql数据库中备份存储关系型数据库的数据</li>
+</ul>
+<h2 id="1-2-主流的NOSQL产品"><a href="#1-2-主流的NOSQL产品" class="headerlink" title="1.2.主流的NOSQL产品"></a>1.2.主流的NOSQL产品</h2><ul>
+<li>键值(Key-Value)存储数据库<ul>
+<li>相关产品： Tokyo Cabinet/Tyrant、Redis、Voldemort、Berkeley DB</li>
+<li>典型应用： 内容缓存，主要用于处理大量数据的高访问负载。 </li>
+<li>数据模型： 一系列键值对</li>
+<li>优势： 快速查询</li>
+<li>劣势： 存储的数据缺少结构化</li>
+</ul>
+</li>
+<li>列存储数据库<ul>
+<li>相关产品：Cassandra, HBase, Riak</li>
+<li>典型应用：分布式的文件系统</li>
+<li>数据模型：以列簇式存储，将同一列数据存在一起</li>
+<li>优势：查找速度快，可扩展性强，更容易进行分布式扩展</li>
+<li>劣势：功能相对局限</li>
+</ul>
+</li>
+<li>文档型数据库<ul>
+<li>相关产品：CouchDB、MongoDB</li>
+<li>典型应用：Web应用（与Key-Value类似，Value是结构化的）</li>
+<li>数据模型： 一系列键值对</li>
+<li>优势：数据结构要求不严格</li>
+<li>劣势： 查询性能不高，而且缺乏统一的查询语法</li>
+</ul>
+</li>
+<li>图形(Graph)数据库<ul>
+<li>相关数据库：Neo4J、InfoGrid、Infinite Graph</li>
+<li>典型应用：社交网络</li>
+<li>数据模型：图结构</li>
+<li>优势：利用图结构相关算法。</li>
+<li>劣势：需要对整个图做计算才能得出结果，不容易做分布式的集群方案。</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-3-什么是Redis"><a href="#1-3-什么是Redis" class="headerlink" title="1.3 什么是Redis"></a>1.3 什么是Redis</h2><p>​    Redis是用C语言开发的一个开源的高性能键值对（key-value）数据库，官方提供测试数据，50个并发执行100000个请求,读的速度是110000次/s,写的速度是81000次/s ，且Redis通过提供多种键值数据类型来适应不同场景下的存储需求，目前为止Redis支持的键值数据类型如下：</p>
+<ul>
+<li>字符串类型 string</li>
+<li>哈希类型 hash</li>
+<li>列表类型 list</li>
+<li>集合类型 set</li>
+<li>有序集合类型 sortedset</li>
+</ul>
+<h3 id="1-3-1-redis的应用场景"><a href="#1-3-1-redis的应用场景" class="headerlink" title="1.3.1 redis的应用场景"></a>1.3.1 redis的应用场景</h3><ol>
+<li>缓存（数据查询、短连接、新闻内容、商品内容等等）</li>
+<li>聊天室的在线好友列表</li>
+<li>任务队列。（秒杀、抢购、12306等等）</li>
+<li>应用排行榜</li>
+<li>网站访问统计</li>
+<li>数据过期处理（可以精确到毫秒</li>
+<li>分布式集群架构中的session分离</li>
+</ol>
+<h1 id="2-下载安装"><a href="#2-下载安装" class="headerlink" title="2.下载安装"></a>2.下载安装</h1><ol>
+<li>官网：<a href="https://redis.io" target="_blank" rel="noopener">https://redis.io</a></li>
+<li>中文网：<a href="http://www.redis.net.cn/" target="_blank" rel="noopener">http://www.redis.net.cn/</a></li>
+<li>解压直接可以使用：<ul>
+<li>redis.windows.conf：配置文件</li>
+<li>redis-cli.exe：redis的客户端</li>
+<li>redis-server.exe：redis服务器端</li>
+</ul>
+</li>
+</ol>
+<h1 id="3-命令操作"><a href="#3-命令操作" class="headerlink" title="3.命令操作"></a>3.命令操作</h1><h2 id="1-redis的数据结构："><a href="#1-redis的数据结构：" class="headerlink" title="1.redis的数据结构："></a>1.redis的数据结构：</h2><ul>
+<li>redis存储的是：key,value格式的数据，其中key都是字符串，value有5种不同的数据结构<ul>
+<li>value的数据结构：<br>1) 字符串类型 string<br>2) 哈希类型 hash ： map格式<br>3) 列表类型 list ： linkedlist格式。支持重复元素<br>4) 集合类型 set  ： 不允许重复元素<br>5) 有序集合类型 sortedset：不允许重复元素，且元素有顺序</li>
+</ul>
+</li>
+</ul>
+<p><img src="../images/rides/2.png" alt="2"></p>
+<h2 id="2-字符串类型-string"><a href="#2-字符串类型-string" class="headerlink" title="2.字符串类型 string"></a>2.字符串类型 string</h2><ol>
+<li>存储： set key value<br>127.0.0.1:6379&gt; set username zhangsan<br>OK</li>
+<li>获取： get key<br>127.0.0.1:6379&gt; get username<br>“zhangsan”</li>
+<li>删除： del key<br>127.0.0.1:6379&gt; del age<br>(integer) 1</li>
+</ol>
+<h2 id="3-哈希类型-hash"><a href="#3-哈希类型-hash" class="headerlink" title="3.哈希类型 hash"></a>3.哈希类型 hash</h2><ol>
+<li>存储： hset key field value<br>127.0.0.1:6379&gt; hset myhash username lisi<br>(integer) 1<br>127.0.0.1:6379&gt; hset myhash password 123<br>(integer) 1</li>
+<li>获取： <ul>
+<li>hget key field: 获取指定的field对应的值<br>127.0.0.1:6379&gt; hget myhash username<br>“lisi”</li>
+<li>hgetall key：获取所有的field和value<br>127.0.0.1:6379&gt; hgetall myhash<br>1) “username”<br>2) “lisi”<br>3) “password”<br>4) “123”</li>
+</ul>
+</li>
+<li>删除： hdel key field<br>127.0.0.1:6379&gt; hdel myhash username<br>(integer) 1</li>
+</ol>
+<h2 id="4-列表类型-list"><a href="#4-列表类型-list" class="headerlink" title="4.列表类型 list"></a>4.列表类型 list</h2><p>Redis列表是简单的字符串列表，按照插入顺序排序。可以添加一个元素到列表的头部（左边）或者尾部（右边）</p>
+<ol>
+<li><p>添加：</p>
+<ol>
+<li><p>lpush key value: 将元素加入列表左表</p>
+</li>
+<li><p>rpush key value：将元素加入列表右边</p>
+<p>127.0.0.1:6379&gt; lpush myList a<br>(integer) 1<br>127.0.0.1:6379&gt; lpush myList b<br>(integer) 2<br>127.0.0.1:6379&gt; rpush myList c<br>(integer) 3</p>
+</li>
+</ol>
+</li>
+<li><p>获取：</p>
+<ul>
+<li>lrange key start end ：范围获取<br>127.0.0.1:6379&gt; lrange myList 0 -1（所有元素）<br>1) “b”<br>2) “a”<br>3) “c”</li>
+</ul>
+</li>
+<li><p>删除：</p>
+<ul>
+<li>lpop key： 删除列表最左边的元素，并将元素返回</li>
+<li>rpop key： 删除列表最右边的元素，并将元素返回</li>
+</ul>
+</li>
+</ol>
+<p><img src="../images/rides/3.png" alt="3"></p>
+<h2 id="5-集合类型-set-：-不允许重复元素"><a href="#5-集合类型-set-：-不允许重复元素" class="headerlink" title="5.集合类型 set ： 不允许重复元素"></a>5.集合类型 set ： 不允许重复元素</h2><p>Redis的Set是string类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。</p>
+<p>Redis 中 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。</p>
+<ol>
+<li>存储：sadd key value<br>127.0.0.1:6379&gt; sadd myset a<pre><code>(integer) 1
+127.0.0.1:6379&gt; sadd myset a
+(integer) 0</code></pre></li>
+<li>获取：smembers key:获取set集合中所有元素<br>127.0.0.1:6379&gt; smembers myset<pre><code>1) &quot;a&quot;</code></pre></li>
+<li>删除：srem key value:删除set集合中的某个元素<br>127.0.0.1:6379&gt; srem myset a<pre><code>(integer) 1</code></pre></li>
+</ol>
+<h2 id="6-有序集合类型-sortedset"><a href="#6-有序集合类型-sortedset" class="headerlink" title="6.有序集合类型 sortedset"></a>6.有序集合类型 sortedset</h2><p>Redis 有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。</p>
+<p>不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。</p>
+<p>有序集合的成员是唯一的,但分数(score)却可以重复。</p>
+<p>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。 集合中最大的成员数为 232 - 1</p>
+<p>不允许重复元素，且元素有顺序.每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。</p>
+<pre><code>1. 存储：zadd key score value
+ 127.0.0.1:6379&gt; zadd mysort 60 zhangsan
+        (integer) 1
+        127.0.0.1:6379&gt; zadd mysort 50 lisi
+        (integer) 1
+        127.0.0.1:6379&gt; zadd mysort 80 wangwu
+        (integer) 1
+2. 获取：zrange key start end [withscores]
+ 127.0.0.1:6379&gt; zrange mysort 0 -1
+        1) &quot;lisi&quot;
+        2) &quot;zhangsan&quot;
+        3) &quot;wangwu&quot;
+
+   127.0.0.1:6379&gt; zrange mysort 0 -1 withscores
+   1) &quot;zhangsan&quot;
+   2) &quot;60&quot;
+   3) &quot;wangwu&quot;
+   4) &quot;80&quot;
+   5) &quot;lisi&quot;
+   6) &quot;500&quot;</code></pre><ol start="3">
+<li>删除：zrem key value<br>127.0.0.1:6379&gt; zrem mysort lisi<pre><code>(integer) 1</code></pre></li>
+</ol>
+<h2 id="7-通用命令"><a href="#7-通用命令" class="headerlink" title="7.通用命令"></a>7.通用命令</h2><ol>
+<li>keys * : 查询所有的键</li>
+<li>type key ： 获取键对应的value的类型</li>
+<li>del key：删除指定的key value</li>
+</ol>
+<h1 id="4-持久化"><a href="#4-持久化" class="headerlink" title="4.持久化"></a>4.持久化</h1><ol>
+<li><p>redis是一个内存数据库，当redis服务器重启，获取电脑重启，数据会丢失，我们可以将redis内存中的数据持久化保存到硬盘的文件中。</p>
+</li>
+<li><p>redis持久化机制：</p>
+<ol>
+<li><p>RDB：默认方式，不需要进行配置，默认就使用这种机制</p>
+<ul>
+<li>在一定的间隔时间中，检测key的变化情况，然后持久化数据</li>
+</ul>
+<ol>
+<li><p>编辑redis.windwos.conf文件</p>
+<p>after 900 sec (15 min) if at least 1 key changed</p>
+<p>save 900 1（15分钟后有1个key发生改变，持久化一次）</p>
+<p>after 300 sec (5 min) if at least 10 keys changed</p>
+<p>save 300 10（5分钟后大于10个key发生改变，持久化一次）</p>
+<p>after 60 sec if at least 10000 keys changed</p>
+<p>save 60 10000（60秒后大于10000个key发生改变，持久化一次）</p>
+</li>
+<li><p>重新启动redis服务器，并指定配置文件名称<br>D:\redis-2.8.9&gt;redis-server.exe redis.windows.conf    </p>
+</li>
+</ol>
+</li>
+<li><p>AOF：日志记录的方式，可以记录每一条命令的操作。可以每一次命令操作后，持久化数据</p>
+<ol>
+<li><p>编辑redis.windwos.conf文件<br>appendonly no（关闭aof） –&gt; appendonly yes （开启aof）</p>
+<p>appendfsync always ： 每一次操作都进行持久化</p>
+<p>appendfsync everysec ： 每隔一秒进行一次持久化</p>
+<p>appendfsync no     ： 不进行持久化</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="5-Java客户端-Jedis"><a href="#5-Java客户端-Jedis" class="headerlink" title="5.Java客户端 Jedis"></a>5.Java客户端 Jedis</h1><p>Jedis: 一款java操作redis数据库的工具.</p>
+<p>使用步骤：</p>
+<h3 id="1-下载jedis的jar包"><a href="#1-下载jedis的jar包" class="headerlink" title="1.下载jedis的jar包"></a>1.下载jedis的jar包</h3><p>地址：<a href="https://mvnrepository.com/artifact/redis.clients/jedis" target="_blank" rel="noopener">https://mvnrepository.com/artifact/redis.clients/jedis</a></p>
+<h2 id="2-快速入门"><a href="#2-快速入门" class="headerlink" title="2.快速入门"></a>2.快速入门</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//1. 获取连接</span></span><br><span class="line">    Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"localhost"</span>,<span class="number">6379</span>);</span><br><span class="line">    <span class="comment">//2. 操作</span></span><br><span class="line">    jedis.set(<span class="string">"username"</span>,<span class="string">"zhangsan"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3. 关闭连接</span></span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br><span class="line">rides：keys *</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Jedis操作各种redis中的数据结构"><a href="#3-Jedis操作各种redis中的数据结构" class="headerlink" title="3.Jedis操作各种redis中的数据结构"></a>3.Jedis操作各种redis中的数据结构</h2><h3 id="3-1-字符串类型-string：set、get"><a href="#3-1-字符串类型-string：set、get" class="headerlink" title="3-1.字符串类型 string：set、get"></a>3-1.字符串类型 string：set、get</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * string 数据结构操作</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//1. 获取连接</span></span><br><span class="line">    Jedis jedis = <span class="keyword">new</span> Jedis();</span><br><span class="line">    <span class="comment">//如果使用空参构造，默认值 "localhost",6379端口</span></span><br><span class="line">    <span class="comment">//2. 操作</span></span><br><span class="line">    <span class="comment">//存储</span></span><br><span class="line">    jedis.set(<span class="string">"username"</span>,<span class="string">"zhangsan"</span>);</span><br><span class="line">    <span class="comment">//获取</span></span><br><span class="line">    String username = jedis.get(<span class="string">"username"</span>);</span><br><span class="line">    System.out.println(username);</span><br><span class="line">    <span class="comment">//可以使用setex()方法存储可以指定过期时间的 key value</span></span><br><span class="line">    jedis.setex(<span class="string">"activecode"</span>,<span class="number">20</span>,<span class="string">"hehe"</span>);</span><br><span class="line">    <span class="comment">//将activecode：hehe键值对存入redis，并且20秒后自动删除该键值对</span></span><br><span class="line">    <span class="comment">//3. 关闭连接</span></span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-哈希类型-hash-：-map格式"><a href="#3-2-哈希类型-hash-：-map格式" class="headerlink" title="3-2.哈希类型 hash ： map格式"></a>3-2.哈希类型 hash ： map格式</h3><p>操作：hset、hget、hgetAll</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//1. 获取连接</span></span><br><span class="line">    Jedis jedis = <span class="keyword">new</span> Jedis();</span><br><span class="line">    <span class="comment">//2. 操作</span></span><br><span class="line">    <span class="comment">// 存储hash</span></span><br><span class="line">    jedis.hset(<span class="string">"user"</span>,<span class="string">"name"</span>,<span class="string">"lisi"</span>);</span><br><span class="line">    jedis.hset(<span class="string">"user"</span>,<span class="string">"age"</span>,<span class="string">"23"</span>);</span><br><span class="line">    jedis.hset(<span class="string">"user"</span>,<span class="string">"gender"</span>,<span class="string">"female"</span>);</span><br><span class="line">    <span class="comment">// 获取hash</span></span><br><span class="line">    String name = jedis.hget(<span class="string">"user"</span>, <span class="string">"name"</span>);</span><br><span class="line">    System.out.println(name);</span><br><span class="line">    <span class="comment">// 获取hash的所有map中的数据</span></span><br><span class="line">    Map&lt;String, String&gt; user = jedis.hgetAll(<span class="string">"user"</span>);</span><br><span class="line">    <span class="comment">// keyset</span></span><br><span class="line">    Set&lt;String&gt; keySet = user.keySet();</span><br><span class="line">    <span class="keyword">for</span> (String key : keySet) &#123;</span><br><span class="line">        <span class="comment">//获取value</span></span><br><span class="line">        String value = user.get(key);</span><br><span class="line">        System.out.println(key + <span class="string">":"</span> + value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//3. 关闭连接</span></span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-列表类型-list-：-linkedlist格式、支持重复元素"><a href="#3-3-列表类型-list-：-linkedlist格式、支持重复元素" class="headerlink" title="3-3.列表类型 list ： linkedlist格式、支持重复元素"></a>3-3.列表类型 list ： linkedlist格式、支持重复元素</h3><p>操作：lpush / rpush、lpop / rpop、lrange start end : 范围获取</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//1. 获取连接</span></span><br><span class="line">    Jedis jedis = <span class="keyword">new</span> Jedis();</span><br><span class="line">    <span class="comment">//2. 操作</span></span><br><span class="line">    <span class="comment">// list 存储</span></span><br><span class="line">    <span class="comment">//从左边存</span></span><br><span class="line">    jedis.lpush(<span class="string">"mylist"</span>,<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>);</span><br><span class="line">    <span class="comment">//从右边存</span></span><br><span class="line">    jedis.rpush(<span class="string">"mylist"</span>,<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>);</span><br><span class="line">    <span class="comment">// list 范围获取</span></span><br><span class="line">    List&lt;String&gt; mylist = jedis.lrange(<span class="string">"mylist"</span>, <span class="number">0</span>, -<span class="number">1</span>);</span><br><span class="line">    System.out.println(mylist);</span><br><span class="line">    <span class="comment">//[c, b, a, a, b, c]</span></span><br><span class="line">    <span class="comment">// list 弹出</span></span><br><span class="line">    String element1 = jedis.lpop(<span class="string">"mylist"</span>);</span><br><span class="line">    System.out.println(element1);</span><br><span class="line">    <span class="comment">//c</span></span><br><span class="line">    String element2 = jedis.rpop(<span class="string">"mylist"</span>);</span><br><span class="line">    System.out.println(element2);</span><br><span class="line">    <span class="comment">//c</span></span><br><span class="line">    <span class="comment">// list 范围获取</span></span><br><span class="line">    List&lt;String&gt; mylist2 = jedis.lrange(<span class="string">"mylist"</span>, <span class="number">0</span>, -<span class="number">1</span>);</span><br><span class="line">    System.out.println(mylist2);</span><br><span class="line">    <span class="comment">//[b, a, a, b]</span></span><br><span class="line">    <span class="comment">//3. 关闭连接</span></span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-集合类型-set-：-不允许重复元素"><a href="#3-4-集合类型-set-：-不允许重复元素" class="headerlink" title="3-4.集合类型 set  ： 不允许重复元素"></a>3-4.集合类型 set  ： 不允许重复元素</h3><p>操作：sadd、smembers:获取所有元素</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test5</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//1. 获取连接</span></span><br><span class="line">    Jedis jedis = <span class="keyword">new</span> Jedis();</span><br><span class="line">    <span class="comment">//2. 操作</span></span><br><span class="line">    <span class="comment">// set 存储</span></span><br><span class="line">    jedis.sadd(<span class="string">"myset"</span>,<span class="string">"java"</span>,<span class="string">"php"</span>,<span class="string">"c++"</span>);</span><br><span class="line">    <span class="comment">// set 获取</span></span><br><span class="line">    Set&lt;String&gt; myset = jedis.smembers(<span class="string">"myset"</span>);</span><br><span class="line">    System.out.println(myset);</span><br><span class="line">    <span class="comment">//3. 关闭连接</span></span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-有序集合类型-sortedset：不允许重复元素，且元素有顺序"><a href="#3-5-有序集合类型-sortedset：不允许重复元素，且元素有顺序" class="headerlink" title="3-5.有序集合类型 sortedset：不允许重复元素，且元素有顺序"></a>3-5.有序集合类型 sortedset：不允许重复元素，且元素有顺序</h3><p>操作：zadd、zrange</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test6</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//1. 获取连接</span></span><br><span class="line">    Jedis jedis = <span class="keyword">new</span> Jedis();</span><br><span class="line">    <span class="comment">//2. 操作</span></span><br><span class="line">    <span class="comment">// sortedset 存储</span></span><br><span class="line">    jedis.zadd(<span class="string">"mysortedset"</span>,<span class="number">3</span>,<span class="string">"亚瑟"</span>);</span><br><span class="line">    jedis.zadd(<span class="string">"mysortedset"</span>,<span class="number">30</span>,<span class="string">"后裔"</span>);</span><br><span class="line">    jedis.zadd(<span class="string">"mysortedset"</span>,<span class="number">55</span>,<span class="string">"孙悟空"</span>);</span><br><span class="line">    <span class="comment">// sortedset 获取</span></span><br><span class="line">    Set&lt;String&gt; mysortedset = jedis.zrange(<span class="string">"mysortedset"</span>, <span class="number">0</span>, -<span class="number">1</span>);</span><br><span class="line">    System.out.println(mysortedset);</span><br><span class="line">    <span class="comment">//3. 关闭连接</span></span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-6-jedis连接池：-JedisPool"><a href="#3-6-jedis连接池：-JedisPool" class="headerlink" title="3-6. jedis连接池： JedisPool"></a>3-6. jedis连接池： JedisPool</h3><p>使用：</p>
+<ol>
+<li>创建JedisPool连接池对象</li>
+<li>调用方法 getResource()方法获取Jedis连接</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test7</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//0.创建一个配置对象</span></span><br><span class="line">    JedisPoolConfig config = <span class="keyword">new</span> JedisPoolConfig();</span><br><span class="line">    <span class="comment">//最大活动对象数</span></span><br><span class="line">    config.setMaxTotal(<span class="number">50</span>);</span><br><span class="line">    <span class="comment">//最大能够保持idel状态的对象数</span></span><br><span class="line">    config.setMaxIdle(<span class="number">10</span>);</span><br><span class="line">    <span class="comment">//1.创建Jedis连接池对象</span></span><br><span class="line">    JedisPool jedisPool = <span class="keyword">new</span> JedisPool(config,<span class="string">"localhost"</span>,<span class="number">6379</span>);</span><br><span class="line">    <span class="comment">//2.获取连接</span></span><br><span class="line">    Jedis jedis = jedisPool.getResource();</span><br><span class="line">    <span class="comment">//3. 使用</span></span><br><span class="line">    jedis.set(<span class="string">"hehe"</span>,<span class="string">"heihei"</span>);</span><br><span class="line">    <span class="comment">//4. 关闭 归还到连接池中</span></span><br><span class="line">    jedis.close();;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="jedis详细配置"><a href="#jedis详细配置" class="headerlink" title="jedis详细配置"></a>jedis详细配置</h3><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#最大活动对象数     </span></span><br><span class="line"><span class="meta">redis.pool.maxTotal</span>=<span class="string">1000    </span></span><br><span class="line"><span class="comment">#最大能够保持idel状态的对象数      </span></span><br><span class="line"><span class="meta">redis.pool.maxIdle</span>=<span class="string">100  </span></span><br><span class="line"><span class="comment">#最小能够保持idel状态的对象数   </span></span><br><span class="line"><span class="meta">redis.pool.minIdle</span>=<span class="string">50    </span></span><br><span class="line"><span class="comment">#当池内没有返回对象时，最大等待时间    </span></span><br><span class="line"><span class="meta">redis.pool.maxWaitMillis</span>=<span class="string">10000    </span></span><br><span class="line"><span class="comment">#当调用borrow Object方法时，是否进行有效性检查    </span></span><br><span class="line"><span class="meta">redis.pool.testOnBorrow</span>=<span class="string">true    </span></span><br><span class="line"><span class="comment">#当调用return Object方法时，是否进行有效性检查    </span></span><br><span class="line"><span class="meta">redis.pool.testOnReturn</span>=<span class="string">true  </span></span><br><span class="line"><span class="comment">#“空闲链接”检测线程，检测的周期，毫秒数。如果为负值，表示不运行“检测线程”。默认为-1.  </span></span><br><span class="line"><span class="meta">redis.pool.timeBetweenEvictionRunsMillis</span>=<span class="string">30000  </span></span><br><span class="line"><span class="comment">#向调用者输出“链接”对象时，是否检测它的空闲超时；  </span></span><br><span class="line"><span class="meta">redis.pool.testWhileIdle</span>=<span class="string">true  </span></span><br><span class="line"><span class="comment"># 对于“空闲链接”检测线程而言，每次检测的链接资源的个数。默认为3.  </span></span><br><span class="line"><span class="meta">redis.pool.numTestsPerEvictionRun</span>=<span class="string">50  </span></span><br><span class="line"><span class="comment">#redis服务器的IP    </span></span><br><span class="line"><span class="meta">redis.ip</span>=<span class="string">xxxxxx  </span></span><br><span class="line"><span class="comment">#redis服务器的Port    </span></span><br><span class="line"><span class="meta">redis1.port</span>=<span class="string">6379</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-7-Jedis连接池工具类"><a href="#3-7-Jedis连接池工具类" class="headerlink" title="3-7.Jedis连接池工具类"></a>3-7.Jedis连接池工具类</h3><p>JedisPool工具类:</p>
+<ul>
+<li>加载配置文件，配置连接池的参数</li>
+<li>提供获取连接的方法</li>
+</ul>
+<p>jedis.properties</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">host</span>=<span class="string">127.0.0.1</span></span><br><span class="line"><span class="attr">port</span>=<span class="string">6379</span></span><br><span class="line"><span class="attr">maxTotal</span>=<span class="string">50</span></span><br><span class="line"><span class="attr">maxIdle</span>=<span class="string">10</span></span><br></pre></td></tr></table></figure>
+
+<p>工具类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JedisPoolUtils</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> JedisPool jedisPool;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        <span class="comment">//读取配置文件</span></span><br><span class="line">        InputStream is = JedisPoolUtils.class.getClassLoader().getResourceAsStream("jedis.properties");</span><br><span class="line">        <span class="comment">//创建Properties对象</span></span><br><span class="line">        Properties pro = <span class="keyword">new</span> Properties();</span><br><span class="line">        <span class="comment">//关联文件</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            pro.load(is);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//获取数据，设置到JedisPoolConfig中</span></span><br><span class="line">        JedisPoolConfig config = <span class="keyword">new</span> JedisPoolConfig();</span><br><span class="line">        config.setMaxTotal(Integer.parseInt(pro.getProperty(<span class="string">"maxTotal"</span>)));</span><br><span class="line">        config.setMaxIdle(Integer.parseInt(pro.getProperty(<span class="string">"maxIdle"</span>)));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//初始化JedisPool</span></span><br><span class="line">        jedisPool = <span class="keyword">new</span> JedisPool(config,pro.getProperty(<span class="string">"host"</span>),Integer.parseInt(pro.getProperty(<span class="string">"port"</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取连接方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Jedis <span class="title">getJedis</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> jedisPool.getResource();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test8</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//通过连接池工具类获取</span></span><br><span class="line">    Jedis jedis = JedisPoolUtils.getJedis();</span><br><span class="line">    <span class="comment">//2. 使用</span></span><br><span class="line">    jedis.set(<span class="string">"hello"</span>,<span class="string">"world"</span>);</span><br><span class="line">    <span class="comment">//3. 关闭 归还到连接池中</span></span><br><span class="line">    jedis.close();;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="案例："><a href="#案例：" class="headerlink" title="案例："></a>案例：</h1><ol>
+<li>提供index.html页面，页面中有一个省份 下拉列表</li>
+<li>当页面加载完成后 发送ajax请求，加载所有省份</li>
+</ol>
+<ul>
+<li>注意：使用redis缓存一些不经常发生变化的数据。<ul>
+<li>数据库的数据一旦发生改变，则需要更新缓存。<ul>
+<li>数据库的表执行增删改的相关操作，需要将redis缓存数据情况，再次存入</li>
+<li>在service对应的增删改方法中，将redis数据删除。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="../images/rides/5.png" alt="5"></p>
+<p>代码实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//domain</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Province</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProvinceDao</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Province&gt; <span class="title">findAll</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>druif.properties</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">driverClassName</span>=<span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line"><span class="attr">url</span>=<span class="string">jdbc:mysql://localhost:3306/redis?serverTimezone=UTC</span></span><br><span class="line"><span class="attr">username</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">password</span>=<span class="string">1234</span></span><br><span class="line"><span class="attr">initialSize</span>=<span class="string">5</span></span><br><span class="line"><span class="attr">maxActive</span>=<span class="string">10</span></span><br><span class="line"><span class="attr">maxWait</span>=<span class="string">3000</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//工具类</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * JDBC工具类 使用Durid连接池</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JDBCUtils</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DataSource ds ;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//1.加载配置文件</span></span><br><span class="line">            Properties pro = <span class="keyword">new</span> Properties();</span><br><span class="line">            <span class="comment">//使用ClassLoader加载配置文件，获取字节输入流</span></span><br><span class="line">            InputStream is = JDBCUtils.class.getClassLoader().getResourceAsStream("druid.properties");</span><br><span class="line">            pro.load(is);</span><br><span class="line">            <span class="comment">//2.初始化连接池对象</span></span><br><span class="line">            ds = DruidDataSourceFactory.createDataSource(pro);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取连接池对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DataSource <span class="title">getDataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ds;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取连接Connection对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  ds.getConnection();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//dao/impl</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProvinceDaoImpl</span> <span class="keyword">implements</span> <span class="title">ProvinceDao</span> </span>&#123;</span><br><span class="line">    <span class="comment">//1.声明成员变量 jdbctemplement</span></span><br><span class="line">    <span class="keyword">private</span> JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Province&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1.定义sql</span></span><br><span class="line">        String sql = <span class="string">"select * from province "</span>;</span><br><span class="line">        <span class="comment">//2.执行sql</span></span><br><span class="line">        List&lt;Province&gt; list = template.query(sql, <span class="keyword">new</span> BeanPropertyRowMapper&lt;Province&gt;(Province<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProvinceService</span> </span>&#123;</span><br><span class="line">    <span class="comment">//查询数据库</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Province&gt; <span class="title">findAll</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//redis+数据库</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">findAllJson</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//service/impl</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProvinceServiceImpl</span> <span class="keyword">implements</span> <span class="title">ProvinceService</span> </span>&#123;</span><br><span class="line">    <span class="comment">//声明dao</span></span><br><span class="line">    <span class="keyword">private</span> ProvinceDao dao = <span class="keyword">new</span> ProvinceDaoImpl();</span><br><span class="line">    <span class="comment">//查询数据库</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Province&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dao.findAll();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//使用redis缓存，工具类JedisPoolUtils之前有写</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">findAllJson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1.先从redis中查询数据</span></span><br><span class="line">        <span class="comment">//1.1获取redis客户端连接</span></span><br><span class="line">        Jedis jedis = JedisPoolUtils.getJedis();</span><br><span class="line">        String province_json = jedis.get(<span class="string">"province"</span>);</span><br><span class="line">        <span class="comment">//2判断 province_json 数据是否为null</span></span><br><span class="line">        <span class="keyword">if</span>(province_json == <span class="keyword">null</span> || province_json.length() == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//redis中没有数据</span></span><br><span class="line">            System.out.println(<span class="string">"redis中没数据，查询数据库..."</span>);</span><br><span class="line">            <span class="comment">//2.1从数据中查询</span></span><br><span class="line">            List&lt;Province&gt; ps = dao.findAll();</span><br><span class="line">            <span class="comment">//2.2将list序列化为json</span></span><br><span class="line">            ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                province_json = mapper.writeValueAsString(ps);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (JsonProcessingException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//2.3 将json数据存入redis</span></span><br><span class="line">            jedis.set(<span class="string">"province"</span>,province_json);</span><br><span class="line">            <span class="comment">//归还连接</span></span><br><span class="line">            jedis.close();</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"redis中有数据，查询缓存..."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> province_json;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>web层：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/provinceServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProvinceServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="comment">//数据库</span></span><br><span class="line">        <span class="comment">//1.调用service查询</span></span><br><span class="line">        ProvinceService service = <span class="keyword">new</span> ProvinceServiceImpl();</span><br><span class="line">        List&lt;Province&gt; list = service.findAll();</span><br><span class="line">        <span class="comment">//2.序列化list为json</span></span><br><span class="line">        ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">        String json = mapper.writeValueAsString(list);</span><br><span class="line">        <span class="comment">//reids</span></span><br><span class="line">        <span class="comment">//1.调用service查询</span></span><br><span class="line">        ProvinceService service2 = <span class="keyword">new</span> ProvinceServiceImpl();</span><br><span class="line">        String json2 = service.findAllJson();</span><br><span class="line">        System.out.println(json2);</span><br><span class="line">        <span class="comment">//3.响应结果</span></span><br><span class="line">        response.setContentType(<span class="string">"application/json;charset=utf-8"</span>);</span><br><span class="line">        response.getWriter().write(json2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>index</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/jquery-3.3.1.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">//发送ajax请求，加载所有省份数据</span></span></span><br><span class="line"><span class="javascript">            $.<span class="keyword">get</span>("provinceServlet",&#123;&#125;,<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">                <span class="comment">//1.获取select</span></span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> province = $(<span class="string">"#province"</span>);</span></span><br><span class="line"><span class="actionscript">                <span class="comment">//2.遍历json数组</span></span></span><br><span class="line"><span class="javascript">                $(data).each(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">                    <span class="comment">//3.创建&lt;option&gt;</span></span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">var</span> option = <span class="string">"&lt;option name='"</span>+<span class="keyword">this</span>.id+<span class="string">"'&gt;"</span>+<span class="keyword">this</span>.name+<span class="string">"&lt;/option&gt;"</span>;</span></span><br><span class="line"><span class="actionscript">                    <span class="comment">//4.调用select的append追加option</span></span></span><br><span class="line">                    province.append(option);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"province"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">option</span>&gt;</span>--请选择省份--<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>代码实现成功</p>
+<p><img src="../images/rides/4.png" alt="4"></p>
+<p>​    </p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>rides</tag>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>线程进阶-JUC的学习</title>
     <url>/post/ca16add5.html</url>
     <content><![CDATA[<p>线程进阶-JUC的学习</p>
