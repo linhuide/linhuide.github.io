@@ -3,11 +3,7 @@
   <entry>
     <title>mysql高级使用</title>
     <url>/post/51ce57fc.html</url>
-    <content><![CDATA[<p>title: mysql高级使用<br>abbrlink: 51ce57fc<br>translate_title: mysql-advanced-use<br>date: 2020-04-06 15:15:42<br>tags: mysql<br>categories:</p>
-<ul>
-<li>数据库<br>copyright: ture</li>
-</ul>
-<p>​    mysql高级使用</p>
+    <content><![CDATA[<p>mysql高级使用</p>
 <a id="more"></a>
 
 <p>[TOC]</p>
@@ -507,6 +503,12 @@
 
 
 ]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux的安装</title>
