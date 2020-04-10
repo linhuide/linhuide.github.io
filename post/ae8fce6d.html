@@ -80,7 +80,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="mysql," />
 
 
 
@@ -93,12 +93,12 @@
 
 
 
-<meta name="description" content="title: mysql高级使用2date: 2020-04-07 13:07:58tags: mysqlcategories:  数据库copyright: ture  mysql高级使用-">
+<meta name="description" content="mysql高级使用-存储引擎-优化SQL-索引的使用-SQL的优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql高级使用2">
 <meta property="og:url" content="https://linhuide.github.io/post/ae8fce6d.html">
 <meta property="og:site_name" content="林汇德的博客">
-<meta property="og:description" content="title: mysql高级使用2date: 2020-04-07 13:07:58tags: mysqlcategories:  数据库copyright: ture  mysql高级使用-">
+<meta property="og:description" content="mysql高级使用-存储引擎-优化SQL-索引的使用-SQL的优化">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-1.jpg">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-2.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-3.png">
@@ -153,30 +153,31 @@
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-52.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-53.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-56.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1555772132736.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1555772351208.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-59.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-60.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-61.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-54.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-55.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-57.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-58.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556339573979.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556339633161.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556339688158.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556359399199.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556359482142.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556354464657.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556354887509.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556354920964.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556355027728.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556361314783.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556416102800.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556363928151.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556370971576.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556371004594.png">
-<meta property="og:image" content="https://linhuide.github.io/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556371355788.png">
-<meta property="article:published_time" content="2020-04-07T05:07:58.682Z">
-<meta property="article:modified_time" content="2020-04-09T12:36:38.644Z">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-62.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-63.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-64.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-65.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-66.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-67.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-68.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-69.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-70.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-71.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-72.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-73.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-74.png">
+<meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-75.png">
+<meta property="article:published_time" content="2020-04-07T05:07:58.000Z">
+<meta property="article:modified_time" content="2020-04-10T03:12:33.300Z">
 <meta property="article:author" content="Linhuide">
+<meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://linhuide.github.io/images/mysql/2/2-1.jpg">
 
@@ -415,6 +416,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -441,7 +464,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  11.8k
+                  11.9k
                 </span>
               
 
@@ -457,7 +480,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  48
+                  49
                 </span>
               
             </div>
@@ -478,14 +501,11 @@
       
 
       
-        <p>title: mysql高级使用2<br>date: 2020-04-07 13:07:58<br>tags: mysql<br>categories:</p>
-<ul>
-<li>数据库<br>copyright: ture</li>
-</ul>
-<p>mysql高级使用-</p>
+        <p>mysql高级使用-存储引擎-优化SQL-索引的使用-SQL的优化</p>
 <a id="more"></a>
 
-<p>[TOC]</p>
+
+
 <h1 id="1-Mysql的体系结构概览"><a href="#1-Mysql的体系结构概览" class="headerlink" title="1. Mysql的体系结构概览"></a>1. Mysql的体系结构概览</h1><p> <img src="../images/mysql/2/2-1.jpg" alt="2-1"></p>
 <p>整个MySQL Server由以下组成</p>
 <ul>
@@ -1247,17 +1267,18 @@
 
 <p>插入ID顺序排列数据：</p>
 <p><img src="../images/mysql/2/2-56.png" alt="2-56"></p>
-<p>插入ID无序排列数据：</p>
+<p>插入ID无序排列数据：（学习版，测试时系统崩了）</p>
+<p><img src="../images/mysql/2/2-59.png" alt="2-59"></p>
 <ol start="2">
 <li>关闭唯一性校验</li>
 </ol>
 <p>在导入数据前执行 SET UNIQUE_CHECKS=0，关闭唯一性校验，在导入结束后执行SET UNIQUE_CHECKS=1，恢复唯一性校验，可以提高导入的效率。</p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1555772132736.png" alt="1555772132736"> </p>
+<p><img src="../images/mysql/2/2-60.png" alt="2-60"></p>
 <ol start="3">
 <li>手动提交事务</li>
 </ol>
 <p>如果应用使用自动提交的方式，建议在导入前执行 SET AUTOCOMMIT=0，关闭自动提交，导入结束后再执行 SET AUTOCOMMIT=1，打开自动提交，也可以提高导入的效率。</p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1555772351208.png" alt="1555772351208"></p>
+<p><img src="../images/mysql/2/2-61.png" alt="2-61"></p>
 <h2 id="5-2-优化insert语句"><a href="#5-2-优化insert语句" class="headerlink" title="5.2 优化insert语句"></a>5.2 优化insert语句</h2><p>当进行数据的insert操作的时候，可以考虑采用以下几种优化方案。</p>
 <ul>
 <li><p>如果需要同时对一张表插入很多行数据时，应该尽量使用多个值表的insert语句，这种方式将大大的缩减客户端与数据库之间的连接、关闭等消耗。使得效率比分开执行的单个insert语句快。</p>
@@ -1314,67 +1335,71 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'sort_buffer_size'</span>;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'max_length_for_sort_data'</span>;</span><br></pre></td></tr></table></figure>
 
 <p> <img src="../images/mysql/2/2-58.png" alt="2-58"></p>
-<h2 id="5-4-优化group-by-语句"><a href="#5-4-优化group-by-语句" class="headerlink" title="5.4 优化group by 语句"></a>5.4 优化group by 语句</h2><p>由于GROUP BY 实际上也同样会进行排序操作，而且与ORDER BY 相比，GROUP BY 主要只是多了排序之后的分组操作。当然，如果在分组的时候还使用了其他的一些聚合函数，那么还需要一些聚合函数的计算。所以，在GROUP BY 的实现过程中，与 ORDER BY 一样也可以利用到索引。</p>
-<p>如果查询包含 group by 但是用户想要避免排序结果的消耗， 则可以执行order by null 禁止排序。如下 ：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> age,<span class="keyword">count</span>(*) <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
+<h2 id="5-4-优化group-by-语句（学习版，测试版没有做到）"><a href="#5-4-优化group-by-语句（学习版，测试版没有做到）" class="headerlink" title="5.4 优化group by 语句（学习版，测试版没有做到）"></a>5.4 优化group by 语句（学习版，测试版没有做到）</h2><p>​    由于GROUP BY 实际上也同样会进行排序操作，而且与ORDER BY 相比，GROUP BY 主要只是多了排序之后的分组操作。当然，如果在分组的时候还使用了其他的一些聚合函数，那么还需要一些聚合函数的计算。所以，在GROUP BY 的实现过程中，与 ORDER BY 一样也可以利用到索引。</p>
+<p>​    如果查询包含 group by 但是用户想要避免排序结果的消耗， 则可以执行order by null 禁止排序。如下 ：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp2(age,salary);</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp2;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> age,<span class="keyword">count</span>(*) <span class="keyword">from</span> emp2 <span class="keyword">group</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556339573979.png" alt="1556339573979">  </p>
+<p><img src="../images/mysql/2/2-62.png" alt="2-62"></p>
 <p>优化后</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> age,<span class="keyword">count</span>(*) <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> age <span class="keyword">order</span> <span class="keyword">by</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> age,<span class="keyword">count</span>(*) <span class="keyword">from</span> emp2 <span class="keyword">group</span> <span class="keyword">by</span> age <span class="keyword">order</span> <span class="keyword">by</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556339633161.png" alt="1556339633161">  </p>
+<p><img src="../images/mysql/2/2-63.png" alt="2-63"></p>
 <p>从上面的例子可以看出，第一个SQL语句需要进行”filesort”，而第二个SQL由于order  by  null 不需要进行 “filesort”， 而上文提过Filesort往往非常耗费时间。</p>
 <p>创建索引 ：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp(age,salary)；</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp2(age,salary);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556339688158.png" alt="1556339688158"> </p>
+<p><img src="../images/mysql/2/2-64.png" alt="2-64"></p>
 <h2 id="5-5-优化嵌套查询"><a href="#5-5-优化嵌套查询" class="headerlink" title="5.5 优化嵌套查询"></a>5.5 优化嵌套查询</h2><p>Mysql4.1版本之后，开始支持SQL的子查询。这个技术可以使用SELECT语句来创建一个单列的查询结果，然后把这个结果作为过滤条件用在另一个查询中。使用子查询可以一次性的完成很多逻辑上需要多个步骤才能完成的SQL操作，同时也可以避免事务或者表锁死，并且写起来也很容易。但是，有些情况下，子查询是可以被更高效的连接（JOIN）替代。</p>
 <p>示例 ，查找有角色的所有的用户信息 : </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> t_user <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="keyword">select</span> user_id <span class="keyword">from</span> user_role );</span><br></pre></td></tr></table></figure>
 
-<p>执行计划为 : </p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556359399199.png" alt="1556359399199">   </p>
 <p>优化后 :</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> t_user u , user_role ur <span class="keyword">where</span> u.id = ur.user_id;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556359482142.png" alt="1556359482142">   </p>
+<p><img src="../images/mysql/2/2-65.png" alt="2-65"></p>
 <p>连接(Join)查询之所以更有效率一些 ，是因为MySQL不需要在内存中创建临时表来完成这个逻辑上需要两个步骤的查询工作。</p>
 <h2 id="5-6-优化OR条件"><a href="#5-6-优化OR条件" class="headerlink" title="5.6 优化OR条件"></a>5.6 优化OR条件</h2><p>对于包含OR的查询子句，如果要利用索引，则OR之间的每个条件列都必须用到索引 ， 而且不能使用到复合索引； 如果没有索引，则应该考虑增加索引。</p>
-<p>获取 emp 表中的所有的索引 ： </p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556354464657.png" alt="1556354464657">  </p>
+<p>获取 emp2 表中的所有的索引 ： show index from emp2;</p>
+<p><img src="../images/mysql/2/2-66.png" alt="2-66"></p>
 <p>示例 ： </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">or</span> age = <span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">or</span> age = <span class="number">30</span>\G;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">or</span> <span class="keyword">id</span> =<span class="number">10</span>\G;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556354887509.png" alt="1556354887509"></p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556354920964.png" alt="1556354920964">  </p>
+<p><img src="../images/mysql/2/2-67.png" alt="2-67"></p>
+<p><img src="../images/mysql/2/2-68.png" alt="2-68"></p>
 <p>建议使用 union 替换 or ： </p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556355027728.png" alt="1556355027728"> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">union</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> age = <span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="../images/mysql/2/2-69.png" alt="2-69"></p>
 <p>我们来比较下重要指标，发现主要差别是 type 和 ref 这两项</p>
 <p>type 显示的是访问类型，是较为重要的一个指标，结果值从好到坏依次是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null  &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null  &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</span><br></pre></td></tr></table></figure>
 
-<p>UNION 语句的 type 值为 ref，OR 语句的 type 值为 range，可以看到这是一个很明显的差距</p>
-<p>UNION 语句的 ref 值为 const，OR 语句的 type 值为 null，const 表示是常量值引用，非常快</p>
-<p>这两项的差距就说明了 UNION 要优于 OR 。</p>
+<ul>
+<li>UNION 语句的 type 值为 ref，OR 语句的 type 值为 range，可以看到这是一个很明显的差距</li>
+<li>UNION 语句的 ref 值为 const，OR 语句的 type 值为 null，const 表示是常量值引用，非常快</li>
+<li>这两项的差距就说明了 UNION 要优于 OR 。</li>
+</ul>
 <h2 id="5-7-优化分页查询"><a href="#5-7-优化分页查询" class="headerlink" title="5.7 优化分页查询"></a>5.7 优化分页查询</h2><p>一般分页查询时，通过创建覆盖索引能够比较好地提高性能。一个常见又非常头疼的问题就是 limit 2000000,10  ，此时需要MySQL排序前2000010 记录，仅仅返回2000000 - 2000010 的记录，其他记录丢弃，查询排序的代价非常大 。</p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556361314783.png" alt="1556361314783"> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">limit</span> <span class="number">2000000</span>,<span class="number">10</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_item t,(<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> tb_item <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span> <span class="keyword">limit</span> <span class="number">2000000</span>,<span class="number">10</span>) a <span class="keyword">where</span> t.id=a.id;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">where</span> <span class="keyword">id</span> &gt; <span class="number">2000000</span> <span class="keyword">limit</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="../images/mysql/2/2-70.png" alt="2-70"></p>
 <h3 id="5-7-1-优化思路一"><a href="#5-7-1-优化思路一" class="headerlink" title="5.7.1 优化思路一"></a>5.7.1 优化思路一</h3><p>在索引上完成排序分页操作，最后根据主键关联回原表查询所需要的其他列内容。</p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556416102800.png" alt="1556416102800"> </p>
+<p><img src="../images/mysql/2/2-71.png" alt="2-71"></p>
 <h3 id="5-7-2-优化思路二"><a href="#5-7-2-优化思路二" class="headerlink" title="5.7.2 优化思路二"></a>5.7.2 优化思路二</h3><p>该方案适用于主键自增的表，可以把Limit 查询转换成某个位置的查询 。</p>
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556363928151.png" alt="1556363928151"> </p>
+<p><img src="../images/mysql/2/2-72.png" alt="2-72"></p>
 <h2 id="5-8-使用SQL提示"><a href="#5-8-使用SQL提示" class="headerlink" title="5.8 使用SQL提示"></a>5.8 使用SQL提示</h2><p>SQL提示，是优化数据库的一个重要手段，简单来说，就是在SQL语句中加入一些人为的提示来达到优化操作的目的。</p>
 <h3 id="5-8-1-USE-INDEX"><a href="#5-8-1-USE-INDEX" class="headerlink" title="5.8.1 USE INDEX"></a>5.8.1 USE INDEX</h3><p>在查询语句中表名的后面，添加 use index 来提供希望MySQL去参考的索引列表，就可以让MySQL不再考虑其他可用的索引。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create index idx_seller_name on tb_seller(name);</span><br><span class="line">create index idx_seller_name_stta_addr on tb_seller(name,status,address);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_name <span class="keyword">on</span> tb_seller(<span class="keyword">name</span>);</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_name_stta_addr <span class="keyword">on</span> tb_seller(<span class="keyword">name</span>,<span class="keyword">status</span>,address);</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">use</span> <span class="keyword">index</span>(idx_seller_name) <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556370971576.png" alt="1556370971576"> </p>
+<p><img src="../images/mysql/2/2-73.png" alt="2-73"></p>
 <h3 id="5-8-2-IGNORE-INDEX"><a href="#5-8-2-IGNORE-INDEX" class="headerlink" title="5.8.2 IGNORE INDEX"></a>5.8.2 IGNORE INDEX</h3><p>如果用户只是单纯的想让MySQL忽略一个或者多个索引，则可以使用 ignore index 作为 hint 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from tb_seller ignore index(idx_seller_name) where name &#x3D; &#39;小米科技&#39;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">ignore</span> <span class="keyword">index</span>(idx_seller_name) <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'小米科技'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556371004594.png" alt="1556371004594"> </p>
+<p><img src="../images/mysql/2/2-74.png" alt="2-74"></p>
 <h3 id="5-8-3-FORCE-INDEX"><a href="#5-8-3-FORCE-INDEX" class="headerlink" title="5.8.3 FORCE INDEX"></a>5.8.3 FORCE INDEX</h3><p>为强制MySQL使用一个特定的索引，可在查询中使用 force index 作为hint 。 </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_address <span class="keyword">on</span> tb_seller(address);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_address <span class="keyword">on</span> tb_seller(address);</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> address = <span class="string">'北京市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">use</span> <span class="keyword">index</span>(idx_seller_address) <span class="keyword">where</span> address = <span class="string">'北京市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">force</span> <span class="keyword">index</span>(idx_seller_address) <span class="keyword">where</span> address = <span class="string">'北京市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/post/ae8fce6d.htm/%E5%85%A8%E9%9D%A2%E6%B7%B1%E5%85%A5Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/%E8%B5%84%E6%96%99-MySQL%E9%AB%98%E7%BA%A7%E6%95%99%E7%A8%8B/MySQL%20%E9%AB%98%E7%BA%A7%20-%20day-02/%E6%96%87%E6%A1%A3/assets/1556371355788.png" alt="1556371355788"> </p>
+<p><img src="../images/mysql/2/2-75.png" alt="2-75"></p>
 
       
     </div>
@@ -1393,6 +1418,35 @@
 <div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/post/ae8fce6d.html">mysql高级使用2</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Linhuide 的个人博客">Linhuide</a></p>
+  <p><span>发布时间:</span>2020年04月07日 - 13:04</p>
+  <p><span>最后更新:</span>2020年04月10日 - 11:04</p>
+  <p><span>原始链接:</span><a href="/post/ae8fce6d.html" title="mysql高级使用2">https://linhuide.github.io/post/ae8fce6d.html</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://linhuide.github.io/post/ae8fce6d.html"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
       
 </div>
     
@@ -1431,6 +1485,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"><i class="fa fa-tag" aria-hidden="true"></i> mysql</a>
+          
+        </div>
       
 
       
@@ -1611,7 +1671,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Mysql的体系结构概览"><span class="nav-number">1.</span> <span class="nav-text">1. Mysql的体系结构概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-存储引擎"><span class="nav-number">2.</span> <span class="nav-text">2. 存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-存储引擎概述"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 存储引擎概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-各种存储引擎特性"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 各种存储引擎特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-InnoDB"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事务控制"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">事务控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键约束"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键信息可以使用如下两种方式查看-："><span class="nav-number">2.2.1.3.</span> <span class="nav-text">外键信息可以使用如下两种方式查看 ：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除country-id为1-的country数据："><span class="nav-number">2.2.1.4.</span> <span class="nav-text">删除country_id为1 的country数据：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新主表country表的字段-country-id"><span class="nav-number">2.2.1.5.</span> <span class="nav-text">更新主表country表的字段 country_id :</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储方式"><span class="nav-number">2.2.1.6.</span> <span class="nav-text">存储方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-MyISAM"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 MyISAM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#不支持事务"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">不支持事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件存储方式"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">文件存储方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-MEMORY"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 MEMORY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-MERGE"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4 MERGE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-存储引擎的选择"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 存储引擎的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-优化SQL步骤"><span class="nav-number">3.</span> <span class="nav-text">3. 优化SQL步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-查看SQL执行频率"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 查看SQL执行频率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-定位低效率执行SQL"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 定位低效率执行SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-explain分析执行计划"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 explain分析执行计划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-环境准备"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-explain-之-id"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2 explain 之 id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3-explain-之-select-type"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.3.3 explain 之 select_type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-4-explain-之-table"><span class="nav-number">3.3.4.</span> <span class="nav-text">3.3.4 explain 之 table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-5-explain-之-type"><span class="nav-number">3.3.5.</span> <span class="nav-text">3.3.5 explain 之 type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-6-explain-之-key"><span class="nav-number">3.3.6.</span> <span class="nav-text">3.3.6 explain 之  key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-7-explain-之-rows"><span class="nav-number">3.3.7.</span> <span class="nav-text">3.3.7 explain 之 rows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-8-explain-之-extra"><span class="nav-number">3.3.8.</span> <span class="nav-text">3.3.8 explain 之 extra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-show-profile分析SQL"><span class="nav-number">3.3.9.</span> <span class="nav-text">3.4 show profile分析SQL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-trace分析优化器执行计划"><span class="nav-number">3.4.</span> <span class="nav-text">3.5 trace分析优化器执行计划</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-索引的使用"><span class="nav-number">4.</span> <span class="nav-text">4. 索引的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-验证索引提升查询效率"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 验证索引提升查询效率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-索引的使用"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 索引的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-准备环境"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.2.1 准备环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-避免索引失效"><span class="nav-number">4.2.2.</span> <span class="nav-text">4.2.2 避免索引失效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-查看索引使用情况"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 查看索引使用情况</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-SQL优化"><span class="nav-number">5.</span> <span class="nav-text">5. SQL优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-大批量插入数据"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 大批量插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-优化insert语句"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 优化insert语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-优化order-by语句"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 优化order by语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-1-环境准备"><span class="nav-number">5.3.1.</span> <span class="nav-text">5.3.1 环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-2-两种排序方式"><span class="nav-number">5.3.2.</span> <span class="nav-text">5.3.2 两种排序方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-3-Filesort-的优化"><span class="nav-number">5.3.3.</span> <span class="nav-text">5.3.3 Filesort 的优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-优化group-by-语句"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 优化group by 语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-优化嵌套查询"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 优化嵌套查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-6-优化OR条件"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 优化OR条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-7-优化分页查询"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 优化分页查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-1-优化思路一"><span class="nav-number">5.7.1.</span> <span class="nav-text">5.7.1 优化思路一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-2-优化思路二"><span class="nav-number">5.7.2.</span> <span class="nav-text">5.7.2 优化思路二</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-8-使用SQL提示"><span class="nav-number">5.8.</span> <span class="nav-text">5.8 使用SQL提示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-1-USE-INDEX"><span class="nav-number">5.8.1.</span> <span class="nav-text">5.8.1 USE INDEX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-2-IGNORE-INDEX"><span class="nav-number">5.8.2.</span> <span class="nav-text">5.8.2 IGNORE INDEX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-3-FORCE-INDEX"><span class="nav-number">5.8.3.</span> <span class="nav-text">5.8.3 FORCE INDEX</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Mysql的体系结构概览"><span class="nav-number">1.</span> <span class="nav-text">1. Mysql的体系结构概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-存储引擎"><span class="nav-number">2.</span> <span class="nav-text">2. 存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-存储引擎概述"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 存储引擎概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-各种存储引擎特性"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 各种存储引擎特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-InnoDB"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事务控制"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">事务控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键约束"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键信息可以使用如下两种方式查看-："><span class="nav-number">2.2.1.3.</span> <span class="nav-text">外键信息可以使用如下两种方式查看 ：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除country-id为1-的country数据："><span class="nav-number">2.2.1.4.</span> <span class="nav-text">删除country_id为1 的country数据：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新主表country表的字段-country-id"><span class="nav-number">2.2.1.5.</span> <span class="nav-text">更新主表country表的字段 country_id :</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储方式"><span class="nav-number">2.2.1.6.</span> <span class="nav-text">存储方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-MyISAM"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 MyISAM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#不支持事务"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">不支持事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件存储方式"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">文件存储方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-MEMORY"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 MEMORY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-MERGE"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4 MERGE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-存储引擎的选择"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 存储引擎的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-优化SQL步骤"><span class="nav-number">3.</span> <span class="nav-text">3. 优化SQL步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-查看SQL执行频率"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 查看SQL执行频率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-定位低效率执行SQL"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 定位低效率执行SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-explain分析执行计划"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 explain分析执行计划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-环境准备"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-explain-之-id"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2 explain 之 id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3-explain-之-select-type"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.3.3 explain 之 select_type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-4-explain-之-table"><span class="nav-number">3.3.4.</span> <span class="nav-text">3.3.4 explain 之 table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-5-explain-之-type"><span class="nav-number">3.3.5.</span> <span class="nav-text">3.3.5 explain 之 type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-6-explain-之-key"><span class="nav-number">3.3.6.</span> <span class="nav-text">3.3.6 explain 之  key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-7-explain-之-rows"><span class="nav-number">3.3.7.</span> <span class="nav-text">3.3.7 explain 之 rows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-8-explain-之-extra"><span class="nav-number">3.3.8.</span> <span class="nav-text">3.3.8 explain 之 extra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-show-profile分析SQL"><span class="nav-number">3.3.9.</span> <span class="nav-text">3.4 show profile分析SQL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-trace分析优化器执行计划"><span class="nav-number">3.4.</span> <span class="nav-text">3.5 trace分析优化器执行计划</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-索引的使用"><span class="nav-number">4.</span> <span class="nav-text">4. 索引的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-验证索引提升查询效率"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 验证索引提升查询效率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-索引的使用"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 索引的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-准备环境"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.2.1 准备环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-避免索引失效"><span class="nav-number">4.2.2.</span> <span class="nav-text">4.2.2 避免索引失效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-查看索引使用情况"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 查看索引使用情况</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-SQL优化"><span class="nav-number">5.</span> <span class="nav-text">5. SQL优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-大批量插入数据"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 大批量插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-优化insert语句"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 优化insert语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-优化order-by语句"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 优化order by语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-1-环境准备"><span class="nav-number">5.3.1.</span> <span class="nav-text">5.3.1 环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-2-两种排序方式"><span class="nav-number">5.3.2.</span> <span class="nav-text">5.3.2 两种排序方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-3-Filesort-的优化"><span class="nav-number">5.3.3.</span> <span class="nav-text">5.3.3 Filesort 的优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-优化group-by-语句（学习版，测试版没有做到）"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 优化group by 语句（学习版，测试版没有做到）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-优化嵌套查询"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 优化嵌套查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-6-优化OR条件"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 优化OR条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-7-优化分页查询"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 优化分页查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-1-优化思路一"><span class="nav-number">5.7.1.</span> <span class="nav-text">5.7.1 优化思路一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-2-优化思路二"><span class="nav-number">5.7.2.</span> <span class="nav-text">5.7.2 优化思路二</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-8-使用SQL提示"><span class="nav-number">5.8.</span> <span class="nav-text">5.8 使用SQL提示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-1-USE-INDEX"><span class="nav-number">5.8.1.</span> <span class="nav-text">5.8.1 USE INDEX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-2-IGNORE-INDEX"><span class="nav-number">5.8.2.</span> <span class="nav-text">5.8.2 IGNORE INDEX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-3-FORCE-INDEX"><span class="nav-number">5.8.3.</span> <span class="nav-text">5.8.3 FORCE INDEX</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -1639,7 +1699,7 @@
 
   
   <div class="theme-info">
-      <span class="post-count">|&ensp;&ensp;     站点总字数 :  66.9k</span>
+      <span class="post-count">|&ensp;&ensp;     站点总字数 :  67k</span>
   </div>
 </div>
 
