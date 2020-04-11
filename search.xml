@@ -1,6 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Rides再次学习2</title>
+    <url>/post/cef8fda2.html</url>
+    <content><![CDATA[<p>rides的学习与使用</p>
+<a id="more"></a>
+
+<h1 id="1-key通用操作"><a href="#1-key通用操作" class="headerlink" title="1.key通用操作"></a>1.key通用操作</h1><h2 id="1-1-key-特征"><a href="#1-1-key-特征" class="headerlink" title="1-1.key 特征"></a>1-1.key 特征</h2><p> key是一个字符串，通过key获取redis中保存的数据</p>
+<p><strong>key应该设计哪些操作？</strong></p>
+<ul>
+<li>对于key自身状态的相关操作，例如：删除，判定存在，获取类型等</li>
+<li>对于key有效性控制相关操作，例如：有效期设定，判定是否有效，有效状态的切换等</li>
+<li>对于key快速查询操作，例如：按指定策略查询key</li>
+</ul>
+<h2 id="1-2-key-基本操作"><a href="#1-2-key-基本操作" class="headerlink" title="1-2.key 基本操作"></a>1-2.key 基本操作</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set str str </span><br><span class="line">hset hash hash1 hash1</span><br><span class="line">lpush list list1</span><br><span class="line">sadd set set1</span><br><span class="line">zadd zset1 1 zsetel</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除指定key</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">del key</span><br><span class="line"></span><br><span class="line">del zsetl</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取key是否存在</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">exists key</span><br><span class="line"></span><br><span class="line">exists str</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取key的类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type key</span><br><span class="line"></span><br><span class="line">type zset1</span><br><span class="line">type str</span><br><span class="line">type hash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>为指定key设置有效期</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">expire key seconds</span><br><span class="line">pexpire key milliseconds</span><br><span class="line">expireat key timestamp</span><br><span class="line">pexpireat key milliseconds-timestamp</span><br><span class="line"></span><br><span class="line">expire str 3</span><br><span class="line">get str</span><br><span class="line">get str</span><br><span class="line">get str	--&gt;nil</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取key的有效时间</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ttl key</span><br><span class="line">pttl key</span><br><span class="line"></span><br><span class="line">expire list 30</span><br><span class="line">ttl list	</span><br><span class="line">-2  不存在、-1  存在、有效期 返回时间</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换key从时效性转换为永久性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">persist key</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询key</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">keys pattern</span><br><span class="line"></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> list2 list2</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; persist list2</span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; expire list2 <span class="number">60</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ttl list2</span><br><span class="line">(integer) <span class="number">56</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; persist list2</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ttl list2</span><br><span class="line">(integer) <span class="number">-1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; persist str</span><br><span class="line">(integer) <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询模式规则</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">* 匹配任意数量的任意符号 </span><br><span class="line">? 配合一个任意符号 </span><br><span class="line">[] 匹配一个指定符号</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th><strong>keys *</strong></th>
+<th><strong>查询所有</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>keys it*</strong></td>
+<td><strong>查询所有以it开头&lt;br/</strong></td>
+</tr>
+<tr>
+<td><strong>keys *heima</strong></td>
+<td><strong>查询所有以heima结尾</strong></td>
+</tr>
+<tr>
+<td><strong>keys ??heima</strong></td>
+<td><strong>查询所有前面两个字符任意，后面以heima结尾</strong></td>
+</tr>
+<tr>
+<td><strong>keys user:?</strong></td>
+<td><strong>查询所有以user:开头，最后一个字符任意</strong></td>
+</tr>
+<tr>
+<td><strong>keys u[st]er:1</strong></td>
+<td><strong>查询所有以u开头，以er:1结尾，中间包含一个字母，s或t</strong></td>
+</tr>
+</tbody></table>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> str str</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> str1 str1</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys *</span><br><span class="line"><span class="number">1</span>) <span class="string">"str"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"str1"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name i</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> i name</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys *</span><br><span class="line"><span class="number">1</span>) <span class="string">"name"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"i"</span></span><br><span class="line"><span class="number">3</span>) <span class="string">"str"</span></span><br><span class="line"><span class="number">4</span>) <span class="string">"str1"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys i*</span><br><span class="line"><span class="number">1</span>) <span class="string">"i"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys s*</span><br><span class="line"><span class="number">1</span>) <span class="string">"str"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"str1"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> smr smr</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys s?r</span><br><span class="line"><span class="number">1</span>) <span class="string">"smr"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"str"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys ????</span><br><span class="line"><span class="number">1</span>) <span class="string">"name"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"str1"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys n[abc]me</span><br><span class="line"><span class="number">1</span>) <span class="string">"name"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> nbme nbme</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> nwme nwme</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys n[aw]me</span><br><span class="line"><span class="number">1</span>) <span class="string">"nwme"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"name"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys *</span><br><span class="line"><span class="number">1</span>) <span class="string">"nbme"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"nwme"</span></span><br><span class="line"><span class="number">3</span>) <span class="string">"smr"</span></span><br><span class="line"><span class="number">4</span>) <span class="string">"name"</span></span><br><span class="line"><span class="number">5</span>) <span class="string">"str"</span></span><br><span class="line"><span class="number">6</span>) <span class="string">"i"</span></span><br><span class="line"><span class="number">7</span>) <span class="string">"str1"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>为key改名</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">rename key newkey</span><br><span class="line">renamenx key newkey</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> str str</span><br><span class="line"><span class="built_in">set</span> str2 str2</span><br><span class="line">rename str str3</span><br><span class="line">rename str3 str2</span><br><span class="line">--&gt;str2被str3覆盖了</span><br><span class="line"><span class="built_in">get</span> str2  --&gt;str</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> str1 str1</span><br><span class="line">renamenx str1 str2	--&gt;<span class="number">0</span>	</span><br><span class="line">renamenx str1 str3	--&gt;<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对所有key排序</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">sort</span><br><span class="line"></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lpush aa <span class="number">123</span> <span class="number">321</span> <span class="number">222</span></span><br><span class="line">(integer) <span class="number">3</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange aa <span class="number">0</span> <span class="number">-1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">"222"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"321"</span></span><br><span class="line"><span class="number">3</span>) <span class="string">"123"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; sort aa</span><br><span class="line"><span class="number">1</span>) <span class="string">"123"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"222"</span></span><br><span class="line"><span class="number">3</span>) <span class="string">"321"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lrange aa <span class="number">0</span> <span class="number">-1</span></span><br><span class="line"><span class="number">1</span>) <span class="string">"222"</span></span><br><span class="line"><span class="number">2</span>) <span class="string">"321"</span></span><br><span class="line"><span class="number">3</span>) <span class="string">"123"</span></span><br><span class="line">SORT key [BY pattern] [LIMIT offset count] [GET pattern [GET pattern ...]] [ASC|DESC] [ALPHA] [STORE destination]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>其他key通用操作</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">help @generic</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-数据库通用操作"><a href="#2-数据库通用操作" class="headerlink" title="2.数据库通用操作"></a>2.数据库通用操作</h1><h2 id="2-1-key-的重复问题"><a href="#2-1-key-的重复问题" class="headerlink" title="2-1.key 的重复问题"></a>2-1.key 的重复问题</h2><ul>
+<li>key是由程序员定义的</li>
+<li>redis在使用过程中，伴随着操作数据量的增加，会出现大量的数据以及对应的key</li>
+<li>数据不区分种类、类别混杂在一起，极易出现重复或冲突</li>
+</ul>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li>redis为每个服务提供有16个数据库，编号从0到15</li>
+<li>每个数据库之间的数据相互独立</li>
+</ul>
+<p><img src="../images/rides/2/2-35.png" alt="2-35"></p>
+<h2 id="2-2-db-基本操作"><a href="#2-2-db-基本操作" class="headerlink" title="2-2.db 基本操作"></a>2-2.db 基本操作</h2><p>切换数据库</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">select index</span><br><span class="line"></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; select <span class="number">1</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>[<span class="number">1</span>]&gt; select <span class="number">15</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>[<span class="number">15</span>]&gt; select <span class="number">0</span></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>其他操作</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">quit</span><br><span class="line">ping</span><br><span class="line">echo message</span><br><span class="line"></span><br><span class="line">echo abcdefg	--&gt;输出信息</span><br><span class="line">ping  --&gt;PONG  测试联通数据库</span><br><span class="line">quit 退出</span><br></pre></td></tr></table></figure>
+
+<p>数据移动</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">move key db</span><br><span class="line"></span><br><span class="line">set name 1</span><br><span class="line">select 1</span><br><span class="line">get name	--&gt;nil</span><br><span class="line">select 0</span><br><span class="line">move name 1		-&gt;1，移动剪切</span><br><span class="line">get name	--&gt;nil</span><br><span class="line">移动操作保证数据库里没有改数据，有该数据，移动不了</span><br><span class="line">set name 2</span><br><span class="line">move name 1		-&gt;0</span><br></pre></td></tr></table></figure>
+
+<p>数据清除</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dbsize		--&gt;看数据库里有多少key</span><br><span class="line">flushdb		--&gt;删除当前数据库数据</span><br><span class="line">flushall	--&gt;删除所有数据库信息</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-Jedis"><a href="#3-Jedis" class="headerlink" title="3.Jedis"></a>3.Jedis</h1><h2 id="3-1-编程语言与redis"><a href="#3-1-编程语言与redis" class="headerlink" title="3-1.编程语言与redis"></a>3-1.编程语言与redis</h2><p>Java语言连接redis服务：Jedis</p>
+<h2 id="3-2-项目练习"><a href="#3-2-项目练习" class="headerlink" title="3-2.项目练习"></a>3-2.项目练习</h2><ul>
+<li>jar包导入</li>
+</ul>
+<p>下载地址：<a href="https://mvnrepository.com/artifact/redis.clients/jedis" target="_blank" rel="noopener">https://mvnrepository.com/artifact/redis.clients/jedis</a></p>
+<ul>
+<li>基于maven</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码：String、list、hash</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JedisTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testJedis</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//1.连接redis</span></span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//2.操作redis</span></span><br><span class="line">        jedis.set(<span class="string">"name"</span>,<span class="string">"itheima"</span>);</span><br><span class="line">        String name = jedis.get(<span class="string">"name"</span>);</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        <span class="comment">//3.关闭连接</span></span><br><span class="line">        jedis.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testList</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//1.连接redis</span></span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//2.操作redis</span></span><br><span class="line">        jedis.lpush(<span class="string">"list1"</span>,<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>);</span><br><span class="line">        jedis.rpush(<span class="string">"list1"</span>,<span class="string">"x"</span>);</span><br><span class="line">        List&lt;String&gt; list1 = jedis.lrange(<span class="string">"list1"</span>, <span class="number">0</span>, -<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(String s : list1)&#123;</span><br><span class="line">            System.out.println(s);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(jedis.llen(<span class="string">"list1"</span>));</span><br><span class="line">        System.out.println();</span><br><span class="line">        <span class="comment">//3.关闭连接</span></span><br><span class="line">        jedis.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHash</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//1.连接redis</span></span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//2.操作redis</span></span><br><span class="line">        jedis.hset(<span class="string">"hash1"</span>,<span class="string">"a1"</span>,<span class="string">"b1"</span>);</span><br><span class="line">        jedis.hset(<span class="string">"hash1"</span>,<span class="string">"a2"</span>,<span class="string">"a2"</span>);</span><br><span class="line">        jedis.hset(<span class="string">"hash1"</span>,<span class="string">"a3"</span>,<span class="string">"b3"</span>);</span><br><span class="line">        Map&lt;String, String&gt; hash1 = jedis.hgetAll(<span class="string">"hash1"</span>);</span><br><span class="line">        System.out.println(hash1);</span><br><span class="line">        System.out.println(jedis.hlen(<span class="string">"hash1"</span>));</span><br><span class="line">        System.out.println();</span><br><span class="line">        <span class="comment">//3.关闭连接</span></span><br><span class="line">        jedis.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-项目案例：服务调用次数控制"><a href="#3-3-项目案例：服务调用次数控制" class="headerlink" title="3-3.项目案例：服务调用次数控制"></a>3-3.项目案例：服务调用次数控制</h2><p>​    人工智能领域的语义识别与自动对话将是未来服务业机器人应答呼叫体系中的重要技术，百度自研用户评价语义识别服务，免费开放给企业试用，同时训练百度自己的模型。现对试用用户的使用行为进行限速，限制每个用户每分钟最多发起10次调用</p>
+<ul>
+<li><p>案例要求</p>
+<ul>
+<li>设定A、B、C三个用户</li>
+<li>A用户限制10次/分调用，B用户限制30次/分调用，C用户不限制</li>
+</ul>
+</li>
+<li><p>需求分析</p>
+<ul>
+<li>设定一个服务方法，用于模拟实际业务调用的服务，内部采用打印模拟调用</li>
+<li>在业务调用前服务调用控制单元，内部使用redis进行控制，参照之前的方案</li>
+<li>对调用超限使用异常进行控制，异常处理设定为打印提示信息</li>
+<li>主程序启动3个线程，分别表示3种不同用户的调用</li>
+</ul>
+</li>
+<li><p>要求</p>
+<ul>
+<li>后续1：对业务控制方案进行改造，设定不同用户等级的判定（做到）</li>
+<li>后续2：将不同用户等级对应的信息、限制次数等设定到redis中，使用hash保存</li>
+</ul>
+</li>
+</ul>
+<p><strong>业务层</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">    <span class="comment">//A用户限制10次/分调用，B用户限制30次/分调用，C用户不限制</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> num;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Service</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">if</span> (name == <span class="string">"A"</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.num = <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">this</span>.count = <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (name == <span class="string">"B"</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.num = <span class="number">30</span>;</span><br><span class="line">            <span class="keyword">this</span>.count = <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (name == <span class="string">"C"</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.count = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Service</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>,<span class="number">6379</span>);</span><br><span class="line">        String value = jedis.get(<span class="string">"compid:"</span> + name);</span><br><span class="line">        <span class="comment">//判断该值是否存在</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="comment">//不存在，A用户限制10次/分调用，B用户限制30次/分调用</span></span><br><span class="line">                    jedis.setex(<span class="string">"compid:"</span> + name, <span class="number">60</span>, Long.MAX_VALUE - num + <span class="string">""</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">//C用户不限制</span></span><br><span class="line">                    jedis.set(<span class="string">"compid:"</span> + name, <span class="string">"0"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//存在，自增，调用业务</span></span><br><span class="line">                Long val = jedis.incr(<span class="string">"compid:"</span> + name);</span><br><span class="line">                <span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">                    business(name, num - (Long.MAX_VALUE - val));</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">//c</span></span><br><span class="line">                    business(name, val);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JedisDataException e) &#123;</span><br><span class="line">            System.out.println(name+<span class="string">"使用已经到达次数上限，请升级会员级别"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            jedis.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//业务操作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">business</span><span class="params">(String id, Long val)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"用户:"</span> + id + <span class="string">" 业务操作执行第"</span> + val + <span class="string">"次"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>线程+main</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThead</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">    Service sc;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThead</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        sc=<span class="keyword">new</span> Service(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                sc.Service();</span><br><span class="line">                Thread.sleep(<span class="number">500L</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//A用户限制10次/分调用，B用户限制30次/分调用，C用户不限制</span></span><br><span class="line">        MyThead a = <span class="keyword">new</span> MyThead(<span class="string">"A"</span>);</span><br><span class="line">        MyThead b = <span class="keyword">new</span> MyThead(<span class="string">"B"</span>);</span><br><span class="line">        MyThead c = <span class="keyword">new</span> MyThead(<span class="string">"C"</span>);</span><br><span class="line">        Thread t1=<span class="keyword">new</span> Thread(a);</span><br><span class="line">        Thread t2=<span class="keyword">new</span> Thread(b);</span><br><span class="line">        Thread t3=<span class="keyword">new</span> Thread(c);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-Jedis简易工具类开发"><a href="#3-4-Jedis简易工具类开发" class="headerlink" title="3-4.Jedis简易工具类开发"></a>3-4.Jedis简易工具类开发</h2><ul>
+<li>封装连接参数： jedis.properties</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">redis.host</span>=<span class="string">127.0.0.1</span></span><br><span class="line"><span class="meta">redis.port</span>=<span class="string">6379</span></span><br><span class="line"><span class="meta">redis.maxTotal</span>=<span class="string">30</span></span><br><span class="line"><span class="meta">redis.maxIdle</span>=<span class="string">10</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>工具类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JedisUtils</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> JedisPool jp = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String host = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> port;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> maxTotal;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> maxIdle;</span><br><span class="line">    <span class="comment">//静态代码块初始化资源</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        ResourceBundle rb = ResourceBundle.getBundle(<span class="string">"redis"</span>);</span><br><span class="line">        host = rb.getString(<span class="string">"redis.host"</span>);</span><br><span class="line">        port = Integer.parseInt(rb.getString(<span class="string">"redis.port"</span>));</span><br><span class="line">        maxTotal = Integer.parseInt(rb.getString(<span class="string">"redis.maxTotal"</span>));</span><br><span class="line">        maxIdle = Integer.parseInt(rb.getString(<span class="string">"redis.maxIdle"</span>));</span><br><span class="line">        JedisPoolConfig jpc = <span class="keyword">new</span> JedisPoolConfig();</span><br><span class="line">        jpc.setMaxTotal(maxTotal);</span><br><span class="line">        jpc.setMaxIdle(maxIdle);</span><br><span class="line">        jp = <span class="keyword">new</span> JedisPool(jpc,host,port);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//对外访问接口，提供jedis连接对象，连接从连接池获取</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Jedis <span class="title">getJedis</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> jp.getResource();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//测试连接</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        JedisUtils.getJedis();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>替换</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Jedis jedis = new Jedis("127.0.0.1",6379);</span></span><br><span class="line">Jedis jedis = JedisUtils.getJedis();</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-可视化客户端"><a href="#3-5-可视化客户端" class="headerlink" title="3-5.可视化客户端"></a>3-5.可视化客户端</h2><p>Redis Desktop Manager</p>
+<p><a href="https://www.jb51.net/softs/669908.html" target="_blank" rel="noopener">Redis可视化工具Redis Desktop Manager 2019.0</a></p>
+<h1 id="4-基于Linux环境安装Redis"><a href="#4-基于Linux环境安装Redis" class="headerlink" title="4.基于Linux环境安装Redis"></a>4.基于Linux环境安装Redis</h1><h2 id="4-1-基于Center-OS7安装Redis"><a href="#4-1-基于Center-OS7安装Redis" class="headerlink" title="4-1.基于Center OS7安装Redis"></a>4-1.基于Center OS7安装Redis</h2><ul>
+<li>打开linux，我用SecureCRT工具，打开官网，看代码</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">wget http:<span class="comment">//download.redis.io/releases/redis-5.0.8.tar.gz</span></span><br><span class="line">tar xzf redis<span class="number">-5.0</span><span class="number">.8</span>.tar.gz</span><br><span class="line">cd redis<span class="number">-5.0</span><span class="number">.8</span></span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>因为个人刚搞linux，没有安装gcc，报错，所以要安装</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">CC adlist.o</span><br><span class="line">/bin/sh: cc: 未找到命令</span><br><span class="line">make[<span class="number">1</span>]: *** [adlist.o] 错误 <span class="number">127</span></span><br><span class="line">...</span><br><span class="line">安装</span><br><span class="line">yum install gcc-c++ </span><br><span class="line">make distclean			清空上次编译失败残留文件</span><br><span class="line">make &amp;&amp; make install    执行编译及安装</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>参考</li>
+</ul>
+<p><a href="https://www.cnblogs.com/shizhijie/p/10005682.html" target="_blank" rel="noopener">安装redis出现cc adlist.o /bin/sh:1:cc:not found的解决方法</a></p>
+<p><a href="https://blog.csdn.net/Hello_word_2/article/details/82981505" target="_blank" rel="noopener">CentOSt7安装Redis错误</a></p>
+<h2 id="4-2-实验"><a href="#4-2-实验" class="headerlink" title="4-2.实验"></a>4-2.实验</h2><h3 id="1-登录验证"><a href="#1-登录验证" class="headerlink" title="1.登录验证"></a>1.登录验证</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">cd redis<span class="number">-5.0</span><span class="number">.8</span> </span><br><span class="line">cd src </span><br><span class="line">返回上一级</span><br><span class="line">cd ..</span><br><span class="line">[root@localhost redis<span class="number">-5.0</span><span class="number">.8</span>]<span class="meta"># redis-server</span></span><br><span class="line">克隆一个新的（clone session）</span><br><span class="line">cd redis<span class="number">-5.0</span><span class="number">.8</span> </span><br><span class="line">[root@localhost redis<span class="number">-5.0</span><span class="number">.8</span>]<span class="meta"># redis-cli</span></span><br><span class="line"><span class="built_in">set</span> <span class="built_in">set</span> set2</span><br><span class="line"><span class="built_in">get</span> <span class="built_in">set</span></span><br><span class="line">能拿到set2，安装成功</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-换端口"><a href="#2-换端口" class="headerlink" title="2.换端口"></a>2.换端口</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">cd redis<span class="number">-5.0</span><span class="number">.8</span> </span><br><span class="line">redis-server  --port <span class="number">6380</span></span><br><span class="line">redis-cli -p <span class="number">6380</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-查看配置文件，配置文件启动"><a href="#3-查看配置文件，配置文件启动" class="headerlink" title="3.查看配置文件，配置文件启动"></a>3.查看配置文件，配置文件启动</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">[root@localhost redis<span class="number">-5.0</span><span class="number">.8</span>]<span class="meta"># ll</span></span><br><span class="line">看一下，复制到这里</span><br><span class="line">cat redis.conf | grep -v <span class="string">"#"</span> | grep -v <span class="string">"^$"</span>  &gt; redis_6379.conf</span><br><span class="line">修改</span><br><span class="line">vim redis_6379.conf</span><br><span class="line">直接删除，dd一行</span><br><span class="line">i 插入</span><br><span class="line">daemonize yes</span><br><span class="line">logfile <span class="string">"6379.log"</span></span><br><span class="line">dir /root/redis<span class="number">-5.0</span><span class="number">.8</span>/data</span><br><span class="line">:wq		保存退出</span><br></pre></td></tr></table></figure>
+
+<p><img src="../images/rides/3/3-1.png" alt="3-1"></p>
+<ol>
+<li><strong>补充：创建个目录，放配置文件</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> data</span><br><span class="line">cd data</span><br><span class="line">pwd		获取路径</span><br><span class="line">/root/redis<span class="number">-5.0</span><span class="number">.8</span>/data</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>启动</strong> </li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">redis-server redis<span class="number">-6379.</span>conf</span><br><span class="line">ps -ef | grep redis-</span><br><span class="line">结果：</span><br><span class="line">root      <span class="number">68557</span>      <span class="number">1</span>  <span class="number">0</span> <span class="number">15</span>:<span class="number">55</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> redis-server *:<span class="number">6379</span></span><br><span class="line">root      <span class="number">68562</span>  <span class="number">67617</span>  <span class="number">0</span> <span class="number">15</span>:<span class="number">55</span> pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> grep --color=<span class="keyword">auto</span> redis-</span><br><span class="line">克隆，开验证</span><br><span class="line">redis-cli	默认<span class="number">6379</span></span><br><span class="line"></span><br><span class="line">关闭</span><br><span class="line">redis-cli -p <span class="number">6379</span> <span class="built_in">shutdown</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-多个配置文件，转移到conf"><a href="#4-多个配置文件，转移到conf" class="headerlink" title="4.多个配置文件，转移到conf"></a>4.多个配置文件，转移到conf</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> conf</span><br><span class="line"><span class="comment">//转移</span></span><br><span class="line">mv redis<span class="number">-6379.</span>conf conf</span><br><span class="line">cd conf</span><br><span class="line">ll</span><br><span class="line">复制多个conf</span><br><span class="line">cp redis<span class="number">-6379.</span>conf redis<span class="number">-6380.</span>conf</span><br><span class="line">vim redis<span class="number">-6380.</span>conf</span><br><span class="line">i,修改</span><br><span class="line">port <span class="number">6380</span></span><br><span class="line">daemonize yes</span><br><span class="line">logfile <span class="string">"6380.log"</span></span><br><span class="line">dir /root/redis<span class="number">-5.0</span><span class="number">.8</span>/data</span><br></pre></td></tr></table></figure>
+
+<p><img src="../images/rides/3/3-3.png" alt="3-3"></p>
+<h3 id="5-启动"><a href="#5-启动" class="headerlink" title="5.启动"></a>5.启动</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">redis-server conf/redis<span class="number">-6379.</span>conf</span><br><span class="line">redis-server conf/redis<span class="number">-6380.</span>conf</span><br><span class="line">克隆</span><br><span class="line">redis-cli -p <span class="number">6379</span></span><br><span class="line">redis-cli -p <span class="number">6380</span></span><br><span class="line">关掉</span><br><span class="line">redis-cli -p <span class="number">6379</span> <span class="built_in">shutdown</span></span><br><span class="line">redis-cli -p <span class="number">6380</span> <span class="built_in">shutdown</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-理论"><a href="#4-3-理论" class="headerlink" title="4-3.理论"></a>4-3.理论</h2><h3 id="1-Redis基础环境设置"><a href="#1-Redis基础环境设置" class="headerlink" title="1.Redis基础环境设置"></a>1.Redis基础环境设置</h3><ul>
+<li>创建软链接<ul>
+<li>ln -s 原始目录名 快速访问目录名</li>
+</ul>
+</li>
+<li>创建配置文件管理目录<ul>
+<li>mkdir conf</li>
+<li>mkdir config</li>
+</ul>
+</li>
+<li>创建数据文件管理目录<ul>
+<li>mkdir data</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-Redis服务启动"><a href="#2-Redis服务启动" class="headerlink" title="2.Redis服务启动"></a>2.Redis服务启动</h3><ul>
+<li>默认配置启动<ul>
+<li>redis-server</li>
+<li>redis-server –-port 6379</li>
+<li>redis-server –-port 6380 ……</li>
+</ul>
+</li>
+<li>指定配置文件启动<ul>
+<li>redis-server redis.conf</li>
+<li>redis-server redis-6379.conf</li>
+<li>redis-server redis-6380.conf ……</li>
+<li>redis-server conf/redis-6379.conf</li>
+<li>redis-server config/redis-6380.conf ……</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-Redis客户端连接"><a href="#3-Redis客户端连接" class="headerlink" title="3.Redis客户端连接"></a>3.Redis客户端连接</h3><ul>
+<li>默认连接<ul>
+<li>redis-cli</li>
+</ul>
+</li>
+<li>连接指定服务器<ul>
+<li>redis-cli -h 127.0.0.1</li>
+<li>redis-cli –port 6379</li>
+<li>redis-cli -h 127.0.0.1 –port 6379</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-Redis服务端配置"><a href="#4-Redis服务端配置" class="headerlink" title="4.Redis服务端配置"></a>4.Redis服务端配置</h3><ul>
+<li>基本配置<ul>
+<li>daemonize yes： 以守护进程方式启动，使用本启动方式，redis将以服务的形式存在，日志将不再打印到命令窗口中</li>
+<li>port 6***：设定当前服务启动端口号</li>
+<li>dir “/自定义目录/redis/data“：          设定当前服务文件保存位置，包含日志文件、持久化文件（后面详细讲解）等</li>
+<li>logfile “6***.log“：      设定日志文件名，便于查阅</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>rides</tag>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Rides再次学习-1</title>
     <url>/post/7690db10.html</url>
     <content><![CDATA[<p>rides的学习与使用</p>
