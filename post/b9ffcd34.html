@@ -80,7 +80,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="rides,JAVA," />
 
 
 
@@ -93,16 +93,26 @@
 
 
 
-<meta name="description" content="创建第一篇博客，希望再接再厉">
+<meta name="description" content="rides的学习与使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一篇博客">
-<meta property="og:url" content="https://linhuide.github.io/post/ff05b5bf.html">
+<meta property="og:title" content="Rides再次学习3">
+<meta property="og:url" content="https://linhuide.github.io/post/b9ffcd34.html">
 <meta property="og:site_name" content="林汇德的博客">
-<meta property="og:description" content="创建第一篇博客，希望再接再厉">
-<meta property="article:published_time" content="2020-03-19T09:00:51.000Z">
-<meta property="article:modified_time" content="2020-03-20T15:25:50.796Z">
+<meta property="og:description" content="rides的学习与使用">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-4.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-5.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-6.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-7.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-8.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-9.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-10.png">
+<meta property="article:published_time" content="2020-04-11T08:14:47.000Z">
+<meta property="article:modified_time" content="2020-04-11T13:45:39.565Z">
 <meta property="article:author" content="Linhuide">
+<meta property="article:tag" content="rides">
+<meta property="article:tag" content="JAVA">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://linhuide.github.io/images/rides/3/3-4.png">
 
 
 
@@ -132,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="https://linhuide.github.io/post/ff05b5bf.html"/>
+  <link rel="canonical" href="https://linhuide.github.io/post/b9ffcd34.html"/>
 
 
 
 
 
-  <title>第一篇博客 | 林汇德的博客</title>
+  <title>Rides再次学习3 | 林汇德的博客</title>
   
 
 
@@ -299,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linhuide.github.io/post/ff05b5bf.html">
+    <link itemprop="mainEntityOfPage" href="https://linhuide.github.io/post/b9ffcd34.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Linhuide">
@@ -316,7 +326,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">第一篇博客</h1>
+          <h1 class="post-title" itemprop="name headline">Rides再次学习3</h1>
         
 
         <div class="post-meta">
@@ -328,8 +338,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-19T17:00:51+08:00">
-                2020-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-11T16:14:47+08:00">
+                2020-04-11
               </time>
             
 
@@ -338,6 +348,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -365,7 +397,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  13
+                  1.7k
                 </span>
               
 
@@ -381,7 +413,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  6
                 </span>
               
             </div>
@@ -402,7 +434,175 @@
       
 
       
-        <p>创建第一篇博客，希望再接再厉</p>
+        <p>rides的学习与使用</p>
+<a id="more"></a>
+
+<h1 id="1-Redis-持久化"><a href="#1-Redis-持久化" class="headerlink" title="1.Redis 持久化"></a>1.Redis 持久化</h1><h2 id="1-1-持久化简介"><a href="#1-1-持久化简介" class="headerlink" title="1-1.持久化简介"></a>1-1.持久化简介</h2><ul>
+<li><p>什么是持久化</p>
+<ul>
+<li>利用永久性存储介质将数据进行保存，在特定的时间将保存的数据进行恢复的工作机制称为持久化。</li>
+</ul>
+</li>
+<li><p>为什么要进行持久化</p>
+<ul>
+<li>防止数据的意外丢失，确保数据安全性</li>
+</ul>
+</li>
+<li><p>持久化过程保存什么</p>
+<ul>
+<li>将当前数据状态进行保存，快照形式，存储数据结果，存储格式简单，关注点在数据</li>
+<li>将数据的操作过程进行保存，日志形式，存储操作过程，存储格式复杂，关注点在数据的操作过程</li>
+</ul>
+</li>
+</ul>
+<p><img src="../images/rides/3/3-4.png" alt="3-4"></p>
+<h2 id="1-2-RDB"><a href="#1-2-RDB" class="headerlink" title="1-2.RDB"></a>1-2.RDB</h2><h3 id="1-RDB启动方式-——-save指令"><a href="#1-RDB启动方式-——-save指令" class="headerlink" title="1.RDB启动方式 —— save指令"></a>1.RDB启动方式 —— save指令</h3><p>作用：手动执行一次保存操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">save</span><br><span class="line">在data中可以看到，多了dump.rdb</span><br><span class="line">[root@localhost data]<span class="meta"># ll</span></span><br><span class="line">总用量 <span class="number">16</span></span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">6231</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">20</span>:<span class="number">43</span> <span class="number">6379.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">6730</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">16</span>:<span class="number">54</span> <span class="number">6380.l</span>og</span><br><span class="line">[root@localhost data]<span class="meta"># ll</span></span><br><span class="line">总用量 <span class="number">20</span></span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">6282</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">20</span>:<span class="number">44</span> <span class="number">6379.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">6730</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">16</span>:<span class="number">54</span> <span class="number">6380.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root  <span class="number">106</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">20</span>:<span class="number">44</span> dump.rdb</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-save指令相关配置"><a href="#2-save指令相关配置" class="headerlink" title="2.save指令相关配置"></a>2.save指令相关配置</h3><ul>
+<li>dbfilename dump.rdb <ul>
+<li>说明：设置本地数据库文件名，默认值为 dump.rdb</li>
+<li>经验：通常设置为dump-端口号.rdb</li>
+</ul>
+</li>
+<li>dir <ul>
+<li>说明：设置存储.rdb文件的路径</li>
+<li>经验：通常设置成存储空间较大的目录中，目录名称data</li>
+</ul>
+</li>
+<li>rdbcompression yes <ul>
+<li>说明：设置存储至本地数据库时是否压缩数据，默认为 yes，采用 LZF 压缩</li>
+<li>经验：通常默认为开启状态，如果设置为no，可以节省 CPU 运行时间，但会使存储的文件变大（巨大）</li>
+</ul>
+</li>
+<li>rdbchecksum yes <ul>
+<li>说明：设置是否进行RDB文件格式校验，该校验过程在写文件和读文件过程均进行</li>
+<li>经验：通常默认为开启状态，如果设置为no，可以节约读写性过程约10%时间消耗，但是存储一定的数据损坏风险</li>
+</ul>
+</li>
+<li>stop-writes-on-bgsave-error yes <ul>
+<li>说明：后台存储过程中如果出现错误现象，是否停止保存操作</li>
+<li>经验：通常默认为开启状态</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">在conf里改</span><br><span class="line">cd conf</span><br><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">port <span class="number">6379</span></span><br><span class="line">daemonize yes</span><br><span class="line">logfile <span class="string">"6379.log"</span></span><br><span class="line">dir /root/redis<span class="number">-5.0</span><span class="number">.8</span>/data</span><br><span class="line">dbfilename dump<span class="number">-6379.</span>rdb</span><br><span class="line">rdbcompression yes </span><br><span class="line">rdbchecksum yes</span><br><span class="line">当使用了save后</span><br><span class="line">cd data</span><br><span class="line">rm -rf dump.rdb</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-save指令工作原理"><a href="#3-save指令工作原理" class="headerlink" title="3.save指令工作原理"></a>3.save指令工作原理</h3><p><img src="../images/rides/3/3-5.png" alt="3-5"></p>
+<p><img src="../images/rides/3/3-6.png" alt="3-6"></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>save指令的执行会阻塞当前Redis服务器，直到当前RDB过程完成为止，有可能会造成长时间阻塞，线上环境不建议使用。</li>
+</ul>
+<h3 id="数据量过大，单线程执行方式造成效率过低如何处理？"><a href="#数据量过大，单线程执行方式造成效率过低如何处理？" class="headerlink" title="数据量过大，单线程执行方式造成效率过低如何处理？"></a>数据量过大，单线程执行方式造成效率过低如何处理？</h3><ul>
+<li><p>后台执行</p>
+<ul>
+<li>redis操作者（用户）发起指令；redis服务器控制指令执行</li>
+<li>即时（发起）；合理的时间（执行）</li>
+<li>保存数据</li>
+</ul>
+</li>
+<li><p>bgsave指令：手动启动后台保存操作，但不是立即执行</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bgsave</span><br><span class="line"></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; save</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name name</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; bgsave</span><br><span class="line">Background saving started</span><br><span class="line"></span><br><span class="line">[root@localhost redis<span class="number">-5.0</span><span class="number">.8</span>]<span class="meta"># cd data</span></span><br><span class="line">[root@localhost data]<span class="meta"># ll</span></span><br><span class="line">总用量 <span class="number">24</span></span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">9416</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">21</span>:<span class="number">06</span> <span class="number">6379.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">6730</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">16</span>:<span class="number">54</span> <span class="number">6380.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root  <span class="number">117</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">21</span>:<span class="number">06</span> dump<span class="number">-6379.</span>rdb</span><br><span class="line">[root@localhost data]<span class="meta"># ll</span></span><br><span class="line">总用量 <span class="number">24</span></span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">9691</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">21</span>:<span class="number">06</span> <span class="number">6379.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">6730</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">16</span>:<span class="number">54</span> <span class="number">6380.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root  <span class="number">130</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">21</span>:<span class="number">06</span> dump<span class="number">-6379.</span>rdb</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-bgsave指令工作原理"><a href="#4-bgsave指令工作原理" class="headerlink" title="4.bgsave指令工作原理"></a>4.bgsave指令工作原理</h3><p><img src="../images/rides/3/3-7.png" alt="3-7"></p>
+<p><strong>注意：</strong> </p>
+<ul>
+<li>bgsave命令是针对save阻塞问题做的优化。</li>
+<li>Redis内部所有涉及到RDB操作都采用bgsave的方式，save命令可以放弃使用。</li>
+</ul>
+<h3 id="5-反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？"><a href="#5-反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？" class="headerlink" title="5.反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？"></a>5.反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？</h3><ul>
+<li><p>自动执行</p>
+<ul>
+<li>谁：redis服务器发起指令（基于条件）</li>
+<li>什么时间：满足条件</li>
+<li>干什么事情：保存数据</li>
+</ul>
+</li>
+<li><p>save配置</p>
+</li>
+<li><p>作用：</p>
+<ul>
+<li>满足限定时间范围内key的变化数量达到指定数量即进行持久化</li>
+</ul>
+</li>
+<li><p>参数</p>
+<ul>
+<li>second：监控时间范围</li>
+<li>changes：监控key的变化量</li>
+</ul>
+</li>
+<li><p>位置</p>
+<ul>
+<li>在conf文件中进行配置</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">save <span class="number">900</span> <span class="number">1</span></span><br><span class="line">save <span class="number">300</span> <span class="number">10</span></span><br><span class="line">save <span class="number">60</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../images/rides/3/3-8.png" alt="3-8"></p>
+<ul>
+<li>原理</li>
+</ul>
+<p><img src="../images/rides/3/3-9.png" alt="3-9"></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>save配置要根据实际业务情况进行设置，频度过高或过低都会出现性能问题，结果可能是灾难性的</li>
+<li>save配置中对于second与changes设置通常具有互补对应关系，尽量不要设置成包含性关系</li>
+<li>save配置启动后执行的是bgsave操作</li>
+</ul>
+<h3 id="6-RDB两种启动方式对比"><a href="#6-RDB两种启动方式对比" class="headerlink" title="6.RDB两种启动方式对比"></a>6.RDB两种启动方式对比</h3><p><img src="../images/rides/3/3-10.png" alt="3-10"></p>
+<h3 id="7-rdb特殊启动形式"><a href="#7-rdb特殊启动形式" class="headerlink" title="7.rdb特殊启动形式"></a>7.rdb特殊启动形式</h3><ul>
+<li>全量复制<ul>
+<li>在主从复制中详细讲解</li>
+</ul>
+</li>
+<li>服务器运行过程中重启</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">debug reload</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭服务器时指定保存数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shutdown save</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>默认情况下执行shutdown命令时，自动执行bgsave(如果没有开启AOF持久化功能)</li>
+</ul>
+<h3 id="8-优点和缺点"><a href="#8-优点和缺点" class="headerlink" title="8.优点和缺点"></a>8.优点和缺点</h3><ul>
+<li>RDB优点<ul>
+<li>RDB是一个紧凑压缩的二进制文件，存储效率较高</li>
+<li>RDB内部存储的是redis在某个时间点的数据快照，非常适合用于数据备份，全量复制等场景</li>
+<li>RDB恢复数据的速度要比AOF快很多</li>
+<li>应用：服务器中每X小时执行bgsave备份，并将RDB文件拷贝到远程机器中，用于灾难恢复。</li>
+</ul>
+</li>
+<li>Rdb缺点<ul>
+<li>RDB方式无论是执行指令还是利用配置，无法做到实时持久化，具有较大的可能性丢失数据</li>
+<li>bgsave指令每次运行要执行fork操作创建子进程，要牺牲掉一些性能</li>
+<li>Redis的众多版本中未进行RDB文件格式的版本统一，有可能出现各版本服务之间数据格式无法兼容现象</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-AOF"><a href="#2-AOF" class="headerlink" title="2.AOF"></a>2.AOF</h1><h2 id="2-1-RDB存储的弊端"><a href="#2-1-RDB存储的弊端" class="headerlink" title="2-1.RDB存储的弊端"></a>2-1.RDB存储的弊端</h2><ul>
+<li>存储数据量较大，效率较低</li>
+<li>基于快照思想，每次读写都是全部数据，当数据量巨大时，效率非常低</li>
+<li>大数据量下的IO性能较低</li>
+<li>基于fork创建子进程，内存产生额外消耗</li>
+<li>宕机带来的数据丢失风险</li>
+</ul>
+<p><strong>解决思路</strong></p>
+<ul>
+<li>不写全数据，仅记录部分数据</li>
+<li>降低区分数据是否改变的难度，改记录数据为记录操作过程</li>
+<li>对所有操作均进行记录，排除丢失数据的风险</li>
+</ul>
+<h2 id="2-2-AOF概念"><a href="#2-2-AOF概念" class="headerlink" title="2-2.AOF概念"></a>2-2.AOF概念</h2><ul>
+<li>AOF(append only file)持久化：以独立日志的方式记录每次写命令，重启时再重新执行AOF文件中命令达到恢复数据的目的。与RDB相比可以简单描述为改记录数据为记录数据产生的过程</li>
+<li>AOF的主要作用是解决了数据持久化的实时性，目前已经是Redis持久化的主流方式</li>
+</ul>
 
       
     </div>
@@ -427,12 +627,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/post/ff05b5bf.html">第一篇博客</a></p>
+  <p><span>本文标题:</span><a href="/post/b9ffcd34.html">Rides再次学习3</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Linhuide 的个人博客">Linhuide</a></p>
-  <p><span>发布时间:</span>2020年03月19日 - 17:03</p>
-  <p><span>最后更新:</span>2020年03月20日 - 23:03</p>
-  <p><span>原始链接:</span><a href="/post/ff05b5bf.html" title="第一篇博客">https://linhuide.github.io/post/ff05b5bf.html</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://linhuide.github.io/post/ff05b5bf.html"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2020年04月11日 - 16:04</p>
+  <p><span>最后更新:</span>2020年04月11日 - 21:04</p>
+  <p><span>原始链接:</span><a href="/post/b9ffcd34.html" title="Rides再次学习3">https://linhuide.github.io/post/b9ffcd34.html</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://linhuide.github.io/post/b9ffcd34.html"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -489,6 +689,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/rides/" rel="tag"><i class="fa fa-tag" aria-hidden="true"></i> rides</a>
+          
+            <a href="/tags/JAVA/" rel="tag"><i class="fa fa-tag" aria-hidden="true"></i> JAVA</a>
+          
+        </div>
+      
 
       
       
@@ -498,15 +706,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/post/cef8fda2.html" rel="next" title="Rides再次学习2">
+                <i class="fa fa-chevron-left"></i> Rides再次学习2
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/bae8e301.html" rel="prev" title="建立个人博客">
-                建立个人博客 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -569,8 +777,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -649,6 +866,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Redis-持久化"><span class="nav-number">1.</span> <span class="nav-text">1.Redis 持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-持久化简介"><span class="nav-number">1.1.</span> <span class="nav-text">1-1.持久化简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-RDB"><span class="nav-number">1.2.</span> <span class="nav-text">1-2.RDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RDB启动方式-——-save指令"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.RDB启动方式 —— save指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-save指令相关配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.save指令相关配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-save指令工作原理"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.save指令工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据量过大，单线程执行方式造成效率过低如何处理？"><span class="nav-number">1.2.4.</span> <span class="nav-text">数据量过大，单线程执行方式造成效率过低如何处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-bgsave指令工作原理"><span class="nav-number">1.2.5.</span> <span class="nav-text">4.bgsave指令工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？"><span class="nav-number">1.2.6.</span> <span class="nav-text">5.反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-RDB两种启动方式对比"><span class="nav-number">1.2.7.</span> <span class="nav-text">6.RDB两种启动方式对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-rdb特殊启动形式"><span class="nav-number">1.2.8.</span> <span class="nav-text">7.rdb特殊启动形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-优点和缺点"><span class="nav-number">1.2.9.</span> <span class="nav-text">8.优点和缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-AOF"><span class="nav-number">2.</span> <span class="nav-text">2.AOF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-RDB存储的弊端"><span class="nav-number">2.1.</span> <span class="nav-text">2-1.RDB存储的弊端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-AOF概念"><span class="nav-number">2.2.</span> <span class="nav-text">2-2.AOF概念</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
