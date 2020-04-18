@@ -175,7 +175,7 @@
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-74.png">
 <meta property="og:image" content="https://linhuide.github.io/images/mysql/2/2-75.png">
 <meta property="article:published_time" content="2020-04-07T05:07:58.000Z">
-<meta property="article:modified_time" content="2020-04-10T03:13:58.631Z">
+<meta property="article:modified_time" content="2020-04-17T11:53:49.270Z">
 <meta property="article:author" content="Linhuide">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
@@ -506,7 +506,7 @@
 
 
 
-<h1 id="1-Mysql的体系结构概览"><a href="#1-Mysql的体系结构概览" class="headerlink" title="1. Mysql的体系结构概览"></a>1. Mysql的体系结构概览</h1><p> <img src="../images/mysql/2/2-1.jpg" alt="2-1"></p>
+<h1 id="1-Mysql的体系结构概览"><a href="#1-Mysql的体系结构概览" class="headerlink" title="1. Mysql的体系结构概览"></a>1. Mysql的体系结构概览</h1><p> <img src="../../images/mysql/2/2-1.jpg" alt="2-1"></p>
 <p>整个MySQL Server由以下组成</p>
 <ul>
 <li>Connection Pool : 连接池组件</li>
@@ -540,12 +540,12 @@
 <li>MySQL5.0支持的存储引擎包含 ： InnoDB 、MyISAM 、BDB、MEMORY、MERGE、EXAMPLE、NDB Cluster、ARCHIVE、CSV、BLACKHOLE、FEDERATED等，其中InnoDB和BDB提供事务安全表，其他存储引擎是非事务安全表。</li>
 </ul>
 <p>可以通过指定 show engines ， 来查询当前数据库支持的存储引擎 ： </p>
-<p><img src="../images/mysql/2/2-2.png" alt="2-2"></p>
+<p><img src="../../images/mysql/2/2-2.png" alt="2-2"></p>
 <p>创建新表时如果不指定存储引擎，那么系统就会使用默认的存储引擎，MySQL5.5之前的默认存储引擎是MyISAM，5.5之后就改为了InnoDB。</p>
 <p>查看Mysql数据库默认的存储引擎 ， 指令 ：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#39;%storage_engine%&#39;;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-3.png" alt="2-3"></p>
+<p><img src="../../images/mysql/2/2-3.png" alt="2-3"></p>
 <h2 id="2-2-各种存储引擎特性"><a href="#2-2-各种存储引擎特性" class="headerlink" title="2.2 各种存储引擎特性"></a>2.2 各种存储引擎特性</h2><p>下面重点介绍几种常用的存储引擎， 并对比各个存储引擎之间的区别， 如下表所示 ： </p>
 <table>
 <thead>
@@ -678,7 +678,7 @@
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">开启事务</span><br><span class="line">start transaction;</span><br><span class="line">insert into goods_innodb(id,name)values(null,&#39;Meta20&#39;);</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-4.png" alt="2-4"></p>
+<p><img src="../../images/mysql/2/2-4.png" alt="2-4"></p>
 <p>测试，发现在InnoDB中是存在事务的 ；</p>
 <h4 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h4><p>​    MySQL支持外键的存储引擎只有InnoDB ， 在创建外键的时候， 要求父表必须有对应的索引 ， 子表在创建外键的时候， 也会自动的创建对应的索引。</p>
 <p>​    下面两张表中 ， country_innodb是父表 ， country_id为主键索引，city_innodb表是子表，country_id字段为外键，对应于country_innodb表的主键country_id 。</p>
@@ -694,17 +694,17 @@
 <p>表中数据如下图所示 ： </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> city_innodb;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> country_innodb;</span><br></pre></td></tr></table></figure>
 
-<p> <img src="../images/mysql/2/2-6.png" alt="2-6"></p>
+<p> <img src="../../images/mysql/2/2-6.png" alt="2-6"></p>
 <h4 id="外键信息可以使用如下两种方式查看-："><a href="#外键信息可以使用如下两种方式查看-：" class="headerlink" title="外键信息可以使用如下两种方式查看 ："></a>外键信息可以使用如下两种方式<strong>查看</strong> ：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table city_innodb;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-7.png" alt="2-7"></p>
+<p><img src="../../images/mysql/2/2-7.png" alt="2-7"></p>
 <h4 id="删除country-id为1-的country数据："><a href="#删除country-id为1-的country数据：" class="headerlink" title="删除country_id为1 的country数据："></a>删除country_id为1 的country数据：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from country_innodb where country_id &#x3D; 1;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-8.png" alt="2-8"></p>
+<p><img src="../../images/mysql/2/2-8.png" alt="2-8"></p>
 <h4 id="更新主表country表的字段-country-id"><a href="#更新主表country表的字段-country-id" class="headerlink" title="更新主表country表的字段 country_id :"></a>更新主表country表的字段 country_id :</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update country_innodb set country_id &#x3D; 100 where country_id &#x3D; 1;</span><br></pre></td></tr></table></figure>
 
 <p>更新后， 子表的数据信息为 ： </p>
-<p><img src="../images/mysql/2/2-9.png" alt="2-9"></p>
+<p><img src="../../images/mysql/2/2-9.png" alt="2-9"></p>
 <h4 id="存储方式"><a href="#存储方式" class="headerlink" title="存储方式"></a>存储方式</h4><p>InnoDB 存储表和索引有以下两种方式 ： </p>
 <ul>
 <li>使用共享表空间存储， 这种方式创建的表的表结构保存在.frm文件中， 数据和索引保存在 innodb_data_home_dir 和 innodb_data_file_path定义的表空间中，可以是多个文件。</li>
@@ -716,7 +716,7 @@
 <p>通过测试，我们发现，在MyISAM存储引擎中，是没有事务控制的 ；</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">开启事务</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> goods_myisam(<span class="keyword">id</span>,<span class="keyword">name</span>)<span class="keyword">values</span>(<span class="literal">null</span>,<span class="string">'Meta20'</span>);</span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> goods_myisam;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-10.png" alt="2-10"></p>
+<p><img src="../../images/mysql/2/2-10.png" alt="2-10"></p>
 <h4 id="文件存储方式"><a href="#文件存储方式" class="headerlink" title="文件存储方式"></a>文件存储方式</h4><p>每个MyISAM在磁盘上存储成3个文件，其文件名都和表名相同，但拓展名分别是 ： </p>
 <ul>
 <li>.frm (存储表定义)；</li>
@@ -727,7 +727,7 @@
 <h3 id="2-2-4-MERGE"><a href="#2-2-4-MERGE" class="headerlink" title="2.2.4 MERGE"></a>2.2.4 MERGE</h3><p>​    MERGE存储引擎是一组MyISAM表的组合，这些MyISAM表必须结构完全相同，MERGE表本身并没有存储数据，对MERGE类型的表可以进行查询、更新、删除操作，这些操作实际上是对内部的MyISAM表进行的。</p>
 <p>​    对于MERGE类型表的插入操作，是通过INSERT_METHOD子句定义插入的表，可以有3个不同的值，使用FIRST 或 LAST 值使得插入操作被相应地作用在第一或者最后一个表上，不定义这个子句或者定义为NO，表示不能对这个MERGE表执行插入操作。</p>
 <p>​    可以对MERGE表进行DROP操作，但是这个操作只是删除MERGE表的定义，对内部的表是没有任何影响的。</p>
-<p><img src="../images/mysql/2/2-11.png" alt="2-11"></p>
+<p><img src="../../images/mysql/2/2-11.png" alt="2-11"></p>
 <p>下面是一个创建和使用MERGE表的示例 ： </p>
 <ul>
 <li>创建3个测试表 order_1990, order_1991, order_all , 其中order_all是前两个表的MERGE表 ： </li>
@@ -745,13 +745,13 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> order_1990;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> order_1991;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> order_all;</span><br></pre></td></tr></table></figure>
 
 <p>order_1990中的数据、order_1991中的数据、 order_all中的数据 ：</p>
-<p><img src="../images/mysql/2/2-12.png" alt="2-12"></p>
+<p><img src="../../images/mysql/2/2-12.png" alt="2-12"></p>
 <ul>
 <li>往order_all中插入一条记录 ，由于在MERGE表定义时，INSERT_METHOD 选择的是LAST，那么插入的数据会想最后一张表中插入。</li>
 </ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> order_all <span class="keyword">values</span>(<span class="number">100</span>,<span class="number">10000.0</span>,<span class="string">'西安'</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-13.png" alt="2-13"></p>
+<p><img src="../../images/mysql/2/2-13.png" alt="2-13"></p>
 <h2 id="2-3-存储引擎的选择"><a href="#2-3-存储引擎的选择" class="headerlink" title="2.3 存储引擎的选择"></a>2.3 存储引擎的选择</h2><p>​    在选择存储引擎时，应该根据应用系统的特点选择合适的存储引擎。对于复杂的应用系统，还可以根据实际情况选择多种存储引擎进行组合。以下是几种常用的存储引擎的使用环境。</p>
 <ul>
 <li>InnoDB : 是Mysql的默认存储引擎，用于事务处理应用程序，支持外键。如果应用对事务的完整性有比较高的要求，在并发条件下要求数据的一致性，数据操作除了插入和查询意外，还包含很多的更新、删除操作，那么InnoDB存储引擎是比较合适的选择。InnoDB存储引擎除了有效的降低由于删除和更新导致的锁定， 还可以确保事务的完整提交和回滚，对于类似于计费系统或者财务系统等对数据准确性要求比较高的系统，InnoDB是最合适的选择。</li>
@@ -771,10 +771,10 @@
 <p>下面的命令显示了当前 session 中所有统计参数的值：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show status like &#39;Com_______&#39;;</span><br><span class="line">&#x2F;&#x2F;查询全部</span><br><span class="line">show global status like &#39;Com_______&#39;;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-14.png" alt="2-14"></p>
+<p><img src="../../images/mysql/2/2-14.png" alt="2-14"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show status like &#39;Innodb_rows_%&#39;;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-15.png" alt="2-15"></p>
+<p><img src="../../images/mysql/2/2-15.png" alt="2-15"></p>
 <p>Com_xxx 表示每个 xxx 语句执行的次数，我们通常比较关心的是以下几个统计参数。</p>
 <table>
 <thead>
@@ -837,7 +837,7 @@
 <li>慢查询日志 : 通过慢查询日志定位那些执行效率较低的 SQL 语句，用–log-slow-queries[=file_name]选项启动时，mysqld 写一个包含所有执行时间超过 long_query_time 秒的 SQL 语句的日志文件。具体可以查看本书第 26 章中日志管理的相关部分。</li>
 <li>show processlist  : 慢查询日志在查询结束以后才纪录，所以在应用反映执行效率出现问题的时候查询慢查询日志并不能定位问题，可以使用show processlist命令查看当前MySQL在进行的线程，包括线程的状态、是否锁表等，可以实时地查看 SQL 的执行情况，同时对一些锁表操作进行优化。</li>
 </ul>
-<p><img src="../images/mysql/2/2-5.png" alt="2-5"></p>
+<p><img src="../../images/mysql/2/2-5.png" alt="2-5"></p>
 <ul>
 <li>id列，用户登录mysql时，系统分配的”connection_id”，可以使用函数connection_id()查看</li>
 <li>user列，显示当前用户。如果不是root，这个命令就只显示用户权限范围的sql语句</li>
@@ -852,10 +852,10 @@
 <p>查询SQL语句的执行计划 ： </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span>  <span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-19.png" alt="2-19"></p>
+<p><img src="../../images/mysql/2/2-19.png" alt="2-19"></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span>  <span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">where</span> title = <span class="string">'阿尔卡特 (OT-979) 冰川白 联通3G手机3'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-20.png" alt="2-20"></p>
+<p><img src="../../images/mysql/2/2-20.png" alt="2-20"></p>
 <table>
 <thead>
 <tr>
@@ -900,7 +900,7 @@
 <td>执行情况的说明和描述</td>
 </tr>
 </tbody></table>
-<h3 id="3-3-1-环境准备"><a href="#3-3-1-环境准备" class="headerlink" title="3.3.1 环境准备"></a>3.3.1 环境准备</h3><p><img src="../images/mysql/2/2-21.png" alt="2-21"></p>
+<h3 id="3-3-1-环境准备"><a href="#3-3-1-环境准备" class="headerlink" title="3.3.1 环境准备"></a>3.3.1 环境准备</h3><p><img src="../../images/mysql/2/2-21.png" alt="2-21"></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_role`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`role_name`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`role_code`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`description`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line">  <span class="keyword">UNIQUE</span> <span class="keyword">KEY</span> <span class="string">`unique_role_name`</span> (<span class="string">`role_name`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">96</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line">  <span class="keyword">UNIQUE</span> <span class="keyword">KEY</span> <span class="string">`unique_user_username`</span> (<span class="string">`username`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user_role`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> auto_increment ,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`role_id`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`fk_ur_user_id`</span> (<span class="string">`user_id`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`fk_ur_role_id`</span> (<span class="string">`role_id`</span>),</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> <span class="string">`fk_ur_role_id`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`role_id`</span>) <span class="keyword">REFERENCES</span> <span class="string">`t_role`</span> (<span class="string">`id`</span>) <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">NO</span> <span class="keyword">ACTION</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">NO</span> <span class="keyword">ACTION</span>,</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> <span class="string">`fk_ur_user_id`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`user_id`</span>) <span class="keyword">REFERENCES</span> <span class="string">`t_user`</span> (<span class="string">`id`</span>) <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">NO</span> <span class="keyword">ACTION</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">NO</span> <span class="keyword">ACTION</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`t_user`</span> (<span class="string">`id`</span>, <span class="string">`username`</span>, <span class="string">`password`</span>, <span class="string">`name`</span>) <span class="keyword">values</span>(<span class="string">'1'</span>,<span class="string">'super'</span>,<span class="string">'$2a$10$TJ4TmCdK.X4wv/tCqHW14.w70U3CC33CeVncD3SLmyMXMknstqKRe'</span>,<span class="string">'超级管理员'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`t_user`</span> (<span class="string">`id`</span>, <span class="string">`username`</span>, <span class="string">`password`</span>, <span class="string">`name`</span>) <span class="keyword">values</span>(<span class="string">'2'</span>,<span class="string">'admin'</span>,<span class="string">'$2a$10$TJ4TmCdK.X4wv/tCqHW14.w70U3CC33CeVncD3SLmyMXMknstqKRe'</span>,<span class="string">'系统管理员'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`t_user`</span> (<span class="string">`id`</span>, <span class="string">`username`</span>, <span class="string">`password`</span>, <span class="string">`name`</span>) <span class="keyword">values</span>(<span class="string">'3'</span>,<span class="string">'itcast'</span>,<span class="string">'$2a$10$8qmaHgUFUAmPR5pOuWhYWOr291WJYjHelUlYn07k5ELF8ZCrW0Cui'</span>,<span class="string">'test02'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`t_user`</span> (<span class="string">`id`</span>, <span class="string">`username`</span>, <span class="string">`password`</span>, <span class="string">`name`</span>) <span class="keyword">values</span>(<span class="string">'4'</span>,<span class="string">'stu1'</span>,<span class="string">'$2a$10$pLtt2KDAFpwTWLjNsmTEi.oU1yOZyIn9XkziK/y/spH5rftCpUMZa'</span>,<span class="string">'学生1'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`t_user`</span> (<span class="string">`id`</span>, <span class="string">`username`</span>, <span class="string">`password`</span>, <span class="string">`name`</span>) <span class="keyword">values</span>(<span class="string">'5'</span>,<span class="string">'stu2'</span>,<span class="string">'$2a$10$nxPKkYSez7uz2YQYUnwhR.z57km3yqKn3Hr/p1FR6ZKgc18u.Tvqm'</span>,<span class="string">'学生2'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`t_user`</span> (<span class="string">`id`</span>, <span class="string">`username`</span>, <span class="string">`password`</span>, <span class="string">`name`</span>) <span class="keyword">values</span>(<span class="string">'6'</span>,<span class="string">'t1'</span>,<span class="string">'$2a$10$TJ4TmCdK.X4wv/tCqHW14.w70U3CC33CeVncD3SLmyMXMknstqKRe'</span>,<span class="string">'老师1'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`t_role`</span> (<span class="string">`id`</span>, <span class="string">`role_name`</span>, <span class="string">`role_code`</span>, <span class="string">`description`</span>) <span class="keyword">VALUES</span>(<span class="string">'5'</span>,<span class="string">'学生'</span>,<span class="string">'student'</span>,<span class="string">'学生'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`t_role`</span> (<span class="string">`id`</span>, <span class="string">`role_name`</span>, <span class="string">`role_code`</span>, <span class="string">`description`</span>) <span class="keyword">VALUES</span>(<span class="string">'7'</span>,<span class="string">'老师'</span>,<span class="string">'teacher'</span>,<span class="string">'老师'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`t_role`</span> (<span class="string">`id`</span>, <span class="string">`role_name`</span>, <span class="string">`role_code`</span>, <span class="string">`description`</span>) <span class="keyword">VALUES</span>(<span class="string">'8'</span>,<span class="string">'教学管理员'</span>,<span class="string">'teachmanager'</span>,<span class="string">'教学管理员'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`t_role`</span> (<span class="string">`id`</span>, <span class="string">`role_name`</span>, <span class="string">`role_code`</span>, <span class="string">`description`</span>) <span class="keyword">VALUES</span>(<span class="string">'9'</span>,<span class="string">'管理员'</span>,<span class="string">'admin'</span>,<span class="string">'管理员'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`t_role`</span> (<span class="string">`id`</span>, <span class="string">`role_name`</span>, <span class="string">`role_code`</span>, <span class="string">`description`</span>) <span class="keyword">VALUES</span>(<span class="string">'10'</span>,<span class="string">'超级管理员'</span>,<span class="string">'super'</span>,<span class="string">'超级管理员'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_role(<span class="keyword">id</span>,user_id,role_id) <span class="keyword">VALUES</span>(<span class="literal">NULL</span>, <span class="string">'1'</span>, <span class="string">'5'</span>),(<span class="literal">NULL</span>, <span class="string">'1'</span>, <span class="string">'7'</span>),(<span class="literal">NULL</span>, <span class="string">'2'</span>, <span class="string">'8'</span>),(<span class="literal">NULL</span>, <span class="string">'3'</span>, <span class="string">'9'</span>),(<span class="literal">NULL</span>, <span class="string">'4'</span>, <span class="string">'8'</span>),(<span class="literal">NULL</span>, <span class="string">'5'</span>, <span class="string">'10'</span>) ;</span><br></pre></td></tr></table></figure>
 
 <h3 id="3-3-2-explain-之-id"><a href="#3-3-2-explain-之-id" class="headerlink" title="3.3.2 explain 之 id"></a>3.3.2 explain 之 id</h3><p>id 字段是 select查询的序列号，是一组数字，表示的是查询中执行select子句或者是操作表的顺序。id 情况有三种 ： </p>
@@ -909,19 +909,19 @@
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> t_user;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> t_role r, t_user u, user_role ur <span class="keyword">where</span> r.id = ur.role_id <span class="keyword">and</span> u.id = ur.user_id ;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-22.png" alt="2-22"></p>
+<p><img src="../../images/mysql/2/2-22.png" alt="2-22"></p>
 <ol start="2">
 <li>id 不同id值越大，优先级越高，越先被执行。 </li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXPLAIN</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_role <span class="keyword">WHERE</span> <span class="keyword">id</span> = (<span class="keyword">SELECT</span> role_id <span class="keyword">FROM</span> user_role <span class="keyword">WHERE</span> user_id = (<span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> t_user <span class="keyword">WHERE</span> username = <span class="string">'stu1'</span>));</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-23.png" alt="2-23"></p>
+<p><img src="../../images/mysql/2/2-23.png" alt="2-23"></p>
 <ol start="3">
 <li>id 有相同，也有不同，同时存在。id相同的可以认为是一组，从上往下顺序执行；在所有的组中，id的值越大，优先级越高，越先执行。</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXPLAIN</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t_role r , (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> user_role ur <span class="keyword">WHERE</span> ur.<span class="string">`user_id`</span> = <span class="string">'2'</span>) a <span class="keyword">WHERE</span> r.id = a.role_id ;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-24.png" alt="2-24"></p>
+<p><img src="../../images/mysql/2/2-24.png" alt="2-24"></p>
 <h3 id="3-3-3-explain-之-select-type"><a href="#3-3-3-explain-之-select-type" class="headerlink" title="3.3.3 explain 之 select_type"></a>3.3.3 explain 之 select_type</h3><p> 表示 SELECT 的类型，常见的取值，如下表所示：</p>
 <table>
 <thead>
@@ -955,7 +955,7 @@
 <td>从UNION表获取结果的SELECT</td>
 </tr>
 </tbody></table>
-<p><img src="../images/mysql/2/2-16.png" alt="2-16"></p>
+<p><img src="../../images/mysql/2/2-16.png" alt="2-16"></p>
 <h3 id="3-3-4-explain-之-table"><a href="#3-3-4-explain-之-table" class="headerlink" title="3.3.4 explain 之 table"></a>3.3.4 explain 之 table</h3><p>展示这一行的数据是关于哪一张表的 </p>
 <h3 id="3-3-5-explain-之-type"><a href="#3-3-5-explain-之-type" class="headerlink" title="3.3.5 explain 之 type"></a>3.3.5 explain 之 type</h3><p>type 显示的是访问类型，是较为重要的一个指标，可取值为： </p>
 <table>
@@ -1002,7 +1002,7 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NULL &gt; system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL</span><br></pre></td></tr></table></figure>
 
 <p>一般来说， 我们需要保证查询至少达到 range 级别， 最好达到ref 。</p>
-<p><img src="../images/mysql/2/2-17.png" alt="2-17"></p>
+<p><img src="../../images/mysql/2/2-17.png" alt="2-17"></p>
 <h3 id="3-3-6-explain-之-key"><a href="#3-3-6-explain-之-key" class="headerlink" title="3.3.6 explain 之  key"></a>3.3.6 explain 之  key</h3><ul>
 <li>possible_keys : 显示可能应用在这张表的索引， 一个或多个。 </li>
 <li>key ： 实际使用的索引， 如果为NULL， 则没有使用索引。</li>
@@ -1030,13 +1030,13 @@
 <td>表示相应的select操作使用了覆盖索引， 避免访问表的数据行， 效率不错。</td>
 </tr>
 </tbody></table>
-<p><img src="../images/mysql/2/2-18.png" alt="2-18"></p>
+<p><img src="../../images/mysql/2/2-18.png" alt="2-18"></p>
 <h3 id="3-4-show-profile分析SQL"><a href="#3-4-show-profile分析SQL" class="headerlink" title="3.4 show profile分析SQL"></a>3.4 show profile分析SQL</h3><p>Mysql从5.0.37版本开始增加了对 show profiles 和 show profile 语句的支持。show profiles 能够在做SQL优化时帮助我们了解时间都耗费到哪里去了。</p>
 <p>通过 have_profiling 参数，能够看到当前MySQL是否支持profile：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> @@have_profiling;</span><br><span class="line"><span class="keyword">select</span> @@profiling;</span><br></pre></td></tr></table></figure>
 
 <p>默认profiling是关闭的，可以通过set语句在Session级别开启profiling：</p>
-<p><img src="../images/mysql/2/2-25.png" alt="2-25"></p>
+<p><img src="../../images/mysql/2/2-25.png" alt="2-25"></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> profiling=<span class="number">1</span>; //开启profiling 开关；</span><br></pre></td></tr></table></figure>
 
 <p>通过profile，我们能够更清楚地了解SQL执行的过程。</p>
@@ -1044,9 +1044,9 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br><span class="line"><span class="keyword">use</span> db01;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">where</span> <span class="keyword">id</span> &lt; <span class="number">5</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> tb_item;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">profiles</span>;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">profiles</span> <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
 
 <p>执行完上述命令之后，再执行show profiles 指令， 来查看SQL语句执行的耗时：</p>
-<p><img src="../images/mysql/2/2-26.png" alt="2-26"></p>
+<p><img src="../../images/mysql/2/2-26.png" alt="2-26"></p>
 <p>通过show  profile for  query  query_id 语句可以查看到该SQL执行过程中每个线程的状态和消耗的时间：</p>
-<p> <img src="../images/mysql/2/2-27.png" alt="2-27"></p>
+<p> <img src="../../images/mysql/2/2-27.png" alt="2-27"></p>
 <p><strong>TIP ：</strong></p>
 <ul>
 <li>Sending data 状态表示MySQL线程开始访问数据行并把结果返回给客户端，而不仅仅是返回个客户端。由于在Sending data状态下，MySQL线程往往需要做大量的磁盘读取操作，所以经常是整各查询中耗时最长的状态。</li>
@@ -1054,7 +1054,7 @@
 <p>​    在获取到最消耗时间的线程状态后，MySQL支持进一步选择all、cpu、block io 、context switch、page faults等明细类型类查看MySQL在使用什么资源上耗费了过高的时间。例如，选择查看CPU的耗费时间  ：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> profile cpu <span class="keyword">for</span> <span class="keyword">query</span> <span class="number">12</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-28.png" alt="2-28"></p>
+<p><img src="../../images/mysql/2/2-28.png" alt="2-28"></p>
 <table>
 <thead>
 <tr>
@@ -1100,24 +1100,24 @@
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1999</span>\G;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-29.png" alt="2-29"></p>
+<p><img src="../../images/mysql/2/2-29.png" alt="2-29"></p>
 <p>查询速度很快， 接近0s ， 主要的原因是因为id为主键， 有索引；</p>
-<p><img src="../images/mysql/2/2-30.png" alt="2-30"></p>
+<p><img src="../../images/mysql/2/2-30.png" alt="2-30"></p>
 <ol start="2">
 <li>根据 title 进行精确查询</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">where</span> title = <span class="string">'iphoneX 移动3G 32G941'</span>\G;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-31.png" alt="2-31"></p>
+<p><img src="../../images/mysql/2/2-31.png" alt="2-31"></p>
 <p>查看SQL语句的执行计划 ： </p>
-<p><img src="../images/mysql/2/2-32.png" alt="2-32"></p>
+<p><img src="../../images/mysql/2/2-32.png" alt="2-32"></p>
 <p><strong>处理方案</strong> ， 针对title字段， 创建索引 ： </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_item_title <span class="keyword">on</span> tb_item(title);</span><br></pre></td></tr></table></figure>
 
 <p>索引创建完成之后，再次进行查询 ： </p>
-<p><img src="../images/mysql/2/2-33.png" alt="2-33"></p>
+<p><img src="../../images/mysql/2/2-33.png" alt="2-33"></p>
 <p>通过explain ， 查看执行计划，执行SQL时使用了刚才创建的索引 </p>
-<p><img src="../images/mysql/2/2-34.png" alt="2-34"></p>
+<p><img src="../../images/mysql/2/2-34.png" alt="2-34"></p>
 <h2 id="4-2-索引的使用"><a href="#4-2-索引的使用" class="headerlink" title="4.2 索引的使用"></a>4.2 索引的使用</h2><h3 id="4-2-1-准备环境"><a href="#4-2-1-准备环境" class="headerlink" title="4.2.1 准备环境"></a>4.2.1 准备环境</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="string">`tb_seller`</span> (</span><br><span class="line">	<span class="string">`sellerid`</span> <span class="built_in">varchar</span> (<span class="number">100</span>),</span><br><span class="line">	<span class="string">`name`</span> <span class="built_in">varchar</span> (<span class="number">100</span>),</span><br><span class="line">	<span class="string">`nickname`</span> <span class="built_in">varchar</span> (<span class="number">50</span>),</span><br><span class="line">	<span class="string">`password`</span> <span class="built_in">varchar</span> (<span class="number">60</span>),</span><br><span class="line">	<span class="string">`status`</span> <span class="built_in">varchar</span> (<span class="number">1</span>),</span><br><span class="line">	<span class="string">`address`</span> <span class="built_in">varchar</span> (<span class="number">100</span>),</span><br><span class="line">	<span class="string">`createtime`</span> datetime,</span><br><span class="line">    primary <span class="keyword">key</span>(<span class="string">`sellerid`</span>)</span><br><span class="line">)<span class="keyword">engine</span>=<span class="keyword">innodb</span> <span class="keyword">default</span> <span class="keyword">charset</span>=utf8mb4; </span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'alibaba'</span>,<span class="string">'阿里巴巴'</span>,<span class="string">'阿里小店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'baidu'</span>,<span class="string">'百度科技有限公司'</span>,<span class="string">'百度小店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'huawei'</span>,<span class="string">'华为科技有限公司'</span>,<span class="string">'华为小店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'0'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'itcast'</span>,<span class="string">'传智播客教育科技有限公司'</span>,<span class="string">'传智播客'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'itheima'</span>,<span class="string">'黑马程序员'</span>,<span class="string">'黑马程序员'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'0'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'luoji'</span>,<span class="string">'罗技科技有限公司'</span>,<span class="string">'罗技小店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'oppo'</span>,<span class="string">'OPPO科技有限公司'</span>,<span class="string">'OPPO官方旗舰店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'0'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'ourpalm'</span>,<span class="string">'掌趣科技股份有限公司'</span>,<span class="string">'掌趣小店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'qiandu'</span>,<span class="string">'千度科技'</span>,<span class="string">'千度小店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'2'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'sina'</span>,<span class="string">'新浪科技有限公司'</span>,<span class="string">'新浪官方旗舰店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'xiaomi'</span>,<span class="string">'小米科技'</span>,<span class="string">'小米官方旗舰店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'西安市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`tb_seller`</span> (<span class="string">`sellerid`</span>, <span class="string">`name`</span>, <span class="string">`nickname`</span>, <span class="string">`password`</span>, <span class="string">`status`</span>, <span class="string">`address`</span>, <span class="string">`createtime`</span>) <span class="keyword">values</span>(<span class="string">'yijia'</span>,<span class="string">'宜家家居'</span>,<span class="string">'宜家家居旗舰店'</span>,<span class="string">'e10adc3949ba59abbe56e057f20f883e'</span>,<span class="string">'1'</span>,<span class="string">'北京市'</span>,<span class="string">'2088-01-01 12:00:00'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_name_sta_addr <span class="keyword">on</span> tb_seller(<span class="keyword">name</span>,<span class="keyword">status</span>,address);</span><br></pre></td></tr></table></figure>
 
 <h3 id="4-2-2-避免索引失效"><a href="#4-2-2-避免索引失效" class="headerlink" title="4.2.2 避免索引失效"></a>4.2.2 避免索引失效</h3><ol>
@@ -1126,7 +1126,7 @@
 <p>改情况下，索引生效，执行效率高。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span>=<span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'北京市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-35.png" alt="2-35"></p>
+<p><img src="../../images/mysql/2/2-35.png" alt="2-35"></p>
 <ol start="2">
 <li>最左前缀法则</li>
 </ol>
@@ -1137,34 +1137,34 @@
 </ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span>=<span class="string">'1'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span>=<span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'北京市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-36.png" alt="2-36"></p>
+<p><img src="../../images/mysql/2/2-36.png" alt="2-36"></p>
 <p>违法最左前缀法则 ， 索引失效：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">status</span>=<span class="string">'1'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">status</span>=<span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'北京市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-37.png" alt="2-37"></p>
+<p><img src="../../images/mysql/2/2-37.png" alt="2-37"></p>
 <p>如果符合最左法则，但是出现跳跃某一列，只有最左列索引生效：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> address=<span class="string">'北京市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-38.png" alt="2-38"></p>
+<p><img src="../../images/mysql/2/2-38.png" alt="2-38"></p>
 <ol start="3">
 <li>范围查询右边的列，不能使用索引 。</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'北京市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> &gt; <span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'北京市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-39.png" alt="2-39"></p>
+<p><img src="../../images/mysql/2/2-39.png" alt="2-39"></p>
 <p>前面的两个字段name ， status 查询是走索引的， 但是最后一个条件address 没有用到索引。</p>
 <ol start="4">
 <li>不要在索引列上进行运算操作， 索引将失效。</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">substring</span>(<span class="keyword">name</span>,<span class="number">3</span>,<span class="number">2</span>)=<span class="string">'科技'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">substring</span>(<span class="keyword">name</span>,<span class="number">3</span>,<span class="number">2</span>)=<span class="string">'科技'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-40.png" alt="2-40"></p>
+<p><img src="../../images/mysql/2/2-40.png" alt="2-40"></p>
 <ol start="5">
 <li>字符串不加单引号，造成索引失效。</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="string">'1'</span> ;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="number">1</span> ;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-41.png" alt="2-41"></p>
+<p><img src="../../images/mysql/2/2-41.png" alt="2-41"></p>
 <p>在查询时，没有对字符串加单引号，MySQL的查询优化器，会自动的进行类型转换，造成索引失效。</p>
 <ol start="6">
 <li>尽量使用覆盖索引，避免select *</li>
@@ -1172,11 +1172,11 @@
 <p>尽量使用覆盖索引（只访问索引的查询（索引列完全包含查询列）），减少select * 。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'西安市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'西安市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">status</span> <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'西安市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">status</span>,address <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'西安市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-42.png" alt="2-42"></p>
+<p><img src="../../images/mysql/2/2-42.png" alt="2-42"></p>
 <p>如果查询列，超出索引列，也会降低性能。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">status</span>,address,<span class="keyword">password</span> <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span> = <span class="string">'1'</span> <span class="keyword">and</span> address=<span class="string">'西安市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-43.png" alt="2-43"></p>
+<p><img src="../../images/mysql/2/2-43.png" alt="2-43"></p>
 <p><strong>TIP :</strong> </p>
 <ul>
 <li>using index ：使用覆盖索引的时候就会出现</li>
@@ -1190,41 +1190,41 @@
 <p>示例，name字段是索引列 ， 而createtime不是索引列，中间是or进行连接是不走索引的 ： </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'黑马程序员'</span> <span class="keyword">and</span> createtime = <span class="string">'2088-01-01 12:00:00'</span>;	</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'黑马程序员'</span> <span class="keyword">or</span> createtime = <span class="string">'2088-01-01 12:00:00'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-44.png" alt="2-44"></p>
+<p><img src="../../images/mysql/2/2-44.png" alt="2-44"></p>
 <ol start="8">
 <li>以%开头的Like模糊查询，索引失效。</li>
 </ol>
 <p>如果仅仅是尾部模糊匹配，索引不会失效。如果是头部模糊匹配，索引失效。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'黑马程序员%'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%黑马程序员'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%黑马程序员%'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-45.png" alt="2-45"></p>
+<p><img src="../../images/mysql/2/2-45.png" alt="2-45"></p>
 <p><strong>解决方案 ：</strong> </p>
 <p>通过覆盖索引来解决 （索引的字段，id为自动创建的索引）</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> sellerid <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'科技%'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> sellerid,<span class="keyword">name</span> <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%科技'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> sellerid,<span class="keyword">name</span>,<span class="keyword">status</span> <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%科技%'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-46.png" alt="2-46"></p>
+<p><img src="../../images/mysql/2/2-46.png" alt="2-46"></p>
 <ol start="9">
 <li>如果MySQL评估使用索引比全表更慢，则不使用索引。</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_seller;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_address <span class="keyword">on</span> tb_seller(address);</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> address=<span class="string">'北京市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> address=<span class="string">'西安市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-47.png" alt="2-47"></p>
+<p><img src="../../images/mysql/2/2-47.png" alt="2-47"></p>
 <ol start="10">
 <li>is  NULL ， is NOT NULL  <font color="red">有时</font>索引失效。</li>
 </ol>
 <p>看数据量，第9点，如果全表快，就走全表，不走索引（多数为null，全表快，不走索引）</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">is</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-48.png" alt="2-48"></p>
+<p><img src="../../images/mysql/2/2-48.png" alt="2-48"></p>
 <ol start="11">
 <li>in 走索引， not in 索引失效。</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> sellerid <span class="keyword">in</span> (<span class="string">'oppo'</span>,<span class="string">'xiaomi'</span>,<span class="string">'sina'</span>);</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> sellerid <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">'oppo'</span>,<span class="string">'xiaomi'</span>,<span class="string">'sina'</span>);</span><br></pre></td></tr></table></figure>
 
 <p>学习版：出现</p>
-<p><img src="../images/mysql/2/2-49.png" alt="2-49"> </p>
+<p><img src="../../images/mysql/2/2-49.png" alt="2-49"> </p>
 <p>测试版：没有出现</p>
-<p><img src="../images/mysql/2/2-50.png" alt="2-50"></p>
+<p><img src="../../images/mysql/2/2-50.png" alt="2-50"></p>
 <ol start="12">
 <li>单列索引和复合索引。</li>
 </ol>
@@ -1238,10 +1238,10 @@
 <p>数据库会选择一个最优的索引（辨识度最高索引）来使用，并不会使用全部索引 。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span> <span class="keyword">and</span> <span class="keyword">status</span>=<span class="string">' '</span> <span class="keyword">and</span> address=<span class="string">'西安市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-51.png" alt="2-51"></p>
+<p><img src="../../images/mysql/2/2-51.png" alt="2-51"></p>
 <h2 id="4-3-查看索引使用情况"><a href="#4-3-查看索引使用情况" class="headerlink" title="4.3 查看索引使用情况"></a>4.3 查看索引使用情况</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'Handler_read%'</span>;	</span><br><span class="line">全局</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">global</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'Handler_read%'</span>;</span><br></pre></td></tr></table></figure>
 
-<p> <img src="../images/mysql/2/2-52.png" alt="2-52"></p>
+<p> <img src="../../images/mysql/2/2-52.png" alt="2-52"></p>
 <ul>
 <li>Handler_read_first：索引中第一条被读的次数。如果较高，表示服务器正执行大量全索引扫描（这个值越低越好）。</li>
 <li>Handler_read_key：如果索引正在工作，这个值代表一个行被索引值读的次数，如果值越低，表示索引得到的性能改善不高，因为索引不经常使用（这个值越高越好）。</li>
@@ -1254,7 +1254,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`tb_user_1`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">96</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`birthday`</span> datetime <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`sex`</span> <span class="built_in">char</span>(<span class="number">1</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`email`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`phone`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`qq`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`status`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户状态'</span>,</span><br><span class="line">  <span class="string">`create_time`</span> datetime <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`update_time`</span> datetime <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line">  <span class="keyword">UNIQUE</span> <span class="keyword">KEY</span> <span class="string">`unique_user_username`</span> (<span class="string">`username`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8 ;</span><br></pre></td></tr></table></figure>
 
 <p>当使用load 命令导入数据的时候，适当的设置可以提高导入的效率。</p>
-<p><img src="../images/mysql/2/2-53.png" alt="2-53"></p>
+<p><img src="../../images/mysql/2/2-53.png" alt="2-53"></p>
 <p>对于 InnoDB 类型的表，有以下几种方式可以提高导入的效率：</p>
 <ol>
 <li>主键顺序插入<ol>
@@ -1266,19 +1266,19 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">脚本文件介绍 :</span><br><span class="line">	sql1.log  <span class="comment">----&gt; 主键有序</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> <span class="keyword">infile</span> <span class="string">'C:\\sql1.log'</span> <span class="keyword">into</span> <span class="keyword">table</span> tb_user_1 <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span> <span class="keyword">lines</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> tb_user_1;</span><br><span class="line">	sql2.log  <span class="comment">----&gt; 主键无序</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> <span class="keyword">infile</span> <span class="string">'C:\\sql2.log'</span> <span class="keyword">into</span> <span class="keyword">table</span> tb_user_2 <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span> <span class="keyword">lines</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> tb_user_2;</span><br><span class="line"></span><br><span class="line">过程</span><br><span class="line">mysql <span class="comment">--local-infile=1 -u root -p</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">global</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'local_infile'</span>;</span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> local_infile = <span class="string">'ON'</span>;</span><br></pre></td></tr></table></figure>
 
 <p>插入ID顺序排列数据：</p>
-<p><img src="../images/mysql/2/2-56.png" alt="2-56"></p>
+<p><img src="../../images/mysql/2/2-56.png" alt="2-56"></p>
 <p>插入ID无序排列数据：（学习版，测试时系统崩了）</p>
-<p><img src="../images/mysql/2/2-59.png" alt="2-59"></p>
+<p><img src="../../images/mysql/2/2-59.png" alt="2-59"></p>
 <ol start="2">
 <li>关闭唯一性校验</li>
 </ol>
 <p>在导入数据前执行 SET UNIQUE_CHECKS=0，关闭唯一性校验，在导入结束后执行SET UNIQUE_CHECKS=1，恢复唯一性校验，可以提高导入的效率。</p>
-<p><img src="../images/mysql/2/2-60.png" alt="2-60"></p>
+<p><img src="../../images/mysql/2/2-60.png" alt="2-60"></p>
 <ol start="3">
 <li>手动提交事务</li>
 </ol>
 <p>如果应用使用自动提交的方式，建议在导入前执行 SET AUTOCOMMIT=0，关闭自动提交，导入结束后再执行 SET AUTOCOMMIT=1，打开自动提交，也可以提高导入的效率。</p>
-<p><img src="../images/mysql/2/2-61.png" alt="2-61"></p>
+<p><img src="../../images/mysql/2/2-61.png" alt="2-61"></p>
 <h2 id="5-2-优化insert语句"><a href="#5-2-优化insert语句" class="headerlink" title="5.2 优化insert语句"></a>5.2 优化insert语句</h2><p>当进行数据的insert操作的时候，可以考虑采用以下几种优化方案。</p>
 <ul>
 <li><p>如果需要同时对一张表插入很多行数据时，应该尽量使用多个值表的insert语句，这种方式将大大的缩减客户端与数据库之间的连接、关闭等消耗。使得效率比分开执行的单个insert语句快。</p>
@@ -1306,19 +1306,19 @@
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">desc</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>;</span><br></pre></td></tr></table></figure>
 
-<p> <img src="../images/mysql/2/2-54.png" alt="2-54"></p>
+<p> <img src="../../images/mysql/2/2-54.png" alt="2-54"></p>
 <ol start="2">
 <li>第二种通过有序索引顺序扫描直接返回有序数据，这种情况即为 using index，不需要额外排序，操作效率高。</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">id</span>,age <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">id</span>,age,salary <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-55.png" alt="2-55"></p>
+<p><img src="../../images/mysql/2/2-55.png" alt="2-55"></p>
 <ol start="3">
 <li>多字段排序（排序的名字与索引的顺序保持一致）</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">id</span>,age,salary <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age,salary;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">id</span>,age,salary <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">desc</span>,salary <span class="keyword">desc</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">id</span>,age,salary <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> salary <span class="keyword">desc</span>,age <span class="keyword">desc</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> <span class="keyword">id</span>,age,salary <span class="keyword">from</span> emp2 <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">desc</span>,salary <span class="keyword">asc</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-57.png" alt="2-57"></p>
+<p><img src="../../images/mysql/2/2-57.png" alt="2-57"></p>
 <p>了解了MySQL的排序方式，优化目标就清晰了：</p>
 <ul>
 <li>尽量减少额外的排序，通过索引直接返回有序数据。</li>
@@ -1334,21 +1334,21 @@
 <p>可以适当提高 sort_buffer_size  和 max_length_for_sort_data  系统变量，来增大排序区的大小，提高排序的效率。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'sort_buffer_size'</span>;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'max_length_for_sort_data'</span>;</span><br></pre></td></tr></table></figure>
 
-<p> <img src="../images/mysql/2/2-58.png" alt="2-58"></p>
+<p> <img src="../../images/mysql/2/2-58.png" alt="2-58"></p>
 <h2 id="5-4-优化group-by-语句（学习版，测试版没有做到）"><a href="#5-4-优化group-by-语句（学习版，测试版没有做到）" class="headerlink" title="5.4 优化group by 语句（学习版，测试版没有做到）"></a>5.4 优化group by 语句（学习版，测试版没有做到）</h2><p>​    由于GROUP BY 实际上也同样会进行排序操作，而且与ORDER BY 相比，GROUP BY 主要只是多了排序之后的分组操作。当然，如果在分组的时候还使用了其他的一些聚合函数，那么还需要一些聚合函数的计算。所以，在GROUP BY 的实现过程中，与 ORDER BY 一样也可以利用到索引。</p>
 <p>​    如果查询包含 group by 但是用户想要避免排序结果的消耗， 则可以执行order by null 禁止排序。如下 ：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp2(age,salary);</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp2;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> age,<span class="keyword">count</span>(*) <span class="keyword">from</span> emp2 <span class="keyword">group</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-62.png" alt="2-62"></p>
+<p><img src="../../images/mysql/2/2-62.png" alt="2-62"></p>
 <p>优化后</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> age,<span class="keyword">count</span>(*) <span class="keyword">from</span> emp2 <span class="keyword">group</span> <span class="keyword">by</span> age <span class="keyword">order</span> <span class="keyword">by</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-63.png" alt="2-63"></p>
+<p><img src="../../images/mysql/2/2-63.png" alt="2-63"></p>
 <p>从上面的例子可以看出，第一个SQL语句需要进行”filesort”，而第二个SQL由于order  by  null 不需要进行 “filesort”， 而上文提过Filesort往往非常耗费时间。</p>
 <p>创建索引 ：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_emp_age_salary <span class="keyword">on</span> emp2(age,salary);</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-64.png" alt="2-64"></p>
+<p><img src="../../images/mysql/2/2-64.png" alt="2-64"></p>
 <h2 id="5-5-优化嵌套查询"><a href="#5-5-优化嵌套查询" class="headerlink" title="5.5 优化嵌套查询"></a>5.5 优化嵌套查询</h2><p>Mysql4.1版本之后，开始支持SQL的子查询。这个技术可以使用SELECT语句来创建一个单列的查询结果，然后把这个结果作为过滤条件用在另一个查询中。使用子查询可以一次性的完成很多逻辑上需要多个步骤才能完成的SQL操作，同时也可以避免事务或者表锁死，并且写起来也很容易。但是，有些情况下，子查询是可以被更高效的连接（JOIN）替代。</p>
 <p>示例 ，查找有角色的所有的用户信息 : </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> t_user <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="keyword">select</span> user_id <span class="keyword">from</span> user_role );</span><br></pre></td></tr></table></figure>
@@ -1356,20 +1356,20 @@
 <p>优化后 :</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> t_user u , user_role ur <span class="keyword">where</span> u.id = ur.user_id;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-65.png" alt="2-65"></p>
+<p><img src="../../images/mysql/2/2-65.png" alt="2-65"></p>
 <p>连接(Join)查询之所以更有效率一些 ，是因为MySQL不需要在内存中创建临时表来完成这个逻辑上需要两个步骤的查询工作。</p>
 <h2 id="5-6-优化OR条件"><a href="#5-6-优化OR条件" class="headerlink" title="5.6 优化OR条件"></a>5.6 优化OR条件</h2><p>对于包含OR的查询子句，如果要利用索引，则OR之间的每个条件列都必须用到索引 ， 而且不能使用到复合索引； 如果没有索引，则应该考虑增加索引。</p>
 <p>获取 emp2 表中的所有的索引 ： show index from emp2;</p>
-<p><img src="../images/mysql/2/2-66.png" alt="2-66"></p>
+<p><img src="../../images/mysql/2/2-66.png" alt="2-66"></p>
 <p>示例 ： </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">or</span> age = <span class="number">30</span>\G;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">or</span> <span class="keyword">id</span> =<span class="number">10</span>\G;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-67.png" alt="2-67"></p>
-<p><img src="../images/mysql/2/2-68.png" alt="2-68"></p>
+<p><img src="../../images/mysql/2/2-67.png" alt="2-67"></p>
+<p><img src="../../images/mysql/2/2-68.png" alt="2-68"></p>
 <p>建议使用 union 替换 or ： </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">union</span> <span class="keyword">select</span> * <span class="keyword">from</span> emp2 <span class="keyword">where</span> age = <span class="number">30</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-69.png" alt="2-69"></p>
+<p><img src="../../images/mysql/2/2-69.png" alt="2-69"></p>
 <p>我们来比较下重要指标，发现主要差别是 type 和 ref 这两项</p>
 <p>type 显示的是访问类型，是较为重要的一个指标，结果值从好到坏依次是：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null  &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</span><br></pre></td></tr></table></figure>
@@ -1382,24 +1382,24 @@
 <h2 id="5-7-优化分页查询"><a href="#5-7-优化分页查询" class="headerlink" title="5.7 优化分页查询"></a>5.7 优化分页查询</h2><p>一般分页查询时，通过创建覆盖索引能够比较好地提高性能。一个常见又非常头疼的问题就是 limit 2000000,10  ，此时需要MySQL排序前2000010 记录，仅仅返回2000000 - 2000010 的记录，其他记录丢弃，查询排序的代价非常大 。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">limit</span> <span class="number">2000000</span>,<span class="number">10</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_item t,(<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> tb_item <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span> <span class="keyword">limit</span> <span class="number">2000000</span>,<span class="number">10</span>) a <span class="keyword">where</span> t.id=a.id;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_item <span class="keyword">where</span> <span class="keyword">id</span> &gt; <span class="number">2000000</span> <span class="keyword">limit</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-70.png" alt="2-70"></p>
+<p><img src="../../images/mysql/2/2-70.png" alt="2-70"></p>
 <h3 id="5-7-1-优化思路一"><a href="#5-7-1-优化思路一" class="headerlink" title="5.7.1 优化思路一"></a>5.7.1 优化思路一</h3><p>在索引上完成排序分页操作，最后根据主键关联回原表查询所需要的其他列内容。</p>
-<p><img src="../images/mysql/2/2-71.png" alt="2-71"></p>
+<p><img src="../../images/mysql/2/2-71.png" alt="2-71"></p>
 <h3 id="5-7-2-优化思路二"><a href="#5-7-2-优化思路二" class="headerlink" title="5.7.2 优化思路二"></a>5.7.2 优化思路二</h3><p>该方案适用于主键自增的表，可以把Limit 查询转换成某个位置的查询 。</p>
-<p><img src="../images/mysql/2/2-72.png" alt="2-72"></p>
+<p><img src="../../images/mysql/2/2-72.png" alt="2-72"></p>
 <h2 id="5-8-使用SQL提示"><a href="#5-8-使用SQL提示" class="headerlink" title="5.8 使用SQL提示"></a>5.8 使用SQL提示</h2><p>SQL提示，是优化数据库的一个重要手段，简单来说，就是在SQL语句中加入一些人为的提示来达到优化操作的目的。</p>
 <h3 id="5-8-1-USE-INDEX"><a href="#5-8-1-USE-INDEX" class="headerlink" title="5.8.1 USE INDEX"></a>5.8.1 USE INDEX</h3><p>在查询语句中表名的后面，添加 use index 来提供希望MySQL去参考的索引列表，就可以让MySQL不再考虑其他可用的索引。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_name <span class="keyword">on</span> tb_seller(<span class="keyword">name</span>);</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_name_stta_addr <span class="keyword">on</span> tb_seller(<span class="keyword">name</span>,<span class="keyword">status</span>,address);</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">use</span> <span class="keyword">index</span>(idx_seller_name) <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'小米科技'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-73.png" alt="2-73"></p>
+<p><img src="../../images/mysql/2/2-73.png" alt="2-73"></p>
 <h3 id="5-8-2-IGNORE-INDEX"><a href="#5-8-2-IGNORE-INDEX" class="headerlink" title="5.8.2 IGNORE INDEX"></a>5.8.2 IGNORE INDEX</h3><p>如果用户只是单纯的想让MySQL忽略一个或者多个索引，则可以使用 ignore index 作为 hint 。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">ignore</span> <span class="keyword">index</span>(idx_seller_name) <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'小米科技'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-74.png" alt="2-74"></p>
+<p><img src="../../images/mysql/2/2-74.png" alt="2-74"></p>
 <h3 id="5-8-3-FORCE-INDEX"><a href="#5-8-3-FORCE-INDEX" class="headerlink" title="5.8.3 FORCE INDEX"></a>5.8.3 FORCE INDEX</h3><p>为强制MySQL使用一个特定的索引，可在查询中使用 force index 作为hint 。 </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_seller_address <span class="keyword">on</span> tb_seller(address);</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">where</span> address = <span class="string">'北京市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">use</span> <span class="keyword">index</span>(idx_seller_address) <span class="keyword">where</span> address = <span class="string">'北京市'</span>;</span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> tb_seller <span class="keyword">force</span> <span class="keyword">index</span>(idx_seller_address) <span class="keyword">where</span> address = <span class="string">'北京市'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/mysql/2/2-75.png" alt="2-75"></p>
+<p><img src="../../images/mysql/2/2-75.png" alt="2-75"></p>
 
       
     </div>
@@ -1427,7 +1427,7 @@
   <p><span>本文标题:</span><a href="/post/ae8fce6d.html">mysql高级使用2</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Linhuide 的个人博客">Linhuide</a></p>
   <p><span>发布时间:</span>2020年04月07日 - 13:04</p>
-  <p><span>最后更新:</span>2020年04月10日 - 11:04</p>
+  <p><span>最后更新:</span>2020年04月17日 - 19:04</p>
   <p><span>原始链接:</span><a href="/post/ae8fce6d.html" title="mysql高级使用2">https://linhuide.github.io/post/ae8fce6d.html</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://linhuide.github.io/post/ae8fce6d.html"  aria-label="复制成功！"></i></span>
   </p>
@@ -1603,7 +1603,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1625,7 +1625,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1703,7 +1703,7 @@
 
   
   <div class="theme-info">
-      <span class="post-count">|&ensp;&ensp;     站点总字数 :  88.2k</span>
+      <span class="post-count">|&ensp;&ensp;     站点总字数 :  89.9k</span>
   </div>
 </div>
 

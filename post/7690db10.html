@@ -124,7 +124,6 @@
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-22.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-23.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-24.png">
-<meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-25.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-26.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-27.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-28.png">
@@ -135,7 +134,7 @@
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-33.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/2/2-34.png">
 <meta property="article:published_time" content="2020-04-10T03:22:28.000Z">
-<meta property="article:modified_time" content="2020-04-10T14:25:43.943Z">
+<meta property="article:modified_time" content="2020-04-17T11:51:31.647Z">
 <meta property="article:author" content="Linhuide">
 <meta property="article:tag" content="rides">
 <meta property="article:tag" content="JAVA">
@@ -493,7 +492,7 @@
 <li>HBase</li>
 <li>MongoDB</li>
 </ul>
-<p><img src="../images/rides/2/2-1.png" alt="2-1"></p>
+<p><img src="../../images/rides/2/2-1.png" alt="2-1"></p>
 <h3 id="1-5-Redis"><a href="#1-5-Redis" class="headerlink" title="1-5.Redis"></a>1-5.Redis</h3><p><strong>概念：</strong>Redis (REmote DIctionary Server) 是用 C 语言开发的一个开源的高性能键值对（key-value）数据库。</p>
 <p><strong>特征：</strong></p>
 <ol>
@@ -555,7 +554,7 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">help 命令名称</span><br><span class="line">help @组名</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/rides/2/2-2.png" alt="2-2"></p>
+<p><img src="../../images/rides/2/2-2.png" alt="2-2"></p>
 <h2 id="2-Redis-数据类型"><a href="#2-Redis-数据类型" class="headerlink" title="2.Redis 数据类型"></a>2.Redis 数据类型</h2><h3 id="2-1-数据存储类型介绍"><a href="#2-1-数据存储类型介绍" class="headerlink" title="2-1.数据存储类型介绍"></a>2-1.数据存储类型介绍</h3><p><strong>业务数据作为缓存使用：</strong></p>
 <ol>
 <li>原始业务功能设计<ol>
@@ -594,14 +593,14 @@
 <li>redis 自身是一个 Map，其中所有的数据都是采用 key : value 的形式存储</li>
 <li>数据类型指的是存储的数据的类型，也就是 value 部分的类型，key 部分永远都是字符串</li>
 </ul>
-<p><img src="../images/rides/2/2-3.png" alt="2-3"></p>
+<p><img src="../../images/rides/2/2-3.png" alt="2-3"></p>
 <p><strong>string 类型</strong></p>
 <ul>
 <li>存储的数据：单个数据，最简单的数据存储类型，也是最常用的数据存储类型</li>
 <li>存储数据的格式：一个存储空间保存一个数据</li>
 <li>存储内容：通常使用字符串，如果字符串以整数的形式展示，可以作为数字操作使用</li>
 </ul>
-<p><img src="../images/rides/2/2-4.png" alt="2-4"></p>
+<p><img src="../../images/rides/2/2-4.png" alt="2-4"></p>
 <h4 id="string-类型数据的基本操作"><a href="#string-类型数据的基本操作" class="headerlink" title="string 类型数据的基本操作"></a>string 类型数据的基本操作</h4><ul>
 <li>添加/修改数据</li>
 </ul>
@@ -658,12 +657,12 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set key value </span><br><span class="line">mset key1 value1 key2 value2 …</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/rides/2/2-6.png" alt="2-6"></p>
+<p><img src="../../images/rides/2/2-6.png" alt="2-6"></p>
 <ol start="2">
 <li>业务场景</li>
 </ol>
 <p>​    大型企业级应用中，分表操作是基本操作，使用多张表存储同类型数据，但是对应的主键 id 必须保证统一性，不能重复。Oracle 数据库具有 sequence 设定，可以解决该问题，但是 MySQL数据库并不具有类似的机制，那么如何解决？</p>
-<p><img src="../images/rides/2/2-7.png" alt="2-7"></p>
+<p><img src="../../images/rides/2/2-7.png" alt="2-7"></p>
 <p>解决方法：用设置数值数据增加指定范围的值或设置数值数据减少指定范围的值</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">增</span><br><span class="line">incr key </span><br><span class="line">incrby key increment</span><br><span class="line">incrbyfloat key increment</span><br><span class="line">减</span><br><span class="line">decr key </span><br><span class="line">decrby key increment</span><br></pre></td></tr></table></figure>
 
@@ -675,7 +674,7 @@
 <li>电商商家开启热门商品推荐，热门商品不能一直处于热门期，每种商品热门期维持3天，3天后自动取消热门。</li>
 <li>新闻网站会出现热点新闻，热点新闻最大的特征是时效性，如何自动控制热点新闻的时效性。</li>
 </ul>
-<p><img src="../images/rides/2/2-8.png" alt="2-8"></p>
+<p><img src="../../images/rides/2/2-8.png" alt="2-8"></p>
 <p><strong>解决方案：</strong></p>
 <ol>
 <li>设置数据具有指定的生命周期</li>
@@ -728,7 +727,7 @@
 </li>
 </ol>
 <h3 id="2-4-string-类型应用场景"><a href="#2-4-string-类型应用场景" class="headerlink" title="2-4.string 类型应用场景"></a>2-4.string 类型应用场景</h3><p><strong>问题：主页高频访问信息显示控制，例如新浪微博大V主页显示粉丝数与微博数量</strong></p>
-<p><img src="../images/rides/2/2-9.png" alt="2-9"></p>
+<p><img src="../../images/rides/2/2-9.png" alt="2-9"></p>
 <p><strong>解决：</strong></p>
 <ul>
 <li>在redis中为大V用户设定用户信息，以用户主键和属性值作为key，后台设定定时刷新策略即可</li>
@@ -743,11 +742,11 @@
 <ul>
 <li>redis应用于各种结构型和非结构型高热度数据访问加速</li>
 </ul>
-<p><img src="../images/rides/2/2-10.png" alt="2-10"></p>
+<p><img src="../../images/rides/2/2-10.png" alt="2-10"></p>
 <h2 id="3-hash"><a href="#3-hash" class="headerlink" title="3.hash"></a>3.hash</h2><p><strong>存储的困惑：</strong></p>
 <p>对象类数据的存储如果具有较频繁的更新需求操作会显得笨重</p>
-<p><img src="../images/rides/2/2-5-1.png" alt="2-5-1"></p>
-<p><img src="../images/rides/2/2-5.png" alt="2-5"></p>
+<p><img src="../../images/rides/2/2-5-1.png" alt="2-5-1"></p>
+<p><img src="../../images/rides/2/2-5.png" alt="2-5"></p>
 <h3 id="3-1-hash-类型"><a href="#3-1-hash-类型" class="headerlink" title="3-1.hash 类型"></a>3-1.hash 类型</h3><ul>
 <li>新的存储需求：对一系列存储的数据进行编组，方便管理，典型应用存储对象信息</li>
 <li>需要的存储结构：一个存储空间保存多个键值对数据</li>
@@ -758,7 +757,7 @@
 <li>如果field数量较少，存储结构优化为类数组结构</li>
 <li>如果field数量较多，存储结构使用HashMap结构</li>
 </ul>
-<p><img src="../images/rides/2/2-12.png" alt="2-12"></p>
+<p><img src="../../images/rides/2/2-12.png" alt="2-12"></p>
 <h3 id="3-2-hash-类型数据的基本操作"><a href="#3-2-hash-类型数据的基本操作" class="headerlink" title="3-2.hash 类型数据的基本操作"></a>3-2.hash 类型数据的基本操作</h3><ul>
 <li>添加/修改数据</li>
 </ul>
@@ -837,7 +836,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="../images/rides/2/2-11.png" alt="2-11"></p>
+<p><img src="../../images/rides/2/2-11.png" alt="2-11"></p>
 <p><strong>解决方案：</strong></p>
 <ul>
 <li>以客户id作为key，每位客户创建一个hash存储结构存储对应的购物车信息</li>
@@ -878,7 +877,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hmest 003 g01:numd 100 g01:info &#123;...&#125;</span><br><span class="line">hgetall 003</span><br><span class="line">hmest 004 g01:numd 5 g01:info &#123;...&#125;</span><br><span class="line">hset 003 g01:nums 200</span><br><span class="line">hsetnx 003 g01:nums 400</span><br></pre></td></tr></table></figure>
 
 <h3 id="3-5-hash-类型应用场景2"><a href="#3-5-hash-类型应用场景2" class="headerlink" title="3-5.hash 类型应用场景2"></a>3-5.hash 类型应用场景2</h3><p><strong>业务场景：</strong><br>    双11活动日，销售手机充值卡的商家对移动、联通、电信的30元、50元、100元商品推出抢购活动，每种商品抢购上限1000张</p>
-<p><img src="../images/rides/2/2-14.png" alt="2-14"></p>
+<p><img src="../../images/rides/2/2-14.png" alt="2-14"></p>
 <p><strong>解决方案：</strong></p>
 <ul>
 <li>以商家id作为key</li>
@@ -898,8 +897,8 @@
 <li>需要的存储结构：一个存储空间保存多个数据，且通过数据可以体现进入顺序</li>
 <li>list类型：保存多个数据，底层使用双向链表存储结构实现</li>
 </ul>
-<p><img src="../images/rides/2/2-13.png" alt="2-13"></p>
-<p><img src="../images/rides/2/2-17.png" alt="2-17"></p>
+<p><img src="../../images/rides/2/2-13.png" alt="2-13"></p>
+<p><img src="../../images/rides/2/2-17.png" alt="2-17"></p>
 <h3 id="4-2-list-类型数据基本操作"><a href="#4-2-list-类型数据基本操作" class="headerlink" title="4-2.list 类型数据基本操作"></a>4-2.list 类型数据基本操作</h3><ul>
 <li>添加/修改数据</li>
 </ul>
@@ -920,12 +919,12 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">blpop key1 [key2] timeout</span><br><span class="line">brpop key1 [key2] timeout</span><br><span class="line">brpoplpush source destination timeout</span><br><span class="line"></span><br><span class="line">服务器1：lpush list a b</span><br><span class="line">服务器2：blpop list 30</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/rides/2/2-15.png" alt="2-15"></p>
+<p><img src="../../images/rides/2/2-15.png" alt="2-15"></p>
 <p> 移除指定数据</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lrem key count value</span><br><span class="line"></span><br><span class="line">lpush list a b a b a b</span><br><span class="line">lrem key 2 a  --&gt; b b a b</span><br></pre></td></tr></table></figure>
 
 <p><strong>业务场景：</strong>微信朋友圈点赞，要求按照点赞顺序显示点赞好友信息。如果取消点赞，移除对应好友信息</p>
-<p><img src="../images/rides/2/2-18.png" alt="2-18"></p>
+<p><img src="../../images/rides/2/2-18.png" alt="2-18"></p>
 <ul>
 <li>redis 应用于具有操作先后顺序的数据控制</li>
 </ul>
@@ -938,7 +937,7 @@
 <h3 id="4-4-list-类型应用场景"><a href="#4-4-list-类型应用场景" class="headerlink" title="4-4.list 类型应用场景"></a>4-4.list 类型应用场景</h3><p><strong>业务场景：</strong>twitter、新浪微博、腾讯微博中个人用户的关注列表需要按照用户的关注顺序进行展示，粉丝列表需要将最近关注的粉丝列在前面</p>
 <p>新闻、资讯类网站如何将最新的新闻或资讯按照发生的时间顺序展示？</p>
 <p>企业运营过程中，系统将产生出大量的运营数据，如何保障多台服务器操作日志的统一顺序输出？</p>
-<p><img src="../images/rides/2/2-19.png" alt="2-19"></p>
+<p><img src="../../images/rides/2/2-19.png" alt="2-19"></p>
 <p><strong>解决方案：</strong></p>
 <ul>
 <li>依赖list的数据具有顺序的特征对信息进行管理</li>
@@ -946,14 +945,14 @@
 <li>使用栈模型解决最新消息的问题</li>
 <li>redis 应用于最新消息展示</li>
 </ul>
-<p><img src="../images/rides/2/2-16.png" alt="2-16"></p>
+<p><img src="../../images/rides/2/2-16.png" alt="2-16"></p>
 <h2 id="5-set"><a href="#5-set" class="headerlink" title="5.set"></a>5.set</h2><h3 id="5-1-set-类型"><a href="#5-1-set-类型" class="headerlink" title="5-1.set 类型"></a>5-1.set 类型</h3><ul>
 <li>新的存储需求：存储大量的数据，在查询方面提供更高的效率</li>
 <li>需要的存储结构：能够保存大量的数据，高效的内部存储机制，便于查询</li>
 <li>set类型：与hash存储结构完全相同，仅存储键，不存储值（nil），并且值是不允许重复的</li>
 </ul>
-<p><img src="../images/rides/2/2-20.png" alt="2-20"></p>
-<p><img src="../images/rides/2/2-21.png" alt="2-21"></p>
+<p><img src="../../images/rides/2/2-20.png" alt="2-20"></p>
+<p><img src="../../images/rides/2/2-21.png" alt="2-21"></p>
 <h3 id="5-2-set-类型数据的基本操作"><a href="#5-2-set-类型数据的基本操作" class="headerlink" title="5-2.set 类型数据的基本操作"></a>5-2.set 类型数据的基本操作</h3><ul>
 <li>添加数据</li>
 </ul>
@@ -1023,8 +1022,8 @@
 <li>美团外卖为了提升成单量，必须帮助用户挖掘美食需求，如何推荐给用户最适合自己的美食？</li>
 </ul>
 <p><strong>解决方案：</strong>求两个集合的交、并、差集、求两个集合的交、并、差集并存储到指定集合中、将指定数据从原始集合中移动到目标集合中</p>
-<p><img src="../images/rides/2/2-22.png" alt="2-22"></p>
-<p><img src="../images/rides/2/2-23.png" alt="2-23"></p>
+<p><img src="../../images/rides/2/2-22.png" alt="2-22"></p>
+<p><img src="../../../images/rides/2/2-23.png" alt="2-23"></p>
 <p><strong>解决</strong></p>
 <ul>
 <li>redis 应用于同类信息的关联搜索，二度关联搜索，深度关联搜索</li>
@@ -1039,7 +1038,7 @@
 <li>set 虽然与hash的存储结构相同，但是无法启用hash中存储值的空间</li>
 </ul>
 <h3 id="5-5-set-类型应用场景"><a href="#5-5-set-类型应用场景" class="headerlink" title="5-5.set 类型应用场景"></a>5-5.set 类型应用场景</h3><h4 id="1-业务场景-1-1"><a href="#1-业务场景-1-1" class="headerlink" title="1.业务场景-1"></a>1.业务场景-1</h4><p>集团公司共具有12000名员工，内部OA系统中具有700多个角色，3000多个业务操作，23000多种数据，每<br>位员工具有一个或多个角色，如何快速进行业务操作的权限校验？</p>
-<p><img src="../images/rides/2/2-24.png" alt="2-24"></p>
+<p><img src="../../../images/rides/2/2-24.png" alt="2-24"></p>
 <p><strong>解决方案：</strong></p>
 <ul>
 <li>依赖set集合数据不重复的特征，依赖set集合hash存储结构特征完成数据过滤与快速查询</li>
@@ -1092,7 +1091,7 @@
 <li>需要的存储结构：新的存储模型，可以保存可排序的数据</li>
 <li>sorted_set类型：在set的存储结构基础上添加可排序字段</li>
 </ul>
-<p><img src="../images/rides/2/2-25.png" alt="2-25"></p>
+<p>![2-2../../../imagesges/rides/2/2-25.png)</p>
 <h3 id="6-2-sorted-set-类型数据的基本操作"><a href="#6-2-sorted-set-类型数据的基本操作" class="headerlink" title="6-2.sorted_set 类型数据的基本操作"></a>6-2.sorted_set 类型数据的基本操作</h3><ul>
 <li>添加数据</li>
 </ul>
@@ -1103,7 +1102,7 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">zrange key start stop [WITHSCORES]</span><br><span class="line">zrevrange key start stop [WITHSCORES]</span><br><span class="line"></span><br><span class="line">zrange sort 0 -1</span><br><span class="line">zrange sort 0 -1 withscores</span><br><span class="line">zrevrange sort 0 -1</span><br><span class="line">zrevrange sort 0 -1 withscores</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/rides/2/2-26.png" alt="2-26"></p>
+<p><img src="../../images/rides/2/2-26.png" alt="2-26"></p>
 <ul>
 <li>删除数据</li>
 </ul>
@@ -1197,7 +1196,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">zadd tt 203005 order:id:1</span><br><span class="line">zadd tt 101008 order:id:2</span><br><span class="line">zadd tasks 9 order:id:345</span><br><span class="line">zrevrange tt 0 -1 withscores</span><br><span class="line">越小越优先</span><br><span class="line">zrange tt 0 -1</span><br><span class="line">zadd ts 14 order:id:3		单号1+岗位号4</span><br><span class="line">zadd ts 1332 order:id:4		单号13+岗位号32</span><br><span class="line">排序错了，定义好长度，改为0104</span><br></pre></td></tr></table></figure>
 
 <h2 id="7-数据类型实践案例"><a href="#7-数据类型实践案例" class="headerlink" title="7.数据类型实践案例"></a>7.数据类型实践案例</h2><h3 id="7-1-业务场景-1"><a href="#7-1-业务场景-1" class="headerlink" title="7-1.业务场景-1"></a>7-1.业务场景-1</h3><p>​    人工智能领域的语义识别与自动对话将是未来服务业机器人应答呼叫体系中的重要技术，百度自研用户评价语义识别服务，免费开放给企业试用，同时训练百度自己的模型。现对试用用户的使用行为进行限速，限制每个用户每分钟最多发起10次调用</p>
-<p><img src="../images/rides/2/2-27.png" alt="2-27"></p>
+<p><img src="../../images/rides/2/2-27.png" alt="2-27"></p>
 <p><strong>解决方案：</strong></p>
 <ul>
 <li><p>设计计数器，记录调用次数，用于控制业务执行次数。以用户id作为key，使用次数作为value</p>
@@ -1213,11 +1212,11 @@
 <li><p>为计数器设置生命周期为指定周期，例如1秒/分钟，自动清空周期内使用次数</p>
 </li>
 </ul>
-<p><img src="../images/rides/2/2-28.png" alt="2-28"></p>
+<p><img src="../../images/rides/2/2-28.png" alt="2-28"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">get 415</span><br><span class="line">setex 415 60 1</span><br><span class="line">get 415</span><br><span class="line">incr 415</span><br><span class="line">get 415</span><br><span class="line">incr 415</span><br><span class="line">...	--&gt;incrby  415 7</span><br><span class="line">get 415</span><br><span class="line">get 415</span><br><span class="line">get 415</span><br><span class="line">&#x2F;&#x2F;过时间清空</span><br><span class="line">setex 415 60 1</span><br></pre></td></tr></table></figure>
 
 <p><strong>解决方案改良</strong></p>
-<p><img src="../images/rides/2/2-29.png" alt="2-29"></p>
+<p><img src="../../images/rides/2/2-29.png" alt="2-29"></p>
 <ul>
 <li>取消最大值的判定，利用incr操作超过最大值抛出异常的形式替代每次判断是否大于最大值</li>
 <li>判断是否为nil，<ul>
@@ -1228,17 +1227,17 @@
 </li>
 <li>遇到异常即+操作超过上限，视为使用达到上限</li>
 </ul>
-<p><img src="../images/rides/2/2-30.png" alt="2-30"></p>
+<p><img src="../../images/rides/2/2-30.png" alt="2-30"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">get 415</span><br><span class="line">setex 415 60 9223372036854775797</span><br><span class="line">get 415</span><br><span class="line">incr 415</span><br><span class="line">get 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">incr 415</span><br><span class="line">--&gt;9223372036854775807</span><br><span class="line"></span><br><span class="line">incr 415</span><br><span class="line">爆了，利用数据上限</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>redis 应用于限时按次结算的服务控制</li>
 </ul>
 <h3 id="7-2-业务场景-2"><a href="#7-2-业务场景-2" class="headerlink" title="7-2.业务场景-2"></a>7-2.业务场景-2</h3><p>​    使用微信的过程中，当微信接收消息后，会默认将最近接收的消息置顶，当多个好友及关注的订阅号同时发送消息时，该排序会不停的进行交替。同时还可以将重要的会话设置为置顶。一旦用户离线后，再次打开微信时，消息该按照什么样的顺序显示？</p>
-<p><img src="../images/rides/2/2-31.png" alt="2-31"></p>
-<p><img src="../images/rides/2/2-32.png" alt="2-32"></p>
-<p><img src="../images/rides/2/2-33.png" alt="2-33"></p>
-<p><img src="../images/rides/2/2-34.png" alt="2-34"></p>
+<p><img src="../../images/rides/2/2-31.png" alt="2-31"></p>
+<p><img src="../../images/rides/2/2-32.png" alt="2-32"></p>
+<p><img src="../../images/rides/2/2-33.png" alt="2-33"></p>
+<p><img src="../../images/rides/2/2-34.png" alt="2-34"></p>
 <p><strong>解决方案</strong></p>
 <ul>
 <li>依赖list的数据具有顺序的特征对消息进行管理，将list结构作为栈使用</li>
@@ -1299,7 +1298,7 @@
   <p><span>本文标题:</span><a href="/post/7690db10.html">Rides再次学习-1</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Linhuide 的个人博客">Linhuide</a></p>
   <p><span>发布时间:</span>2020年04月10日 - 11:04</p>
-  <p><span>最后更新:</span>2020年04月10日 - 22:04</p>
+  <p><span>最后更新:</span>2020年04月17日 - 19:04</p>
   <p><span>原始链接:</span><a href="/post/7690db10.html" title="Rides再次学习-1">https://linhuide.github.io/post/7690db10.html</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://linhuide.github.io/post/7690db10.html"  aria-label="复制成功！"></i></span>
   </p>
@@ -1477,7 +1476,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1499,7 +1498,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1577,7 +1576,7 @@
 
   
   <div class="theme-info">
-      <span class="post-count">|&ensp;&ensp;     站点总字数 :  88.2k</span>
+      <span class="post-count">|&ensp;&ensp;     站点总字数 :  89.9k</span>
   </div>
 </div>
 
