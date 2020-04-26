@@ -106,8 +106,23 @@
 <meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-8.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-9.png">
 <meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-10.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-11.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-12.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-13.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-14.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-15.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-16.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-17.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-18.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-19.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-20.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-21.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-22.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-23.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-24.png">
+<meta property="og:image" content="https://linhuide.github.io/images/rides/3/3-25.png">
 <meta property="article:published_time" content="2020-04-11T08:14:47.000Z">
-<meta property="article:modified_time" content="2020-04-17T11:52:49.616Z">
+<meta property="article:modified_time" content="2020-04-21T11:47:19.903Z">
 <meta property="article:author" content="Linhuide">
 <meta property="article:tag" content="rides">
 <meta property="article:tag" content="JAVA">
@@ -397,7 +412,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.7k
+                  5.1k
                 </span>
               
 
@@ -413,7 +428,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6
+                  20
                 </span>
               
             </div>
@@ -603,6 +618,273 @@
 <li>AOF(append only file)持久化：以独立日志的方式记录每次写命令，重启时再重新执行AOF文件中命令达到恢复数据的目的。与RDB相比可以简单描述为改记录数据为记录数据产生的过程</li>
 <li>AOF的主要作用是解决了数据持久化的实时性，目前已经是Redis持久化的主流方式</li>
 </ul>
+<h2 id="2-3-AOF写数据过程"><a href="#2-3-AOF写数据过程" class="headerlink" title="2.3.AOF写数据过程"></a>2.3.AOF写数据过程</h2><p><img src="../../images/rides/3/3-11.png" alt="3-11"></p>
+<h2 id="2-4-AOF写数据三种策略-appendfsync"><a href="#2-4-AOF写数据三种策略-appendfsync" class="headerlink" title="2.4.AOF写数据三种策略(appendfsync)"></a>2.4.AOF写数据三种策略(appendfsync)</h2><ul>
+<li>always(每次）<ul>
+<li>每次写入操作均同步到AOF文件中，数据零误差，性能较低，不建议使用。</li>
+</ul>
+</li>
+<li>everysec（每秒）<ul>
+<li>每秒将缓冲区中的指令同步到AOF文件中，数据准确性较高，性能较高，建议使用，也是默认配置</li>
+<li>在系统突然宕机的情况下丢失1秒内的数据</li>
+</ul>
+</li>
+<li>no（系统控制）<ul>
+<li>由操作系统控制每次同步到AOF文件的周期，整体过程不可控</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-5-AOF功能开启"><a href="#2-5-AOF功能开启" class="headerlink" title="2.5.AOF功能开启"></a>2.5.AOF功能开启</h2><ul>
+<li>配置：appendonly yes|no</li>
+<li>作用：是否开启AOF持久化功能，默认为不开启状态</li>
+<li>配置：appendfsync always|everysec|no</li>
+<li>作用：AOF写数据策略</li>
+<li>配置：appendfilename filename</li>
+<li>作用：AOF持久化文件名，默认文件名未appendonly.aof，建议配置为appendonly-端口号.aof</li>
+<li>配置：dir</li>
+<li>作用：AOF持久化文件保存路径，与RDB持久化文件保持一致即可</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd redis<span class="number">-5.0</span><span class="number">.8</span></span><br><span class="line">cd conf</span><br><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">最后加</span><br><span class="line">appendonly yes</span><br><span class="line">appendfsync always</span><br><span class="line"></span><br><span class="line">启动</span><br><span class="line">redis-server redis<span class="number">-6379.</span>conf</span><br><span class="line">cd ..</span><br><span class="line">cd data</span><br><span class="line">[root@localhost data]<span class="meta"># ll</span></span><br><span class="line">总用量 <span class="number">28</span></span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">13023</span> <span class="number">4</span>月  <span class="number">21</span> <span class="number">16</span>:<span class="number">09</span> <span class="number">6379.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root  <span class="number">6730</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">16</span>:<span class="number">54</span> <span class="number">6380.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root     <span class="number">0</span> <span class="number">4</span>月  <span class="number">21</span> <span class="number">16</span>:<span class="number">09</span> appendonly.aof</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root   <span class="number">130</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">21</span>:<span class="number">06</span> dump<span class="number">-6379.</span>rdb</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-AOF写数据遇到的问题"><a href="#2-6-AOF写数据遇到的问题" class="headerlink" title="2.6.AOF写数据遇到的问题"></a>2.6.AOF写数据遇到的问题</h2><h3 id="如果连续执行如下指令该如何处理"><a href="#如果连续执行如下指令该如何处理" class="headerlink" title="如果连续执行如下指令该如何处理?"></a>如果连续执行如下指令该如何处理?</h3><p><img src="../../images/rides/3/3-12.png" alt="3-12"></p>
+<h3 id="AOF重写"><a href="#AOF重写" class="headerlink" title="AOF重写"></a>AOF重写</h3><ul>
+<li>随着命令不断写入AOF，文件会越来越大，为了解决这个问题，Redis引入了AOF重写机制压缩文件体积。</li>
+<li>AOF文件重写是将Redis进程内的数据转化为写命令同步到新AOF文件的过程。</li>
+<li>简单说就是将对同一个数据的若干个条命令执行结果转化成最终结果数据对应的指令进行记录。</li>
+<li>作用：<ul>
+<li>降低磁盘占用量，提高磁盘利用率</li>
+<li>提高持久化效率，降低持久化写时间，提高IO性能</li>
+<li>降低数据恢复用时，提高数据恢复效率</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF重写规则"><a href="#AOF重写规则" class="headerlink" title="AOF重写规则"></a>AOF重写规则</h3><ul>
+<li>进程内已超时的数据不再写入文件</li>
+<li>忽略无效指令，重写时使用进程内数据直接生成，这样新的AOF文件只保留最终数据的写入命令<ul>
+<li>如del key1、 hdel key2、srem key3、set key4 111、set key4 222等</li>
+</ul>
+</li>
+<li>对同一数据的多条写命令合并为一条命令<ul>
+<li>如lpush list1 a、lpush list1 b、 lpush list1 c 可以转化为：lpush list1 a b c。</li>
+<li>为防止数据量过大造成客户端缓冲区溢出，对list、set、hash、zset等类型，每条指令最多写入64个元素</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF重写方式"><a href="#AOF重写方式" class="headerlink" title="AOF重写方式"></a>AOF重写方式</h3><h4 id="1-手动重写：bgrewriteaof"><a href="#1-手动重写：bgrewriteaof" class="headerlink" title="1.手动重写：bgrewriteaof"></a>1.手动重写：bgrewriteaof</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">最后加</span><br><span class="line">appendonly yes</span><br><span class="line">appendfsync always</span><br><span class="line">appendfilename appendonly<span class="number">-6379.</span>aof</span><br><span class="line"></span><br><span class="line">启动</span><br><span class="line">redis-server redis<span class="number">-6379.</span>conf</span><br><span class="line">ps -ef | grep redis-</span><br><span class="line">cd data </span><br><span class="line">ll</span><br><span class="line"></span><br><span class="line">客户端<span class="number">2</span>：</span><br><span class="line">redis-cli</span><br><span class="line"><span class="built_in">set</span> naem <span class="number">123</span></span><br><span class="line"><span class="built_in">set</span> naem <span class="number">234</span></span><br><span class="line"><span class="built_in">set</span> naem <span class="number">345</span></span><br><span class="line">客户端<span class="number">1</span>：appendonly<span class="number">-6379.</span>aof  有三个的记录</span><br><span class="line">bgrewriteaof</span><br><span class="line">客户端<span class="number">1</span>：appendonly<span class="number">-6379.</span>aof  只剩<span class="number">1</span>个的记录</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>RDB启动方式 —— bgsave指令工作原理</li>
+<li>AOF手动重写 —— bgrewriteaof指令工作原理</li>
+</ul>
+<p><img src="../../images/rides/3/3-13.png" alt="3-13"></p>
+<h4 id="2-自动重写"><a href="#2-自动重写" class="headerlink" title="2.自动重写"></a>2.自动重写</h4><ul>
+<li>自动重写触发条件设置</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span>-aof-rewrite-<span class="built_in">min</span>-<span class="built_in">size</span> <span class="built_in">size</span></span><br><span class="line"><span class="keyword">auto</span>-aof-rewrite-percentage percent</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>自动重写触发比对参数（ 运行指令info Persistence获取具体信息 ）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aof_current_size</span><br><span class="line">aof_base_size</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>自动重写触发条件</li>
+</ul>
+<p><img src="../../images/rides/3/3-14.png" alt="3-14"></p>
+<h2 id="2-7-AOF工作流程"><a href="#2-7-AOF工作流程" class="headerlink" title="2.7.AOF工作流程"></a>2.7.AOF工作流程</h2><p><img src="../../images/rides/3/3-15.png" alt="3-15"></p>
+<h2 id="2-8-AOF重写流程"><a href="#2-8-AOF重写流程" class="headerlink" title="2.8.AOF重写流程"></a>2.8.AOF重写流程</h2><p><img src="../../images/rides/3/3-16.png" alt="3-16"></p>
+<h3 id="AOF缓冲区同步文件策略，由参数appendfsync控制"><a href="#AOF缓冲区同步文件策略，由参数appendfsync控制" class="headerlink" title="AOF缓冲区同步文件策略，由参数appendfsync控制"></a>AOF缓冲区同步文件策略，由参数appendfsync控制</h3><ul>
+<li>系统调用write和fsync说明：</li>
+<li>write操作会触发延迟写（delayed write）机制，Linux在内核提供页缓冲区用来提高硬盘IO性能。write操作在写入系统缓冲区后直接返回。同步硬盘操作依赖于系统调度机制，列如：缓冲区页空间写满或达到特定时间周期。同步文件之前，如果此时系统故障宕机，缓冲区内数据将丢失。</li>
+<li>fsync针对单个文件操作（比如AOF文件），做强制硬盘同步，fsync将阻塞知道写入硬盘完成后返回，保证了数据持久化。</li>
+<li>除了write、fsync、Linx还提供了sync、fdatasync操作，具体API说明</li>
+</ul>
+<h1 id="3-RDB与AOF区别"><a href="#3-RDB与AOF区别" class="headerlink" title="3.RDB与AOF区别"></a>3.RDB与AOF区别</h1><p><img src="../../images/rides/3/3-17.png" alt="3-17"></p>
+<ul>
+<li>对数据非常敏感，建议使用默认的AOF持久化方案<ul>
+<li>AOF持久化策略使用everysecond，每秒钟fsync一次。该策略redis仍可以保持很好的处理性能，当出现问题时，最多丢失0-1秒内的数据。</li>
+<li>注意：由于AOF文件存储体积较大，且恢复速度较慢</li>
+</ul>
+</li>
+<li>数据呈现阶段有效性，建议使用RDB持久化方案<ul>
+<li>数据可以良好的做到阶段内无丢失（该阶段是开发者或运维人员手工维护的），且恢复速度较快，阶段点数据恢复通常采用RDB方案</li>
+<li>注意：利用RDB实现紧凑的数据持久化会使Redis降的很低，慎重总结：</li>
+</ul>
+</li>
+<li>综合比对<ul>
+<li>RDB与AOF的选择实际上是在做一种权衡，每种都有利有弊</li>
+<li>如不能承受数分钟以内的数据丢失，对业务数据非常敏感，选用AOF</li>
+<li>如能承受数分钟以内的数据丢失，且追求大数据集的恢复速度，选用RDB</li>
+<li>灾难恢复选用RDB</li>
+<li>双保险策略，同时开启 RDB 和 AOF，重启后，Redis优先使用 AOF 来恢复数据，降低丢失数据的量</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-持久化应用场景"><a href="#4-持久化应用场景" class="headerlink" title="4.持久化应用场景"></a>4.持久化应用场景</h1><ul>
+<li>redis 应用于抢购，限购类、限量发放优惠卷、激活码等业务的数据存储设计</li>
+<li>redis 应用于具有操作先后顺序的数据控制</li>
+<li>redis 应用于最新消息展示</li>
+<li>redis 应用于基于黑名单与白名单设定的服务控制</li>
+<li>redis 应用于计数器组合排序功能对应的排名</li>
+</ul>
+<h1 id="5-事务"><a href="#5-事务" class="headerlink" title="5.事务"></a>5.事务</h1><ul>
+<li>Redis执行指令过程中，多条连续执行的指令被干扰，打断，插队</li>
+<li>redis事务就是一个命令执行的队列，将一系列预定义命令包装成一个整体（一个队列）。当执行时，一次性按照添加顺序依次执行，中间不会被打断或者干扰。</li>
+<li>一个队列中，一次性、顺序性、排他性的执行一系列命令</li>
+</ul>
+<p><img src="../../images/rides/3/3-18.png" alt="3-18"></p>
+<p><img src="../../images/rides/3/3-19.png" alt="3-19"></p>
+<h2 id="5-1-事务的基本操作"><a href="#5-1-事务的基本操作" class="headerlink" title="5.1.事务的基本操作"></a>5.1.事务的基本操作</h2><ul>
+<li>开启事务：multi</li>
+<li>作用：设定事务的开启位置，此指令执行后，后续的所有指令均加入到事务中</li>
+<li>执行事务：exec</li>
+<li>作用：设定事务的结束位置，同时执行事务。与multi成对出现，成对使用</li>
+<li>注意：加入事务的命令暂时进入到任务队列中，并没有立即执行，只有执行exec命令才开始执行</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">客户端<span class="number">1</span></span><br><span class="line">redis-server conf/redis<span class="number">-6379.</span>conf</span><br><span class="line">客户端<span class="number">2</span></span><br><span class="line">[root@localhost redis<span class="number">-5.0</span><span class="number">.8</span>]<span class="meta"># redis-cli</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">OK</span><br><span class="line">客户端<span class="number">3</span></span><br><span class="line">[root@localhost ~]<span class="meta"># redis-cli</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">456</span></span><br><span class="line">OK</span><br><span class="line">客户端<span class="number">2</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line"><span class="string">"456"</span></span><br><span class="line"></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">1</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> age</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">10</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> age</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line"><span class="number">1</span>) OK</span><br><span class="line"><span class="number">2</span>) <span class="string">"1"</span></span><br><span class="line"><span class="number">3</span>) OK</span><br><span class="line"><span class="number">4</span>) <span class="string">"10"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="事务定义过程中发现出了问题，怎么办？"><a href="#事务定义过程中发现出了问题，怎么办？" class="headerlink" title="事务定义过程中发现出了问题，怎么办？"></a>事务定义过程中发现出了问题，怎么办？</h3><ul>
+<li>取消事务：discard</li>
+<li>作用：终止当前事务的定义，发生在multi之后，exec之前</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">10</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> age</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">110</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; discard</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line">(error) ERR EXEC without MULTI</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-2-事务的工作流程"><a href="#5-2-事务的工作流程" class="headerlink" title="5.2.事务的工作流程"></a>5.2.事务的工作流程</h2><h4 id="正常set"><a href="#正常set" class="headerlink" title="正常set"></a>正常set</h4><p><img src="../../images/rides/3/3-20.png" alt="3-20"></p>
+<h4 id="开启事务"><a href="#开启事务" class="headerlink" title="开启事务"></a>开启事务</h4><p><img src="../../images/rides/3/3-21.png" alt="3-21"></p>
+<h4 id="set"><a href="#set" class="headerlink" title="set"></a>set</h4><p><img src="../../images/rides/3/3-22.png" alt="3-22"></p>
+<h4 id="del"><a href="#del" class="headerlink" title="del"></a>del</h4><p><img src="../../images/rides/3/3-23.png" alt="3-23"></p>
+<h4 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h4><p><img src="../../images/rides/3/3-24.png" alt="3-24"></p>
+<h4 id="取消"><a href="#取消" class="headerlink" title="取消"></a>取消</h4><p><img src="../../images/rides/3/3-25.png" alt="3-25"></p>
+<h2 id="5-3-事务的注意事项"><a href="#5-3-事务的注意事项" class="headerlink" title="5.3.事务的注意事项"></a>5.3.事务的注意事项</h2><h3 id="定义事务的过程中，命令格式输入错误怎么办？"><a href="#定义事务的过程中，命令格式输入错误怎么办？" class="headerlink" title="定义事务的过程中，命令格式输入错误怎么办？"></a>定义事务的过程中，命令格式输入错误怎么办？</h3><ul>
+<li>语法错误<ul>
+<li>指命令书写格式有误</li>
+</ul>
+</li>
+<li>处理结果<ul>
+<li>如果定义的事务中所包含的命令存在语法错误，整体事务中所有命令均不会执行。包括那些语法正确的命令。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">清除数据</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; flushdb</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys *</span><br><span class="line">(empty <span class="built_in">list</span> <span class="keyword">or</span> <span class="built_in">set</span>)</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; tes name <span class="number">456</span></span><br><span class="line">(error) ERR unknown command `tes`, with args beginning with: `name`, `<span class="number">456</span>`, </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line">(error) EXECABORT Transaction discarded because of previous errors.</span><br><span class="line">语法错误，全部不执行</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义事务的过程中，命令执行出现错误怎么办？"><a href="#定义事务的过程中，命令执行出现错误怎么办？" class="headerlink" title="定义事务的过程中，命令执行出现错误怎么办？"></a>定义事务的过程中，命令执行出现错误怎么办？</h4><ul>
+<li><p>运行错误</p>
+<ul>
+<li>指命令格式正确，但是无法正确的执行。例如对list进行incr操作</li>
+</ul>
+</li>
+<li><p>处理结果</p>
+<ul>
+<li><p>能够正确运行的命令会执行，运行错误的命令不会被执行</p>
+</li>
+<li><p>注意：已经执行完毕的命令对应的数据不会自动回滚，需要程序员自己在代码中实现回滚。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">456</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lpush name a b c</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line"><span class="number">1</span>) OK</span><br><span class="line"><span class="number">2</span>) <span class="string">"123"</span></span><br><span class="line"><span class="number">3</span>) OK</span><br><span class="line"><span class="number">4</span>) <span class="string">"456"</span></span><br><span class="line"><span class="number">5</span>) (error) WRONGTYPE Operation against a key holding the wrong kind of value</span><br><span class="line"><span class="number">6</span>) <span class="string">"456"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-4-手动进行事务回滚"><a href="#5-4-手动进行事务回滚" class="headerlink" title="5.4.手动进行事务回滚"></a>5.4.手动进行事务回滚</h2><ul>
+<li>记录操作过程中被影响的数据之前的状态<ul>
+<li>单数据：string</li>
+<li>多数据：hash、list、set、zset</li>
+</ul>
+</li>
+<li>设置指令恢复所有的被修改的项<ul>
+<li>单数据：直接set（注意周边属性，例如时效）</li>
+<li>多数据：修改对应值或整体克隆复制</li>
+</ul>
+</li>
+</ul>
+<h1 id="6-锁"><a href="#6-锁" class="headerlink" title="6.锁"></a>6.锁</h1><h2 id="6-1-基于特定条件的事务执行"><a href="#6-1-基于特定条件的事务执行" class="headerlink" title="6.1.基于特定条件的事务执行"></a>6.1.基于特定条件的事务执行</h2><ul>
+<li>业务场景<ul>
+<li>天猫双11热卖过程中，对已经售罄的货物追加补货，4个业务员都有权限进行补货。补货的操作可能是一系列的操作，牵扯到多个连续操作，如何保障不会重复操作？</li>
+</ul>
+</li>
+<li>业务分析<ul>
+<li>多个客户端有可能同时操作同一组数据，并且该数据一旦被操作修改后，将不适用于继续操作</li>
+<li>在操作之前锁定要操作的数据，一旦发生变化，终止当前操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-2-基于特定条件的事务执行——锁"><a href="#6-2-基于特定条件的事务执行——锁" class="headerlink" title="6.2.基于特定条件的事务执行——锁"></a>6.2.基于特定条件的事务执行——锁</h2><ul>
+<li>对 key 添加监视锁，在执行exec前如果key发生了变化，终止事务执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch key1 [key2……]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>取消对所有 key 的监视</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unwatch</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>redis 应用基于状态控制的批量任务执行</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">清除数据</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; flushdb</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys * </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">321</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line"><span class="string">"123"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> aa bb</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> aa</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line"><span class="number">1</span>) OK</span><br><span class="line"><span class="number">2</span>) <span class="string">"bb"</span></span><br></pre></td></tr></table></figure>
+<p>监控到有别的客户端使用name</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name age</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> aa cc</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> aa</span><br><span class="line">QUEUED</span><br><span class="line"></span><br><span class="line">客户端<span class="number">2</span>：<span class="built_in">set</span> name <span class="number">321</span></span><br><span class="line">    </span><br><span class="line">客户端<span class="number">1</span>：</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+
+<p>不能开启事务，监控</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name</span><br><span class="line">(error) ERR WATCH inside MULTI is <span class="keyword">not</span> allowed</span><br><span class="line"></span><br><span class="line">释放锁</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line"><span class="string">"321"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; unwatch</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-3-基于特定条件的事务执行——分布式锁"><a href="#6-3-基于特定条件的事务执行——分布式锁" class="headerlink" title="6.3.基于特定条件的事务执行——分布式锁"></a>6.3.基于特定条件的事务执行——分布式锁</h2><ul>
+<li>业务场景<ul>
+<li>天猫双11热卖过程中，对已经售罄的货物追加补货，且补货完成。客户购买热情高涨，3秒内将所有商品购买完毕。本次补货已经将库存全部清空，如何避免最后一件商品不被多人同时购买？【超卖问题】</li>
+</ul>
+</li>
+<li>业务分析<ul>
+<li>使用watch监控一个key有没有改变已经不能解决问题，此处要监控的是具体数据</li>
+<li>虽然redis是单线程的，但是多个客户端对同一数据同时进行操作时，如何避免不被同时修改？</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>使用 setnx 设置一个公共锁：setnx lock-key value</p>
+</li>
+<li><p>利用setnx命令的返回值特征，有值则返回设置失败，无值则返回设置成功</p>
+<ul>
+<li>对于返回设置成功的，拥有控制权，进行下一步的具体业务操作</li>
+<li>对于返回设置失败的，不具有控制权，排队或等待</li>
+</ul>
+</li>
+<li><p>操作完毕通过del操作释放锁</p>
+</li>
+<li><p>注意：上述解决方案是一种设计概念，依赖规范保障，具有风险性</p>
+</li>
+<li><p>redis 应用基于分布式锁对应的场景控制</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> num <span class="number">10</span></span><br><span class="line">setnx lock-num <span class="number">1</span></span><br><span class="line">incrby num <span class="number">-1</span></span><br><span class="line">del lock-num</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-4-基于特定条件的事务执行——分布式锁改良"><a href="#6-4-基于特定条件的事务执行——分布式锁改良" class="headerlink" title="6.4.基于特定条件的事务执行——分布式锁改良"></a>6.4.基于特定条件的事务执行——分布式锁改良</h2><ul>
+<li>业务场景<ul>
+<li>依赖分布式锁的机制，某个用户操作时对应客户端宕机，且此时已经获取到锁。如何解决？</li>
+</ul>
+</li>
+<li>业务分析<ul>
+<li>由于锁操作由用户控制加锁解锁，必定会存在加锁后未解锁的风险</li>
+<li>需要解锁操作不能仅依赖用户控制，系统级别要给出对应的保底处理方案</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>使用 expire 为锁key添加时间限定，到时不释放，放弃锁</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expire lock-key second</span><br><span class="line">pexpire lock-key milliseconds</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>由于操作通常都是微秒或毫秒级，因此该锁定时间不宜设置过大。具体时间需要业务测试后确认。<ul>
+<li>例如：持有锁的操作最长执行时间127ms，最短执行时间7ms。</li>
+<li>测试百万次最长执行时间对应命令的最大耗时，测试百万次网络延迟平均耗时</li>
+<li>锁时间设定推荐：最大耗时<em>120%+平均网络延迟</em>110%</li>
+<li>如果业务最大耗时&lt;&lt;网络平均延迟，通常为2个数量级，取其中单个耗时较长即可</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">清除数据</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; flushdb</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys * </span><br><span class="line"><span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">setnx lock-name <span class="number">1</span></span><br><span class="line">expire lock-name <span class="number">20</span></span><br><span class="line"><span class="built_in">get</span> name</span><br><span class="line">del lock-name</span><br><span class="line">setnx lock-name <span class="number">1</span></span><br><span class="line">expire lock-name <span class="number">20</span></span><br><span class="line"></span><br><span class="line">客户端<span class="number">2</span>：</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setnx lock-name <span class="number">1</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setnx lock-name <span class="number">1</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line">......<span class="number">.20</span>秒后</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setnx lock-name <span class="number">1</span></span><br><span class="line">(integer) <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -630,7 +912,7 @@
   <p><span>本文标题:</span><a href="/post/b9ffcd34.html">Rides再次学习3</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Linhuide 的个人博客">Linhuide</a></p>
   <p><span>发布时间:</span>2020年04月11日 - 16:04</p>
-  <p><span>最后更新:</span>2020年04月17日 - 19:04</p>
+  <p><span>最后更新:</span>2020年04月21日 - 19:04</p>
   <p><span>原始链接:</span><a href="/post/b9ffcd34.html" title="Rides再次学习3">https://linhuide.github.io/post/b9ffcd34.html</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://linhuide.github.io/post/b9ffcd34.html"  aria-label="复制成功！"></i></span>
   </p>
@@ -808,7 +1090,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -830,7 +1112,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -880,7 +1162,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Redis-持久化"><span class="nav-number">1.</span> <span class="nav-text">1.Redis 持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-持久化简介"><span class="nav-number">1.1.</span> <span class="nav-text">1-1.持久化简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-RDB"><span class="nav-number">1.2.</span> <span class="nav-text">1-2.RDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RDB启动方式-——-save指令"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.RDB启动方式 —— save指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-save指令相关配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.save指令相关配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-save指令工作原理"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.save指令工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据量过大，单线程执行方式造成效率过低如何处理？"><span class="nav-number">1.2.4.</span> <span class="nav-text">数据量过大，单线程执行方式造成效率过低如何处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-bgsave指令工作原理"><span class="nav-number">1.2.5.</span> <span class="nav-text">4.bgsave指令工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？"><span class="nav-number">1.2.6.</span> <span class="nav-text">5.反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-RDB两种启动方式对比"><span class="nav-number">1.2.7.</span> <span class="nav-text">6.RDB两种启动方式对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-rdb特殊启动形式"><span class="nav-number">1.2.8.</span> <span class="nav-text">7.rdb特殊启动形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-优点和缺点"><span class="nav-number">1.2.9.</span> <span class="nav-text">8.优点和缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-AOF"><span class="nav-number">2.</span> <span class="nav-text">2.AOF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-RDB存储的弊端"><span class="nav-number">2.1.</span> <span class="nav-text">2-1.RDB存储的弊端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-AOF概念"><span class="nav-number">2.2.</span> <span class="nav-text">2-2.AOF概念</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Redis-持久化"><span class="nav-number">1.</span> <span class="nav-text">1.Redis 持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-持久化简介"><span class="nav-number">1.1.</span> <span class="nav-text">1-1.持久化简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-RDB"><span class="nav-number">1.2.</span> <span class="nav-text">1-2.RDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RDB启动方式-——-save指令"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.RDB启动方式 —— save指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-save指令相关配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.save指令相关配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-save指令工作原理"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.save指令工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据量过大，单线程执行方式造成效率过低如何处理？"><span class="nav-number">1.2.4.</span> <span class="nav-text">数据量过大，单线程执行方式造成效率过低如何处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-bgsave指令工作原理"><span class="nav-number">1.2.5.</span> <span class="nav-text">4.bgsave指令工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？"><span class="nav-number">1.2.6.</span> <span class="nav-text">5.反复执行保存指令，忘记了怎么办？不知道数据产生了多少变化，何时保存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-RDB两种启动方式对比"><span class="nav-number">1.2.7.</span> <span class="nav-text">6.RDB两种启动方式对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-rdb特殊启动形式"><span class="nav-number">1.2.8.</span> <span class="nav-text">7.rdb特殊启动形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-优点和缺点"><span class="nav-number">1.2.9.</span> <span class="nav-text">8.优点和缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-AOF"><span class="nav-number">2.</span> <span class="nav-text">2.AOF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-RDB存储的弊端"><span class="nav-number">2.1.</span> <span class="nav-text">2-1.RDB存储的弊端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-AOF概念"><span class="nav-number">2.2.</span> <span class="nav-text">2-2.AOF概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-AOF写数据过程"><span class="nav-number">2.3.</span> <span class="nav-text">2.3.AOF写数据过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-AOF写数据三种策略-appendfsync"><span class="nav-number">2.4.</span> <span class="nav-text">2.4.AOF写数据三种策略(appendfsync)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-AOF功能开启"><span class="nav-number">2.5.</span> <span class="nav-text">2.5.AOF功能开启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-AOF写数据遇到的问题"><span class="nav-number">2.6.</span> <span class="nav-text">2.6.AOF写数据遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如果连续执行如下指令该如何处理"><span class="nav-number">2.6.1.</span> <span class="nav-text">如果连续执行如下指令该如何处理?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF重写"><span class="nav-number">2.6.2.</span> <span class="nav-text">AOF重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF重写规则"><span class="nav-number">2.6.3.</span> <span class="nav-text">AOF重写规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF重写方式"><span class="nav-number">2.6.4.</span> <span class="nav-text">AOF重写方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-手动重写：bgrewriteaof"><span class="nav-number">2.6.4.1.</span> <span class="nav-text">1.手动重写：bgrewriteaof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-自动重写"><span class="nav-number">2.6.4.2.</span> <span class="nav-text">2.自动重写</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-AOF工作流程"><span class="nav-number">2.7.</span> <span class="nav-text">2.7.AOF工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-AOF重写流程"><span class="nav-number">2.8.</span> <span class="nav-text">2.8.AOF重写流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF缓冲区同步文件策略，由参数appendfsync控制"><span class="nav-number">2.8.1.</span> <span class="nav-text">AOF缓冲区同步文件策略，由参数appendfsync控制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-RDB与AOF区别"><span class="nav-number">3.</span> <span class="nav-text">3.RDB与AOF区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-持久化应用场景"><span class="nav-number">4.</span> <span class="nav-text">4.持久化应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-事务"><span class="nav-number">5.</span> <span class="nav-text">5.事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-事务的基本操作"><span class="nav-number">5.1.</span> <span class="nav-text">5.1.事务的基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务定义过程中发现出了问题，怎么办？"><span class="nav-number">5.1.1.</span> <span class="nav-text">事务定义过程中发现出了问题，怎么办？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-事务的工作流程"><span class="nav-number">5.2.</span> <span class="nav-text">5.2.事务的工作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#正常set"><span class="nav-number">5.2.0.1.</span> <span class="nav-text">正常set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启事务"><span class="nav-number">5.2.0.2.</span> <span class="nav-text">开启事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set"><span class="nav-number">5.2.0.3.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#del"><span class="nav-number">5.2.0.4.</span> <span class="nav-text">del</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行"><span class="nav-number">5.2.0.5.</span> <span class="nav-text">执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取消"><span class="nav-number">5.2.0.6.</span> <span class="nav-text">取消</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-事务的注意事项"><span class="nav-number">5.3.</span> <span class="nav-text">5.3.事务的注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义事务的过程中，命令格式输入错误怎么办？"><span class="nav-number">5.3.1.</span> <span class="nav-text">定义事务的过程中，命令格式输入错误怎么办？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义事务的过程中，命令执行出现错误怎么办？"><span class="nav-number">5.3.1.1.</span> <span class="nav-text">定义事务的过程中，命令执行出现错误怎么办？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-手动进行事务回滚"><span class="nav-number">5.4.</span> <span class="nav-text">5.4.手动进行事务回滚</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-锁"><span class="nav-number">6.</span> <span class="nav-text">6.锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-基于特定条件的事务执行"><span class="nav-number">6.1.</span> <span class="nav-text">6.1.基于特定条件的事务执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-基于特定条件的事务执行——锁"><span class="nav-number">6.2.</span> <span class="nav-text">6.2.基于特定条件的事务执行——锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-基于特定条件的事务执行——分布式锁"><span class="nav-number">6.3.</span> <span class="nav-text">6.3.基于特定条件的事务执行——分布式锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-基于特定条件的事务执行——分布式锁改良"><span class="nav-number">6.4.</span> <span class="nav-text">6.4.基于特定条件的事务执行——分布式锁改良</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -908,7 +1190,7 @@
 
   
   <div class="theme-info">
-      <span class="post-count">|&ensp;&ensp;     站点总字数 :  102.2k</span>
+      <span class="post-count">|&ensp;&ensp;     站点总字数 :  112.7k</span>
   </div>
 </div>
 

@@ -1,6 +1,772 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Rides再次学习5</title>
+    <url>/post/509c6801.html</url>
+    <content><![CDATA[<p>rides的学习与使用</p>
+<a id="more"></a>]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>rides</tag>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Rides再次学习4</title>
+    <url>/post/279b5897.html</url>
+    <content><![CDATA[<p>rides的学习与使用</p>
+<a id="more"></a>
+
+<h1 id="1-Redis-删除策略"><a href="#1-Redis-删除策略" class="headerlink" title="1.Redis 删除策略"></a>1.Redis 删除策略</h1><h2 id="1-1-过期数据"><a href="#1-1-过期数据" class="headerlink" title="1-1.过期数据"></a>1-1.过期数据</h2><h3 id="Redis中的数据特征"><a href="#Redis中的数据特征" class="headerlink" title="Redis中的数据特征"></a>Redis中的数据特征</h3><ul>
+<li>Redis是一种内存级数据库，所有数据均存放在内存中，内存中的数据可以通过TTL指令获取其状态<ul>
+<li>XX ：具有时效性的数据</li>
+<li>-1 ：永久有效的数据</li>
+<li>-2 ：已经过期的数据 或 被删除的数据 或 未定义的数据</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../images/rides/4/4-1.png" alt="4-1"></p>
+<p><img src="../../images/rides/4/4-2.png" alt="4-2"></p>
+<h3 id="数据删除策略"><a href="#数据删除策略" class="headerlink" title="数据删除策略"></a>数据删除策略</h3><ol>
+<li>定时删除</li>
+<li>惰性删除</li>
+<li>定期删除</li>
+</ol>
+<h2 id="1-2-数据删除策略"><a href="#1-2-数据删除策略" class="headerlink" title="1-2.数据删除策略"></a>1-2.数据删除策略</h2><h3 id="1-时效性数据的存储结构"><a href="#1-时效性数据的存储结构" class="headerlink" title="1.时效性数据的存储结构"></a>1.时效性数据的存储结构</h3><p><img src="../../images/rides/4/4-3.png" alt="4-3"></p>
+<h3 id="2-数据删除策略的目标"><a href="#2-数据删除策略的目标" class="headerlink" title="2.数据删除策略的目标"></a>2.数据删除策略的目标</h3><p>在内存占用与CPU占用之间寻找一种平衡，顾此失彼都会造成整体redis性能的下降，甚至引发服务器宕机或内存泄露</p>
+<h4 id="2-1-定时删除"><a href="#2-1-定时删除" class="headerlink" title="2-1.定时删除"></a>2-1.定时删除</h4><ul>
+<li>创建一个定时器，当key设置有过期时间，且过期时间到达时，由定时器任务立即执行对键的删除操作</li>
+<li>优点：节约内存，到时就删除，快速释放掉不必要的内存占用</li>
+<li>缺点：CPU压力很大，无论CPU此时负载量多高，均占用CPU，会影响redis服务器响应时间和指令吞吐量</li>
+<li>总结：用处理器性能换取存储空间 （拿时间换空间）</li>
+</ul>
+<p><img src="../../images/rides/4/4-4.png" alt="4-4"></p>
+<h4 id="2-2-惰性删除"><a href="#2-2-惰性删除" class="headerlink" title="2-2.惰性删除"></a>2-2.惰性删除</h4><ul>
+<li>数据到达过期时间，不做处理。等下次访问该数据时<ul>
+<li>如果未过期，返回数据</li>
+<li>发现已过期，删除，返回不存在</li>
+</ul>
+</li>
+<li>优点：节约CPU性能，发现必须删除的时候才删除</li>
+<li>缺点：内存压力很大，出现长期占用内存的数据</li>
+<li>总结：用存储空间换取处理器性能（拿时间换空间）</li>
+</ul>
+<p><img src="../../images/rides/4/4-5.png" alt="4-5"></p>
+<h4 id="2-3-定期删除"><a href="#2-3-定期删除" class="headerlink" title="2-3.定期删除"></a>2-3.定期删除</h4><h5 id="两种方案都走极端，有没有折中方案？"><a href="#两种方案都走极端，有没有折中方案？" class="headerlink" title="两种方案都走极端，有没有折中方案？"></a>两种方案都走极端，有没有折中方案？</h5><ul>
+<li>Redis启动服务器初始化时，读取配置server.hz的值，默认为10</li>
+<li>每秒钟执行server.hz次<strong>serverCron()–&gt;databasesCron()–&gt;activeExpireCycle()</strong></li>
+<li>activeExpireCycle()对每个expires[ * ] 逐一进行检测，每次执行250ms/server.hz</li>
+<li>对某个expires[ * ] 检测时，随机挑选W个key检测<ul>
+<li>如果key超时，删除key</li>
+<li>如果一轮中删除的key的数量&gt;W*25%，循环该过程</li>
+<li>如果一轮中删除的key的数量≤W<em>25%，检查下一个expires[</em>]，0-15循环</li>
+<li>W取值=ACTIVE_EXPIRE_CYCLE_LOOKUPS_PER_LOOP属性值</li>
+</ul>
+</li>
+<li>参数current_db用于记录activeExpireCycle() 进入哪个expires[*] 执行</li>
+<li>如果activeExpireCycle()执行时间到期，下次从current_db继续向下执行</li>
+</ul>
+<p><img src="../../images/rides/4/4-6.png" alt="4-6"></p>
+<ul>
+<li>周期性轮询redis库中的时效性数据，采用随机抽取的策略，利用过期数据占比的方式控制删除频度</li>
+<li>特点1：CPU性能占用设置有峰值，检测频度可自定义设置</li>
+<li>特点2：内存压力不是很大，长期占用内存的冷数据会被持续清理</li>
+<li>总结：周期性抽查存储空间（随机抽查，重点抽查）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">info server</span><br><span class="line">...</span><br><span class="line">hz:10</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-删除策略比对"><a href="#2-4-删除策略比对" class="headerlink" title="2.4.删除策略比对"></a>2.4.删除策略比对</h4><ol>
+<li><p>定时删除</p>
+<ol>
+<li>节约内存，无占用</li>
+<li>不分时段占用CPU资源，频度高</li>
+<li>拿时间换空间</li>
+</ol>
+</li>
+<li><p>惰性删除</p>
+<ol>
+<li>内存占用严重</li>
+<li>延时执行，CPU利用率高</li>
+<li>拿空间换时间</li>
+</ol>
+</li>
+<li><p>定期删除</p>
+<ol>
+<li>内存定期随机清理</li>
+<li>每秒花费固定的CPU资源维护内存</li>
+<li>随机抽查，重点抽查</li>
+</ol>
+</li>
+</ol>
+<h2 id="1-3-逐出算法"><a href="#1-3-逐出算法" class="headerlink" title="1-3.逐出算法"></a>1-3.逐出算法</h2><h3 id="1-当新数据进入redis时，如果内存不足怎么办？"><a href="#1-当新数据进入redis时，如果内存不足怎么办？" class="headerlink" title="1.当新数据进入redis时，如果内存不足怎么办？"></a>1.当新数据进入redis时，如果内存不足怎么办？</h3><ul>
+<li>Redis使用内存存储数据，在执行每一个命令前，会调用freeMemoryIfNeeded()检测内存是否充足。</li>
+<li>如果内存不满足新加入数据的最低存储要求，redis要临时删除一些数据为当前指令清理存储空间。清理数据的策略称为逐出算法。</li>
+<li>注意：逐出数据的过程不是100%能够清理出足够的可使用的内存空间，如果不成功则反复执行。当对所有数据尝试完毕后，如果不能达到内存清理的要求，将出现错误信息。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">(error) OOM command not allowed when used memory &gt;'maxmemory'</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-影响数据逐出的相关配置"><a href="#2-影响数据逐出的相关配置" class="headerlink" title="2.影响数据逐出的相关配置"></a>2.影响数据逐出的相关配置</h3><ul>
+<li>最大可使用内存：占用物理内存的比例，默认值为0，表示不限制。生产环境中根据需求设定，通常设置在50%以上。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">maxmemory</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>每次选取待删除数据的个数：选取数据时并不会全库扫描，导致严重的性能消耗，降低读写性能。因此采用随机获取数据的方式作为待检测删除数据</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">maxmemory-samples</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除策略：达到最大内存后的，对被挑选出来的数据进行删除的策略</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">maxmemory-policy</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-影响数据逐出的相关配置"><a href="#3-影响数据逐出的相关配置" class="headerlink" title="3.影响数据逐出的相关配置"></a>3.影响数据逐出的相关配置</h3><ul>
+<li>检测易失数据（可能会过期的数据集server.db[i].expires ）<ul>
+<li>volatile-lru：挑选最近最少使用的数据淘汰</li>
+<li>volatile-lfu：挑选最近使用次数最少的数据淘汰</li>
+<li>volatile-ttl：挑选将要过期的数据淘汰</li>
+<li>volatile-random：任意选择数据淘汰</li>
+</ul>
+</li>
+<li>检测全库数据（所有数据集server.db[i].dict ）<ul>
+<li>allkeys-lru：挑选最近最少使用的数据淘汰</li>
+<li>allkeys-lfu：挑选最近使用次数最少的数据淘汰</li>
+<li>allkeys-random：任意选择数据淘汰</li>
+</ul>
+</li>
+<li>放弃数据驱逐<ul>
+<li>no-enviction（驱逐）：禁止驱逐数据（redis4.0中默认策略），会引发错误OOM（Out Of Memory）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">maxmemory-policy volatile-lru</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-数据逐出策略配置依据"><a href="#4-数据逐出策略配置依据" class="headerlink" title="4.数据逐出策略配置依据"></a>4.数据逐出策略配置依据</h3><p>使用INFO命令输出监控信息，查询缓存 hit 和 miss 的次数，根据业务需求调优Redis配置</p>
+<h1 id="2-高级数据结构"><a href="#2-高级数据结构" class="headerlink" title="2.高级数据结构"></a>2.高级数据结构</h1><h2 id="2-1-bitmaps"><a href="#2-1-bitmaps" class="headerlink" title="2-1.bitmaps"></a>2-1.bitmaps</h2><p><img src="../../images/rides/4/4-8.png" alt="4-8"></p>
+<h3 id="2-Bitmaps类型的基础操作"><a href="#2-Bitmaps类型的基础操作" class="headerlink" title="2.Bitmaps类型的基础操作"></a>2.Bitmaps类型的基础操作</h3><ul>
+<li>获取指定key对应偏移量上的bit值</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">getbit key offset</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置指定key对应偏移量上的bit值，value只能是1或0</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">setbit key offset value</span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">setbit bits 0 1</span><br><span class="line">getbit bits 0</span><br><span class="line">getbit bits 10</span><br><span class="line">默认不存在，为0</span><br><span class="line">setbit bits 100000000 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Bitmaps类型的扩展操作"><a href="#3-Bitmaps类型的扩展操作" class="headerlink" title="3.Bitmaps类型的扩展操作"></a>3.Bitmaps类型的扩展操作</h3><p>业务场景：电影网站</p>
+<ul>
+<li>统计每天某一部电影是否被点播</li>
+<li>统计每天有多少部电影被点播</li>
+<li>统计每周/月/年有多少部电影被点播</li>
+<li>统计年度哪部电影没有被点播</li>
+</ul>
+<p><img src="../../images/rides/4/4-9.png" alt="4-9"></p>
+<ul>
+<li>对指定key按位进行交、并、非、异或操作，并将结果保存到destKey中<ul>
+<li>and：交</li>
+<li>or：并</li>
+<li>not：非</li>
+<li>xor：异或</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bitop op destKey key1 [key2...]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>统计指定key中1的数量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bitcount key [start end]</span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">flushdb</span><br><span class="line">setbit <span class="number">20880808</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">setbit <span class="number">20880808</span> <span class="number">4</span> <span class="number">1</span></span><br><span class="line">setbit <span class="number">20880808</span> <span class="number">8</span> <span class="number">1</span></span><br><span class="line">setbit <span class="number">20880809</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">setbit <span class="number">20880808</span> <span class="number">5</span> <span class="number">1</span></span><br><span class="line">setbit <span class="number">20880808</span> <span class="number">8</span> <span class="number">1</span></span><br><span class="line">bitcount <span class="number">20880808</span></span><br><span class="line"></span><br><span class="line">bitcount <span class="number">20880809</span></span><br><span class="line"></span><br><span class="line">setbit <span class="number">20880808</span> <span class="number">6</span> <span class="number">1</span></span><br><span class="line">bitcount <span class="number">20880808</span></span><br><span class="line"></span><br><span class="line">bitop <span class="keyword">or</span> <span class="number">08</span><span class="number">-09</span> <span class="number">20880808</span> <span class="number">20880809</span></span><br><span class="line">bitcount <span class="number">08</span><span class="number">-09</span></span><br><span class="line"><span class="number">7</span>个，但有两个重合，减<span class="number">2</span>个</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-redis-应用于信息状态统计"><a href="#4-redis-应用于信息状态统计" class="headerlink" title="4.redis 应用于信息状态统计"></a>4.redis 应用于信息状态统计</h3><h2 id="2-2-HyperLogLog"><a href="#2-2-HyperLogLog" class="headerlink" title="2-2.HyperLogLog"></a>2-2.HyperLogLog</h2><h3 id="1-统计独立UV"><a href="#1-统计独立UV" class="headerlink" title="1.统计独立UV"></a>1.统计独立UV</h3><ul>
+<li>原始方案：set<ul>
+<li>存储每个用户的id（字符串）</li>
+</ul>
+</li>
+<li>改进方案：Bitmaps<ul>
+<li>存储每个用户状态（bit）</li>
+</ul>
+</li>
+<li>全新的方案：Hyperloglog</li>
+</ul>
+<h3 id="2-基数"><a href="#2-基数" class="headerlink" title="2.基数"></a>2.基数</h3><ul>
+<li>基数是数据集去重后元素个数</li>
+<li>HyperLogLog 是用来做基数统计的，运用了LogLog的算法</li>
+</ul>
+<p><img src="../../images/rides/4/4-10.png" alt="4-10"></p>
+<h3 id="3-LogLog算法"><a href="#3-LogLog算法" class="headerlink" title="3.LogLog算法"></a>3.LogLog算法</h3><p><img src="../../images/rides/4/4-11.png" alt="4-11"></p>
+<p><img src="../../images/rides/4/4-12.png" alt="4-12"></p>
+<h3 id="4-HyperLogLog类型的基本操作"><a href="#4-HyperLogLog类型的基本操作" class="headerlink" title="4.HyperLogLog类型的基本操作"></a>4.HyperLogLog类型的基本操作</h3><ul>
+<li>添加数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pfadd key element [element ...]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>统计数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pfcount key [key ...]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>合并数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pfmerge destkey sourcekey [sourcekey...]</span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flushdb</span><br><span class="line">pfadd hll 001</span><br><span class="line">pfadd hll 001</span><br><span class="line">pfadd hll 001</span><br><span class="line">pfadd hll 001</span><br><span class="line">pfadd hll 001</span><br><span class="line">pfadd hll 002</span><br><span class="line">pfadd hll 002</span><br><span class="line">pfcount h11</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-redis-应用于独立信息统计"><a href="#5-redis-应用于独立信息统计" class="headerlink" title="5.redis 应用于独立信息统计"></a>5.redis 应用于独立信息统计</h3><h3 id="6-相关说明"><a href="#6-相关说明" class="headerlink" title="6.相关说明"></a>6.相关说明</h3><ul>
+<li>用于进行基数统计，不是集合，不保存数据，只记录数量而不是具体数据</li>
+<li>核心是基数估算算法，最终数值存在一定误差</li>
+<li>误差范围：基数估计的结果是一个带有 0.81% 标准错误的近似值</li>
+<li>耗空间极小，每个hyperloglog key占用了12K的内存用于标记基数</li>
+<li>pfadd命令不是一次性分配12K内存使用，会随着基数的增加内存逐渐增大</li>
+<li>Pfmerge命令合并后占用的存储空间为12K，无论合并之前数据量多少</li>
+</ul>
+<h2 id="2-3-GEO"><a href="#2-3-GEO" class="headerlink" title="2-3.GEO"></a>2-3.GEO</h2><h3 id="1-应用场景"><a href="#1-应用场景" class="headerlink" title="1.应用场景"></a>1.应用场景</h3><p>火热的生活服务类软件</p>
+<ul>
+<li>微信 / 陌陌</li>
+<li>美团 / 饿了么</li>
+<li>携程 / 马蜂窝</li>
+<li>高德 / 百度</li>
+</ul>
+<h3 id="2-GEO类型的基本操作"><a href="#2-GEO类型的基本操作" class="headerlink" title="2.GEO类型的基本操作"></a>2.GEO类型的基本操作</h3><ul>
+<li>添加坐标点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">geoadd key longitude latitude member [longitude latitude member ...]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取坐标点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">geopos key member [member ...]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>计算坐标点距离</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">geodist key member1 member2 [unit]</span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flushdb</span><br><span class="line">geoadd geos 1 1 a</span><br><span class="line">geoadd geos 2 2 b</span><br><span class="line">geopos geos a</span><br><span class="line">geodist geos a b</span><br><span class="line">geodist geos a b m</span><br><span class="line">geodist geos a b km</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-基本操作2"><a href="#3-基本操作2" class="headerlink" title="3.基本操作2"></a>3.基本操作2</h3><ul>
+<li>添加坐标点</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">georadius key longitude latitude radius m|km|ft|mi [withcoord] [withdist] [withhash] [count count]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取坐标点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">georadiusbymember key member radius m|km|ft|mi [withcoord] [withdist] [withhash] [count count]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>计算经纬度</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">geohash key member [member ...]</span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">flushdb</span><br><span class="line">geoadd geos <span class="number">1</span> <span class="number">1</span> <span class="number">1</span>,<span class="number">1</span></span><br><span class="line">geoadd geos <span class="number">1</span> <span class="number">2</span> <span class="number">1</span>,<span class="number">2</span></span><br><span class="line">geoadd geos <span class="number">1</span> <span class="number">3</span> <span class="number">1</span>,<span class="number">3</span></span><br><span class="line">geoadd geos <span class="number">2</span> <span class="number">1</span> <span class="number">2</span>,<span class="number">1</span></span><br><span class="line">geoadd geos <span class="number">2</span> <span class="number">2</span> <span class="number">2</span>,<span class="number">2</span></span><br><span class="line">geoadd geos <span class="number">2</span> <span class="number">3</span> <span class="number">2</span>,<span class="number">3</span></span><br><span class="line">geoadd geos <span class="number">3</span> <span class="number">1</span> <span class="number">3</span>,<span class="number">1</span></span><br><span class="line">geoadd geos <span class="number">3</span> <span class="number">2</span> <span class="number">3</span>,<span class="number">2</span></span><br><span class="line">geoadd geos <span class="number">3</span> <span class="number">3</span> <span class="number">3</span>,<span class="number">3</span></span><br><span class="line">geoadd geos <span class="number">5</span> <span class="number">5</span> <span class="number">5</span>,<span class="number">5</span></span><br><span class="line">求范围</span><br><span class="line">georadiusbymember geos <span class="number">2</span>,<span class="number">2</span> <span class="number">180</span> km</span><br><span class="line"></span><br><span class="line">georadiusbymember geos <span class="number">2</span>,<span class="number">2</span> <span class="number">120</span> km</span><br><span class="line"></span><br><span class="line">georadius geos <span class="number">1.5</span>,<span class="number">1.5</span> <span class="number">90</span> km</span><br><span class="line"></span><br><span class="line">geohash geos <span class="number">2</span>,<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-redis-应用于地理位置计算"><a href="#4-redis-应用于地理位置计算" class="headerlink" title="4.redis 应用于地理位置计算"></a>4.redis 应用于地理位置计算</h3><h1 id="3-主从复制"><a href="#3-主从复制" class="headerlink" title="3.主从复制"></a>3.主从复制</h1><h2 id="3-1-主从复制简介"><a href="#3-1-主从复制简介" class="headerlink" title="3-1.主从复制简介"></a>3-1.主从复制简介</h2><p>互联网“三高”架构：</p>
+<ul>
+<li>高并发</li>
+<li>高性能</li>
+<li>高可用</li>
+</ul>
+<p><img src="../../images/rides/4/4-13.png" alt="4-13"></p>
+<p><img src="../../images/rides/4/4-14.png" alt="4-14"></p>
+<h3 id="1-你的“Redis”是否高可用？"><a href="#1-你的“Redis”是否高可用？" class="headerlink" title="1.你的“Redis”是否高可用？"></a>1.你的“Redis”是否高可用？</h3><p>单机redis的风险与问题</p>
+<ul>
+<li>问题1.机器故障<ul>
+<li>现象：硬盘故障、系统崩溃</li>
+<li>本质：数据丢失，很可能对业务造成灾难性打击</li>
+<li>结论：基本上会放弃使用redis.</li>
+</ul>
+</li>
+<li>问题2.容量瓶颈<ul>
+<li>现象：内存不足，从16G升级到64G，从64G升级到128G，无限升级内存</li>
+<li>本质：穷，硬件条件跟不上</li>
+<li>结论：放弃使用redis</li>
+</ul>
+</li>
+<li>结论：<ul>
+<li>为了避免单点Redis服务器故障，准备多台服务器，互相连通。将数据复制多个副本保存在不同的服务器上，连接在一起，并保证数据是同步的。</li>
+<li>即使有其中一台服务器宕机，其他服务器依然可以继续提供服务，实现Redis的高可用，同时实现数据冗余备份。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-多台服务器连接方案"><a href="#2-多台服务器连接方案" class="headerlink" title="2.多台服务器连接方案"></a>2.多台服务器连接方案</h3><ul>
+<li>提供数据方：master<ul>
+<li>主服务器，主节点，主库</li>
+<li>主客户端</li>
+</ul>
+</li>
+<li>接收数据方：slave<ul>
+<li>从服务器，从节点，从库</li>
+<li>从客户端</li>
+</ul>
+</li>
+<li>需要解决的问题：<ul>
+<li>数据同步</li>
+</ul>
+</li>
+<li>核心工作：<ul>
+<li>master的数据复制到slave中</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../images/rides/4/4-15.png" alt="4-15"></p>
+<h3 id="3-主从复制-1"><a href="#3-主从复制-1" class="headerlink" title="3.主从复制"></a>3.主从复制</h3><ul>
+<li>主从复制即将master中的数据即时、有效的复制到slave中</li>
+<li>特征：一个master可以拥有多个slave，一个slave只对应一个master</li>
+<li>职责：</li>
+<li>master:<ul>
+<li>写数据</li>
+<li>执行写操作时，将出现变化的数据自动同步到slave</li>
+<li>读数据（可忽略）</li>
+</ul>
+</li>
+<li>slave:<ul>
+<li>读数据</li>
+<li>写数据（禁止）</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-高可用集群"><a href="#4-高可用集群" class="headerlink" title="4.高可用集群"></a>4.高可用集群</h3><p><img src="../../images/rides/4/4-15.png" alt="4-15"></p>
+<p><img src="../../images/rides/4/4-16.png" alt="4-16"></p>
+<p><img src="../../images/rides/4/4-17.png" alt="4-17"></p>
+<p><img src="../../images/rides/4/4-18.png" alt="4-18"></p>
+<h3 id="5-主从复制的作用"><a href="#5-主从复制的作用" class="headerlink" title="5.主从复制的作用"></a>5.主从复制的作用</h3><ul>
+<li>读写分离：master写、slave读，提高服务器的读写负载能力</li>
+<li>负载均衡：基于主从结构，配合读写分离，由slave分担master负载，并根据需求的变化，改变slave的数量，通过多个从节点分担数据读取负载，大大提高Redis服务器并发量与数据吞吐量</li>
+<li>故障恢复：当master出现问题时，由slave提供服务，实现快速的故障恢复</li>
+<li>数据冗余：实现数据热备份，是持久化之外的一种数据冗余方式</li>
+<li>高可用基石：基于主从复制，构建哨兵模式与集群，实现Redis的高可用方案</li>
+</ul>
+<h2 id="3-2-主从复制工作流程"><a href="#3-2-主从复制工作流程" class="headerlink" title="3-2.主从复制工作流程"></a>3-2.主从复制工作流程</h2><h3 id="1-主从复制过程大体可以分为3个阶段"><a href="#1-主从复制过程大体可以分为3个阶段" class="headerlink" title="1.主从复制过程大体可以分为3个阶段"></a>1.主从复制过程大体可以分为3个阶段</h3><ul>
+<li>建立连接阶段（即准备阶段）</li>
+<li>数据同步阶段</li>
+<li>命令传播阶段</li>
+</ul>
+<p><img src="../../images/rides/4/4-19.png" alt="4-19"></p>
+<h3 id="2-阶段一：建立连接阶段"><a href="#2-阶段一：建立连接阶段" class="headerlink" title="2.阶段一：建立连接阶段"></a>2.阶段一：建立连接阶段</h3><p> 建立slave到master的连接，使master能够识别slave，并保存slave端口号</p>
+<p><strong>建立连接阶段工作流程：</strong></p>
+<ul>
+<li>步骤1：设置master的地址和端口，保存master信息</li>
+<li>步骤2：建立socket连接</li>
+<li>步骤3：发送ping命令（定时器任务）</li>
+<li>步骤4：身份验证</li>
+<li>步骤5：发送slave端口信息</li>
+<li>至此，主从连接成功！</li>
+</ul>
+<p><strong>状态：</strong></p>
+<ul>
+<li><p>slave：</p>
+<ul>
+<li>保存master的地址与端口</li>
+</ul>
+</li>
+<li><p>master：</p>
+<ul>
+<li>保存slave的端口</li>
+</ul>
+</li>
+<li><p>总体：之间创建了连接的socket</p>
+</li>
+</ul>
+<p><img src="../../images/rides/4/4-20.png" alt="4-20"></p>
+<h3 id="3-主从连接（slave连接master）"><a href="#3-主从连接（slave连接master）" class="headerlink" title="3.主从连接（slave连接master）"></a>3.主从连接（slave连接master）</h3><ul>
+<li>方式一：客户端发送命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方式二：启动服务器参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-server -slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方式三：服务器配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/4/4-21.png" alt="4-21"></p>
+<p>配置</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line">daemonize no</span><br><span class="line"><span class="meta">#logfile <span class="meta-string">"6379.conf"</span></span></span><br><span class="line"></span><br><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line">daemonize no</span><br><span class="line"><span class="meta">#logfile <span class="meta-string">"6379.conf"</span></span></span><br><span class="line"></span><br><span class="line">客户端<span class="number">1</span>：redis-server /conf/redis<span class="number">-6379.</span>conf</span><br><span class="line">客户端<span class="number">2</span>：redis-server /conf/redis<span class="number">-6380.</span>conf</span><br><span class="line"></span><br><span class="line">客户端<span class="number">4</span>：</span><br><span class="line">redis-cli -p <span class="number">6380</span></span><br><span class="line">slaveof <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">6379</span></span><br><span class="line">客户端<span class="number">3</span>：</span><br><span class="line">redis-cli</span><br><span class="line"><span class="built_in">set</span> name name</span><br><span class="line">客户端<span class="number">4</span>：</span><br><span class="line"><span class="built_in">get</span> name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">方式二：</span><br><span class="line">客户端<span class="number">1</span>：redis-server /conf/redis<span class="number">-6379.</span>conf</span><br><span class="line">客户端<span class="number">2</span>：redis-server /conf/redis<span class="number">-6380.</span>conf --slaveof <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">6379</span></span><br><span class="line">客户端<span class="number">4</span>：</span><br><span class="line">redis-cli -p <span class="number">6380</span></span><br><span class="line">客户端<span class="number">3</span>：</span><br><span class="line">redis-cli</span><br><span class="line"><span class="built_in">set</span> name name</span><br><span class="line">客户端<span class="number">4</span>：</span><br><span class="line"><span class="built_in">get</span> name</span><br><span class="line"></span><br><span class="line">方式三：</span><br><span class="line">客户端<span class="number">2</span>：</span><br><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line">slaveof <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">6379</span></span><br><span class="line"></span><br><span class="line">redis-server /conf/redis<span class="number">-6380.</span>conf</span><br><span class="line">...一样测试步骤</span><br><span class="line">客户端<span class="number">3</span>：看配置</span><br><span class="line">info</span><br><span class="line">connected_slaves:..</span><br><span class="line">客户端<span class="number">4</span>：看配置</span><br><span class="line">info</span><br></pre></td></tr></table></figure>
+
+<p><strong>主从断开连接</strong></p>
+<ul>
+<li>客户端发送命令：slaveof no one</li>
+<li>说明：<ul>
+<li>slave断开连接后，不会删除已有数据，只是不再接受master发送的数据</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">客户端4：slaveof no one</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-授权访问"><a href="#4-授权访问" class="headerlink" title="4.授权访问"></a>4.授权访问</h3><ul>
+<li>master客户端发送命令设置密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">requirepass &lt;password&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>master配置文件设置密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">config set requirepass &lt;password&gt;</span><br><span class="line">config get requirepass</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>slave客户端发送命令设置密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">auth &lt;password&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>slave配置文件设置密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">masterauth &lt;password&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>slave启动服务器设置密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-server –a &lt;password&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-阶段二：数据同步阶段工作流程"><a href="#5-阶段二：数据同步阶段工作流程" class="headerlink" title="5.阶段二：数据同步阶段工作流程"></a>5.阶段二：数据同步阶段工作流程</h3><ul>
+<li>在slave初次连接master后，复制master中的所有数据到slave</li>
+<li>将slave的数据库状态更新成master当前的数据库状态</li>
+</ul>
+<p><strong>数据同步阶段工作流程：</strong></p>
+<ul>
+<li>步骤1：请求同步数据</li>
+<li>步骤2：创建RDB同步数据</li>
+<li>步骤3：恢复RDB同步数据</li>
+<li>步骤4：请求部分同步数据</li>
+<li>步骤5：恢复部分同步数据</li>
+<li>至此，数据同步工作完成！</li>
+</ul>
+<p><strong>状态：</strong></p>
+<ul>
+<li>slave：<ul>
+<li>具有master端全部数据，包含RDB过程接收的数据</li>
+</ul>
+</li>
+<li>master：<ul>
+<li>保存slave当前数据同步的位置</li>
+</ul>
+</li>
+<li>总体：之间完成了数据克隆</li>
+</ul>
+<p><img src="../../images/rides/4/4-22.png" alt="4-22"></p>
+<p>数据同步</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">客户端1：redis-server &#x2F;conf&#x2F;redis-6379.conf</span><br><span class="line">客户端2：redis-server &#x2F;conf&#x2F;redis-6380.conf</span><br><span class="line">客户端4：</span><br><span class="line">redis-cli -p 6380</span><br><span class="line">slaveof 127.0.0.1 6379</span><br><span class="line">客户端3：</span><br><span class="line">redis-cli</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-数据同步阶段master说明"><a href="#6-数据同步阶段master说明" class="headerlink" title="6.数据同步阶段master说明"></a>6.数据同步阶段master说明</h3><ol>
+<li>如果master数据量巨大，数据同步阶段应避开流量高峰期，避免造成master阻塞，影响业务正常执行</li>
+<li>复制缓冲区大小设定不合理，会导致数据溢出。如进行全量复制周期太长，进行部分复制时发现数据已经存在丢失的情况，必须进行第二次全量复制，致使slave陷入死循环状态。</li>
+<li>master单机内存占用主机内存的比例不应过大，建议使用50%-70%的内存，留下30%-50%的内存用于执行bgsave命令和创建复制缓冲区</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">repl-backlog-<span class="built_in">size</span> <span class="number">1</span>mb</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/4/4-23.png" alt="4-23"></p>
+<h3 id="7-数据同步阶段slave说明"><a href="#7-数据同步阶段slave说明" class="headerlink" title="7.数据同步阶段slave说明"></a>7.数据同步阶段slave说明</h3><ol>
+<li>为避免slave进行全量复制、部分复制时服务器响应阻塞或数据不同步，建议关闭此期间的对外服务</li>
+<li>数据同步阶段，master发送给slave信息可以理解master是slave的一个客户端，主动向slave发送命令</li>
+<li>多个slave同时对master请求数据同步，master发送的RDB文件增多，会对带宽造成巨大冲击，如果master带宽不足，因此数据同步需要根据业务需求，适量错峰</li>
+<li>slave过多时，建议调整拓扑结构，由一主多从结构变为树状结构，中间的节点既是master，也是slave。注意使用树状结构时，由于层级深度，导致深度越高的slave与最顶层master间数据同步延迟较大，数据一致性变差，应谨慎选择</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">slave-serve-stale-data yes|no</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-阶段三：命令传播阶段"><a href="#8-阶段三：命令传播阶段" class="headerlink" title="8.阶段三：命令传播阶段"></a>8.阶段三：命令传播阶段</h3><ul>
+<li>当master数据库状态被修改后，导致主从服务器数据库状态不一致，此时需要让主从数据同步到一致的状态，同步的动作称为命令传播</li>
+<li>master将接收到的数据变更命令发送给slave，slave接收命令后执行命令</li>
+</ul>
+<h3 id="9-命令传播阶段的部分复制"><a href="#9-命令传播阶段的部分复制" class="headerlink" title="9.命令传播阶段的部分复制"></a>9.命令传播阶段的部分复制</h3><ul>
+<li>命令传播阶段出现了断网现象<ul>
+<li>网络闪断闪连        忽略</li>
+<li>短时间网络中断        部分复制</li>
+<li>长时间网络中断        全量复制</li>
+</ul>
+</li>
+<li>部分复制的三个核心要素<ul>
+<li>服务器的运行 id（run id）</li>
+<li>主服务器的复制积压缓冲区</li>
+<li>主从服务器的复制偏移量</li>
+</ul>
+</li>
+</ul>
+<h3 id="10-服务器运行ID（runid）"><a href="#10-服务器运行ID（runid）" class="headerlink" title="10.服务器运行ID（runid）"></a>10.服务器运行ID（runid）</h3><ul>
+<li>概念：服务器运行ID是每一台服务器每次运行的身份识别码，一台服务器多次运行可以生成多个运行id</li>
+<li>组成：运行id由40位字符组成，是一个随机的十六进制字符<ul>
+<li>例如：fdc9ff13b9bbaab28db42b3d50f852bb5e3fcdce</li>
+</ul>
+</li>
+<li>作用：运行id被用于在服务器间进行传输，识别身份<ul>
+<li>如果想两次操作均对同一台服务器进行，必须每次操作携带对应的运行id，用于对方识别</li>
+</ul>
+</li>
+<li>实现方式：运行id在每台服务器启动时自动生成的，master在首次连接slave时，会将自己的运行ID发送给slave，slave保存此ID，通过info Server命令，可以查看节点的runid</li>
+</ul>
+<h3 id="11-复制缓冲区"><a href="#11-复制缓冲区" class="headerlink" title="11.复制缓冲区"></a>11.复制缓冲区</h3><ul>
+<li>概念：复制缓冲区，又名复制积压缓冲区，是一个先进先出（FIFO）的队列，用于存储服务器执行过的命令，每次传播命令，master都会将传播的命令记录下来，并存储在复制缓冲区</li>
+</ul>
+<p><img src="../../images/rides/4/4-24.png" alt="4-24"></p>
+<p><img src="../../images/rides/4/4-25.png" alt="4-25"></p>
+<h3 id="12-复制缓冲区内部工作原理"><a href="#12-复制缓冲区内部工作原理" class="headerlink" title="12.复制缓冲区内部工作原理"></a>12.复制缓冲区内部工作原理</h3><ul>
+<li>组成<ul>
+<li>偏移量</li>
+<li>字节值</li>
+</ul>
+</li>
+<li>工作原理<ul>
+<li>通过offset区分不同的slave当前数据传播的差异</li>
+<li>master记录已发送的信息对应的offset</li>
+<li>slave记录已接收的信息对应的offset</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../images/rides/4/4-26.png" alt="4-26"></p>
+<h3 id="13-复制缓冲区"><a href="#13-复制缓冲区" class="headerlink" title="13.复制缓冲区"></a>13.复制缓冲区</h3><ul>
+<li>概念：复制缓冲区，又名复制积压缓冲区，是一个先进先出（FIFO）的队列，用于存储服务器执行过的命令，每次传播命令，master都会将传播的命令记录下来，并存储在复制缓冲区</li>
+<li>复制缓冲区默认数据存储空间大小是1M，由于存储空间大小是固定的，当入队元素的数量大于队列长度时，最先入队的元素会被弹出，而新元素会被放入队列</li>
+<li>由来：每台服务器启动时，如果开启有AOF或被连接成为master节点，即创建复制缓冲区</li>
+<li>作用：用于保存master收到的所有指令（仅影响数据变更的指令，例如set，select）</li>
+<li>数据来源：当master接收到主客户端的指令时，除了将指令执行，会将该指令存储到缓冲区中</li>
+</ul>
+<h3 id="14-主从服务器复制偏移量（offset）"><a href="#14-主从服务器复制偏移量（offset）" class="headerlink" title="14.主从服务器复制偏移量（offset）"></a>14.主从服务器复制偏移量（offset）</h3><ul>
+<li>概念：一个数字，描述复制缓冲区中的指令字节位置</li>
+<li>分类：<ul>
+<li>master复制偏移量：记录发送给所有slave的指令字节对应的位置（多个）</li>
+<li>slave复制偏移量：记录slave接收master发送过来的指令字节对应的位置（一个）</li>
+</ul>
+</li>
+<li>数据来源：<ul>
+<li>master端：发送一次记录一次</li>
+<li>slave端：接收一次记录一次</li>
+</ul>
+</li>
+<li>作用：同步信息，比对master与slave的差异，当slave断线后，恢复数据使用</li>
+</ul>
+<h3 id="15-数据同步-命令传播阶段工作流程"><a href="#15-数据同步-命令传播阶段工作流程" class="headerlink" title="15.数据同步+命令传播阶段工作流程"></a>15.数据同步+命令传播阶段工作流程</h3><p><img src="../../images/rides/4/4-27.png" alt="4-27"></p>
+<h3 id="16-心跳机制"><a href="#16-心跳机制" class="headerlink" title="16.心跳机制"></a>16.心跳机制</h3><ul>
+<li>进入命令传播阶段候，master与slave间需要进行信息交换，使用心跳机制进行维护，实现双方连接保持在线</li>
+<li>master心跳：<ul>
+<li>指令：PING</li>
+<li>周期：由repl-ping-slave-period决定，默认10秒</li>
+<li>作用：判断slave是否在线</li>
+<li>查询：INFO replication  获取slave最后一次连接时间间隔，lag项维持在0或1视为正常</li>
+</ul>
+</li>
+<li>slave心跳任务<ul>
+<li>指令：REPLCONF ACK {offset}</li>
+<li>周期：1秒</li>
+<li>作用1：汇报slave自己的复制偏移量，获取最新的数据变更指令</li>
+<li>作用2：判断master是否在线</li>
+</ul>
+</li>
+</ul>
+<h3 id="17-心跳阶段注意事项"><a href="#17-心跳阶段注意事项" class="headerlink" title="17.心跳阶段注意事项"></a>17.心跳阶段注意事项</h3><ul>
+<li>当slave多数掉线，或延迟过高时，master为保障数据稳定性，将拒绝所有信息同步操作</li>
+<li>slave数量少于2个，或者所有slave的延迟都大于等于10秒时，强制关闭master写功能，停止数据同步</li>
+<li>slave数量由slave发送REPLCONF ACK命令做确认</li>
+<li>slave延迟由slave发送REPLCONF ACK命令做确认</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">min</span>-slaves-to-<span class="built_in">write</span> <span class="number">2</span></span><br><span class="line"><span class="built_in">min</span>-slaves-<span class="built_in">max</span>-lag <span class="number">8</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="18-主从复制工作流程（完整）"><a href="#18-主从复制工作流程（完整）" class="headerlink" title="18.主从复制工作流程（完整）"></a>18.主从复制工作流程（完整）</h3><p><img src="../../images/rides/4/4-28.png" alt="4-28"></p>
+<h2 id="3-3-主从复制常见问题"><a href="#3-3-主从复制常见问题" class="headerlink" title="3-3.主从复制常见问题"></a>3-3.主从复制常见问题</h2><h3 id="1-频繁的全量复制"><a href="#1-频繁的全量复制" class="headerlink" title="1.频繁的全量复制"></a>1.频繁的全量复制</h3><ul>
+<li>伴随着系统的运行，master的数据量会越来越大，一旦master重启，runid将发生变化，会导致全部slave的全量复制操作</li>
+<li>内部优化调整方案：</li>
+</ul>
+<ol>
+<li>master内部创建master_replid变量，使用runid相同的策略生成，长度41位，并发送给所有slave</li>
+<li>在master关闭时执行命令 shutdown save，进行RDB持久化,将runid与offset保存到RDB文件中<ol>
+<li>repl-id repl-offset</li>
+<li>通过redis-check-rdb命令可以查看该信息</li>
+</ol>
+</li>
+<li>master重启后加载RDB文件，恢复数据<ol>
+<li>重启后，将RDB文件中保存的repl-id与repl-offset加载到内存中</li>
+<li>master_repl_id = repl master_repl_offset = repl-offset</li>
+<li>通过info命令可以查看该信息</li>
+</ol>
+</li>
+<li>作用：<ol start="5">
+<li>本机保存上次runid，重启后恢复该值，使所有slave认为还是之前的master</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>问题现象<ul>
+<li>网络环境不佳，出现网络中断，slave不提供服务</li>
+</ul>
+</li>
+<li>问题原因<ul>
+<li>复制缓冲区过小，断网后slave的offset越界，触发全量复制</li>
+</ul>
+</li>
+<li>最终结果<ul>
+<li>slave反复进行全量复制</li>
+</ul>
+</li>
+<li>解决方案<ul>
+<li>修改复制缓冲区大小</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repl-backlog-size</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置如下：<ol>
+<li>测算从master到slave的重连平均时长second</li>
+<li>获取master平均每秒产生写命令数据总量write_size_per_second</li>
+<li>最优复制缓冲区空间 = 2 * second * write_size_per_second</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-频繁的网络中断1"><a href="#2-频繁的网络中断1" class="headerlink" title="2.频繁的网络中断1"></a>2.频繁的网络中断1</h3><ul>
+<li>问题现象<ul>
+<li>master的CPU占用过高 或 slave频繁断开连接</li>
+</ul>
+</li>
+<li>问题原因<ul>
+<li>slave每1秒发送REPLCONF ACK命令到master</li>
+<li>当slave接到了慢查询时（keys * ，hgetall等），会大量占用CPU性能</li>
+<li>master每1秒调用复制定时函数replicationCron()，比对slave发现长时间没有进行响应</li>
+</ul>
+</li>
+<li>最终结果<ul>
+<li>master各种资源（输出缓冲区、带宽、连接等）被严重占用</li>
+</ul>
+</li>
+<li>解决方案<ul>
+<li>通过设置合理的超时时间，确认是否释放slave</li>
+<li>该参数定义了超时时间的阈值（默认60秒），超过该值，释放slave</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repl-timeout</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-频繁的网络中断2"><a href="#3-频繁的网络中断2" class="headerlink" title="3.频繁的网络中断2"></a>3.频繁的网络中断2</h3><ul>
+<li>问题现象<ul>
+<li>slave与master连接断开</li>
+</ul>
+</li>
+<li>问题原因<ul>
+<li>master发送ping指令频度较低</li>
+<li>master设定超时时间较短</li>
+<li>ping指令在网络中存在丢包</li>
+</ul>
+</li>
+<li>解决方案<ul>
+<li>提高ping指令发送的频度</li>
+<li>超时时间repl-time的时间至少是ping指令频度的5到10倍，否则slave很容易判定超时</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repl-ping-slave-period</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-数据不一致"><a href="#4-数据不一致" class="headerlink" title="4.数据不一致"></a>4.数据不一致</h3><ul>
+<li>问题现象<ul>
+<li>多个slave获取相同数据不同步</li>
+</ul>
+</li>
+<li>问题原因<ul>
+<li>网络信息不同步，数据发送有延迟</li>
+</ul>
+</li>
+<li>解决方案<ul>
+<li>优化主从间的网络环境，通常放置在同一个机房部署，如使用阿里云等云服务器时要注意此现象</li>
+<li>监控主从节点延迟（通过offset）判断，如果slave延迟过大，暂时屏蔽程序对该slave的数据访问</li>
+<li>开启后仅响应info、slaveof等少数命令（慎用，除非对数据一致性要求很高）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">slave-serve-stale-data yes|no</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>rides</tag>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx学习与使用-1</title>
+    <url>/post/fc64138.html</url>
+    <content><![CDATA[<a id="more"></a>
+
+<h1 id="1-什么是-nginx"><a href="#1-什么是-nginx" class="headerlink" title="1.什么是 nginx"></a>1.什么是 nginx</h1><ul>
+<li>Nginx (“engine x”) 是一个高性能的 HTTP 和反向代理服务器,特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等</li>
+<li>Nginx 可以作为静态页面的 web 服务器，同时还支持 CGI 协议的动态语言，比如 perl、php等。但是不支持 java。Java 程序只能通过与 tomcat 配合完成。Nginx 专为性能优化而开发，性能是其最重要的考量,实现上非常注重效率 ，能经受高负载的考验,有报告表明能支持高达 50,000 个并发连接数。</li>
+<li>Nginx 是高性能的 HTTP 和反向代理的服务器，处理高并发能力是十分强大的，能经受高负载的考验,有报告表明能支持高达 50,000 个并发连接数。</li>
+</ul>
+<h1 id="2-正向代理"><a href="#2-正向代理" class="headerlink" title="2 .正向代理"></a>2 .正向代理</h1><ul>
+<li>Nginx 不仅可以做反向代理，实现负载均衡。还能用作正向代理来进行上网等功能。</li>
+<li>正向代理：如果把局域网外的 Internet 想象成一个巨大的资源库，则局域网中的客户端要访问 Internet，则需要通过代理服务器来访问，这种代理服务就称为正向代理。</li>
+<li>正向代理：需要在客户端配置代理服务器进行指定网站访问</li>
+</ul>
+<p><img src="../images/nginx/1.png" alt="1"></p>
+<p><img src="../images/nginx/2.png" alt="2"></p>
+<h1 id="3-反向代理"><a href="#3-反向代理" class="headerlink" title="3.反向代理"></a>3.反向代理</h1><ul>
+<li>反向代理，其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器 IP 地址。</li>
+<li>反向代理，暴露的是代理服务器地址，隐藏了真实服务器 IP </li>
+</ul>
+<p><img src="../images/nginx/3.png" alt="3"></p>
+<p><img src="../images/nginx/5.png" alt="5"></p>
+<p><img src="../images/nginx/4.png" alt="4"></p>
+<h1 id="4-负载均衡"><a href="#4-负载均衡" class="headerlink" title="4.负载均衡"></a>4.负载均衡</h1><ul>
+<li>客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服务器处理完毕后，再将结果返回给客户端。</li>
+<li>这种架构模式对于早期的系统相对单一，并发请求相对较少的情况下是比较适合的，成本也低。但是随着信息数量的不断增长，访问量和数据量的飞速增长，以及系统业务的复杂度增加，这种架构会造成服务器相应客户端的请求日益缓慢，并发量特别大的时候，还容易造成服务器直接崩溃。</li>
+<li>很明显这是由于服务器性能的瓶颈造成的问题，那么如何解决这种情况呢？</li>
+<li>我们首先想到的可能是升级服务器的配置，比如提高 CPU 执行频率，加大内存等提高机器的物理性能来解决此问题，但是我们知道摩尔定律的日益失效，硬件的性能提升已经不能满足日益提升的需求了。</li>
+<li>最明显的一个例子，天猫双十一当天，某个热销商品的瞬时访问量是极其庞大的，那么类似上面的系统架构，将机器都增加到现有的顶级物理配置，都是不能够满足需求的。那么怎么办呢？</li>
+<li>上面的分析我们去掉了增加服务器物理配置来解决问题的办法，也就是说纵向解决问题的办法行不通了，那么横向增加服务器的数量呢？</li>
+<li>这时候集群的概念产生了，单个服务器解决不了，我们增加服务器的数量，然后将请求分发到各个服务器上，将原先请求集中到单个服务器上的情况改为将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们所说的负载均衡</li>
+<li>增加服务器的数量，然后将请求分发到各个服务器上，将原先请求集中到单个服务器上的情况改为将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们所说的<strong>负载均衡</strong></li>
+</ul>
+<p><img src="../images/nginx/7.png" alt="7"></p>
+<p><img src="../images/nginx/8.png" alt="8"></p>
+<h1 id="5-动静分离"><a href="#5-动静分离" class="headerlink" title="5.动静分离"></a>5.动静分离</h1><ul>
+<li>为了加快网站的解析速度，可以把动态页面和静态页面由不同的服务器来解析，加快解析速度。降低原来单个服务器的压力。</li>
+<li>动静分离前</li>
+</ul>
+<p><img src="../images/nginx/6.png" alt="6"></p>
+<ul>
+<li>分离后<img src="../images/nginx/10.png" alt="10"></li>
+</ul>
+<p><img src="../images/nginx/9.png" alt="9"></p>
+<h1 id="6-在linux上的安装"><a href="#6-在linux上的安装" class="headerlink" title="6.在linux上的安装"></a>6.在linux上的安装</h1>]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux命令使用</title>
     <url>/post/69e68e84.html</url>
     <content><![CDATA[<p>Linux命令使用</p>
@@ -917,8 +1683,8 @@
         <category>数据库</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>mysql</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2098,6 +2864,273 @@
 <li>AOF(append only file)持久化：以独立日志的方式记录每次写命令，重启时再重新执行AOF文件中命令达到恢复数据的目的。与RDB相比可以简单描述为改记录数据为记录数据产生的过程</li>
 <li>AOF的主要作用是解决了数据持久化的实时性，目前已经是Redis持久化的主流方式</li>
 </ul>
+<h2 id="2-3-AOF写数据过程"><a href="#2-3-AOF写数据过程" class="headerlink" title="2.3.AOF写数据过程"></a>2.3.AOF写数据过程</h2><p><img src="../../images/rides/3/3-11.png" alt="3-11"></p>
+<h2 id="2-4-AOF写数据三种策略-appendfsync"><a href="#2-4-AOF写数据三种策略-appendfsync" class="headerlink" title="2.4.AOF写数据三种策略(appendfsync)"></a>2.4.AOF写数据三种策略(appendfsync)</h2><ul>
+<li>always(每次）<ul>
+<li>每次写入操作均同步到AOF文件中，数据零误差，性能较低，不建议使用。</li>
+</ul>
+</li>
+<li>everysec（每秒）<ul>
+<li>每秒将缓冲区中的指令同步到AOF文件中，数据准确性较高，性能较高，建议使用，也是默认配置</li>
+<li>在系统突然宕机的情况下丢失1秒内的数据</li>
+</ul>
+</li>
+<li>no（系统控制）<ul>
+<li>由操作系统控制每次同步到AOF文件的周期，整体过程不可控</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-5-AOF功能开启"><a href="#2-5-AOF功能开启" class="headerlink" title="2.5.AOF功能开启"></a>2.5.AOF功能开启</h2><ul>
+<li>配置：appendonly yes|no</li>
+<li>作用：是否开启AOF持久化功能，默认为不开启状态</li>
+<li>配置：appendfsync always|everysec|no</li>
+<li>作用：AOF写数据策略</li>
+<li>配置：appendfilename filename</li>
+<li>作用：AOF持久化文件名，默认文件名未appendonly.aof，建议配置为appendonly-端口号.aof</li>
+<li>配置：dir</li>
+<li>作用：AOF持久化文件保存路径，与RDB持久化文件保持一致即可</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">cd redis<span class="number">-5.0</span><span class="number">.8</span></span><br><span class="line">cd conf</span><br><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">最后加</span><br><span class="line">appendonly yes</span><br><span class="line">appendfsync always</span><br><span class="line"></span><br><span class="line">启动</span><br><span class="line">redis-server redis<span class="number">-6379.</span>conf</span><br><span class="line">cd ..</span><br><span class="line">cd data</span><br><span class="line">[root@localhost data]<span class="meta"># ll</span></span><br><span class="line">总用量 <span class="number">28</span></span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root <span class="number">13023</span> <span class="number">4</span>月  <span class="number">21</span> <span class="number">16</span>:<span class="number">09</span> <span class="number">6379.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root  <span class="number">6730</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">16</span>:<span class="number">54</span> <span class="number">6380.l</span>og</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root     <span class="number">0</span> <span class="number">4</span>月  <span class="number">21</span> <span class="number">16</span>:<span class="number">09</span> appendonly.aof</span><br><span class="line">-rw-r--r--. <span class="number">1</span> root root   <span class="number">130</span> <span class="number">4</span>月  <span class="number">11</span> <span class="number">21</span>:<span class="number">06</span> dump<span class="number">-6379.</span>rdb</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-AOF写数据遇到的问题"><a href="#2-6-AOF写数据遇到的问题" class="headerlink" title="2.6.AOF写数据遇到的问题"></a>2.6.AOF写数据遇到的问题</h2><h3 id="如果连续执行如下指令该如何处理"><a href="#如果连续执行如下指令该如何处理" class="headerlink" title="如果连续执行如下指令该如何处理?"></a>如果连续执行如下指令该如何处理?</h3><p><img src="../../images/rides/3/3-12.png" alt="3-12"></p>
+<h3 id="AOF重写"><a href="#AOF重写" class="headerlink" title="AOF重写"></a>AOF重写</h3><ul>
+<li>随着命令不断写入AOF，文件会越来越大，为了解决这个问题，Redis引入了AOF重写机制压缩文件体积。</li>
+<li>AOF文件重写是将Redis进程内的数据转化为写命令同步到新AOF文件的过程。</li>
+<li>简单说就是将对同一个数据的若干个条命令执行结果转化成最终结果数据对应的指令进行记录。</li>
+<li>作用：<ul>
+<li>降低磁盘占用量，提高磁盘利用率</li>
+<li>提高持久化效率，降低持久化写时间，提高IO性能</li>
+<li>降低数据恢复用时，提高数据恢复效率</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF重写规则"><a href="#AOF重写规则" class="headerlink" title="AOF重写规则"></a>AOF重写规则</h3><ul>
+<li>进程内已超时的数据不再写入文件</li>
+<li>忽略无效指令，重写时使用进程内数据直接生成，这样新的AOF文件只保留最终数据的写入命令<ul>
+<li>如del key1、 hdel key2、srem key3、set key4 111、set key4 222等</li>
+</ul>
+</li>
+<li>对同一数据的多条写命令合并为一条命令<ul>
+<li>如lpush list1 a、lpush list1 b、 lpush list1 c 可以转化为：lpush list1 a b c。</li>
+<li>为防止数据量过大造成客户端缓冲区溢出，对list、set、hash、zset等类型，每条指令最多写入64个元素</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF重写方式"><a href="#AOF重写方式" class="headerlink" title="AOF重写方式"></a>AOF重写方式</h3><h4 id="1-手动重写：bgrewriteaof"><a href="#1-手动重写：bgrewriteaof" class="headerlink" title="1.手动重写：bgrewriteaof"></a>1.手动重写：bgrewriteaof</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">vim redis<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">最后加</span><br><span class="line">appendonly yes</span><br><span class="line">appendfsync always</span><br><span class="line">appendfilename appendonly<span class="number">-6379.</span>aof</span><br><span class="line"></span><br><span class="line">启动</span><br><span class="line">redis-server redis<span class="number">-6379.</span>conf</span><br><span class="line">ps -ef | grep redis-</span><br><span class="line">cd data </span><br><span class="line">ll</span><br><span class="line"></span><br><span class="line">客户端<span class="number">2</span>：</span><br><span class="line">redis-cli</span><br><span class="line"><span class="built_in">set</span> naem <span class="number">123</span></span><br><span class="line"><span class="built_in">set</span> naem <span class="number">234</span></span><br><span class="line"><span class="built_in">set</span> naem <span class="number">345</span></span><br><span class="line">客户端<span class="number">1</span>：appendonly<span class="number">-6379.</span>aof  有三个的记录</span><br><span class="line">bgrewriteaof</span><br><span class="line">客户端<span class="number">1</span>：appendonly<span class="number">-6379.</span>aof  只剩<span class="number">1</span>个的记录</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>RDB启动方式 —— bgsave指令工作原理</li>
+<li>AOF手动重写 —— bgrewriteaof指令工作原理</li>
+</ul>
+<p><img src="../../images/rides/3/3-13.png" alt="3-13"></p>
+<h4 id="2-自动重写"><a href="#2-自动重写" class="headerlink" title="2.自动重写"></a>2.自动重写</h4><ul>
+<li>自动重写触发条件设置</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span>-aof-rewrite-<span class="built_in">min</span>-<span class="built_in">size</span> <span class="built_in">size</span></span><br><span class="line"><span class="keyword">auto</span>-aof-rewrite-percentage percent</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>自动重写触发比对参数（ 运行指令info Persistence获取具体信息 ）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">aof_current_size</span><br><span class="line">aof_base_size</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>自动重写触发条件</li>
+</ul>
+<p><img src="../../images/rides/3/3-14.png" alt="3-14"></p>
+<h2 id="2-7-AOF工作流程"><a href="#2-7-AOF工作流程" class="headerlink" title="2.7.AOF工作流程"></a>2.7.AOF工作流程</h2><p><img src="../../images/rides/3/3-15.png" alt="3-15"></p>
+<h2 id="2-8-AOF重写流程"><a href="#2-8-AOF重写流程" class="headerlink" title="2.8.AOF重写流程"></a>2.8.AOF重写流程</h2><p><img src="../../images/rides/3/3-16.png" alt="3-16"></p>
+<h3 id="AOF缓冲区同步文件策略，由参数appendfsync控制"><a href="#AOF缓冲区同步文件策略，由参数appendfsync控制" class="headerlink" title="AOF缓冲区同步文件策略，由参数appendfsync控制"></a>AOF缓冲区同步文件策略，由参数appendfsync控制</h3><ul>
+<li>系统调用write和fsync说明：</li>
+<li>write操作会触发延迟写（delayed write）机制，Linux在内核提供页缓冲区用来提高硬盘IO性能。write操作在写入系统缓冲区后直接返回。同步硬盘操作依赖于系统调度机制，列如：缓冲区页空间写满或达到特定时间周期。同步文件之前，如果此时系统故障宕机，缓冲区内数据将丢失。</li>
+<li>fsync针对单个文件操作（比如AOF文件），做强制硬盘同步，fsync将阻塞知道写入硬盘完成后返回，保证了数据持久化。</li>
+<li>除了write、fsync、Linx还提供了sync、fdatasync操作，具体API说明</li>
+</ul>
+<h1 id="3-RDB与AOF区别"><a href="#3-RDB与AOF区别" class="headerlink" title="3.RDB与AOF区别"></a>3.RDB与AOF区别</h1><p><img src="../../images/rides/3/3-17.png" alt="3-17"></p>
+<ul>
+<li>对数据非常敏感，建议使用默认的AOF持久化方案<ul>
+<li>AOF持久化策略使用everysecond，每秒钟fsync一次。该策略redis仍可以保持很好的处理性能，当出现问题时，最多丢失0-1秒内的数据。</li>
+<li>注意：由于AOF文件存储体积较大，且恢复速度较慢</li>
+</ul>
+</li>
+<li>数据呈现阶段有效性，建议使用RDB持久化方案<ul>
+<li>数据可以良好的做到阶段内无丢失（该阶段是开发者或运维人员手工维护的），且恢复速度较快，阶段点数据恢复通常采用RDB方案</li>
+<li>注意：利用RDB实现紧凑的数据持久化会使Redis降的很低，慎重总结：</li>
+</ul>
+</li>
+<li>综合比对<ul>
+<li>RDB与AOF的选择实际上是在做一种权衡，每种都有利有弊</li>
+<li>如不能承受数分钟以内的数据丢失，对业务数据非常敏感，选用AOF</li>
+<li>如能承受数分钟以内的数据丢失，且追求大数据集的恢复速度，选用RDB</li>
+<li>灾难恢复选用RDB</li>
+<li>双保险策略，同时开启 RDB 和 AOF，重启后，Redis优先使用 AOF 来恢复数据，降低丢失数据的量</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-持久化应用场景"><a href="#4-持久化应用场景" class="headerlink" title="4.持久化应用场景"></a>4.持久化应用场景</h1><ul>
+<li>redis 应用于抢购，限购类、限量发放优惠卷、激活码等业务的数据存储设计</li>
+<li>redis 应用于具有操作先后顺序的数据控制</li>
+<li>redis 应用于最新消息展示</li>
+<li>redis 应用于基于黑名单与白名单设定的服务控制</li>
+<li>redis 应用于计数器组合排序功能对应的排名</li>
+</ul>
+<h1 id="5-事务"><a href="#5-事务" class="headerlink" title="5.事务"></a>5.事务</h1><ul>
+<li>Redis执行指令过程中，多条连续执行的指令被干扰，打断，插队</li>
+<li>redis事务就是一个命令执行的队列，将一系列预定义命令包装成一个整体（一个队列）。当执行时，一次性按照添加顺序依次执行，中间不会被打断或者干扰。</li>
+<li>一个队列中，一次性、顺序性、排他性的执行一系列命令</li>
+</ul>
+<p><img src="../../images/rides/3/3-18.png" alt="3-18"></p>
+<p><img src="../../images/rides/3/3-19.png" alt="3-19"></p>
+<h2 id="5-1-事务的基本操作"><a href="#5-1-事务的基本操作" class="headerlink" title="5.1.事务的基本操作"></a>5.1.事务的基本操作</h2><ul>
+<li>开启事务：multi</li>
+<li>作用：设定事务的开启位置，此指令执行后，后续的所有指令均加入到事务中</li>
+<li>执行事务：exec</li>
+<li>作用：设定事务的结束位置，同时执行事务。与multi成对出现，成对使用</li>
+<li>注意：加入事务的命令暂时进入到任务队列中，并没有立即执行，只有执行exec命令才开始执行</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">客户端<span class="number">1</span></span><br><span class="line">redis-server conf/redis<span class="number">-6379.</span>conf</span><br><span class="line">客户端<span class="number">2</span></span><br><span class="line">[root@localhost redis<span class="number">-5.0</span><span class="number">.8</span>]<span class="meta"># redis-cli</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">OK</span><br><span class="line">客户端<span class="number">3</span></span><br><span class="line">[root@localhost ~]<span class="meta"># redis-cli</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">456</span></span><br><span class="line">OK</span><br><span class="line">客户端<span class="number">2</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line"><span class="string">"456"</span></span><br><span class="line"></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">1</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> age</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">10</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> age</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line"><span class="number">1</span>) OK</span><br><span class="line"><span class="number">2</span>) <span class="string">"1"</span></span><br><span class="line"><span class="number">3</span>) OK</span><br><span class="line"><span class="number">4</span>) <span class="string">"10"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="事务定义过程中发现出了问题，怎么办？"><a href="#事务定义过程中发现出了问题，怎么办？" class="headerlink" title="事务定义过程中发现出了问题，怎么办？"></a>事务定义过程中发现出了问题，怎么办？</h3><ul>
+<li>取消事务：discard</li>
+<li>作用：终止当前事务的定义，发生在multi之后，exec之前</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">10</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> age</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">110</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; discard</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line">(error) ERR EXEC without MULTI</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-2-事务的工作流程"><a href="#5-2-事务的工作流程" class="headerlink" title="5.2.事务的工作流程"></a>5.2.事务的工作流程</h2><h4 id="正常set"><a href="#正常set" class="headerlink" title="正常set"></a>正常set</h4><p><img src="../../images/rides/3/3-20.png" alt="3-20"></p>
+<h4 id="开启事务"><a href="#开启事务" class="headerlink" title="开启事务"></a>开启事务</h4><p><img src="../../images/rides/3/3-21.png" alt="3-21"></p>
+<h4 id="set"><a href="#set" class="headerlink" title="set"></a>set</h4><p><img src="../../images/rides/3/3-22.png" alt="3-22"></p>
+<h4 id="del"><a href="#del" class="headerlink" title="del"></a>del</h4><p><img src="../../images/rides/3/3-23.png" alt="3-23"></p>
+<h4 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h4><p><img src="../../images/rides/3/3-24.png" alt="3-24"></p>
+<h4 id="取消"><a href="#取消" class="headerlink" title="取消"></a>取消</h4><p><img src="../../images/rides/3/3-25.png" alt="3-25"></p>
+<h2 id="5-3-事务的注意事项"><a href="#5-3-事务的注意事项" class="headerlink" title="5.3.事务的注意事项"></a>5.3.事务的注意事项</h2><h3 id="定义事务的过程中，命令格式输入错误怎么办？"><a href="#定义事务的过程中，命令格式输入错误怎么办？" class="headerlink" title="定义事务的过程中，命令格式输入错误怎么办？"></a>定义事务的过程中，命令格式输入错误怎么办？</h3><ul>
+<li>语法错误<ul>
+<li>指命令书写格式有误</li>
+</ul>
+</li>
+<li>处理结果<ul>
+<li>如果定义的事务中所包含的命令存在语法错误，整体事务中所有命令均不会执行。包括那些语法正确的命令。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">清除数据</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; flushdb</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys *</span><br><span class="line">(empty <span class="built_in">list</span> <span class="keyword">or</span> <span class="built_in">set</span>)</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; tes name <span class="number">456</span></span><br><span class="line">(error) ERR unknown command `tes`, with args beginning with: `name`, `<span class="number">456</span>`, </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line">(error) EXECABORT Transaction discarded because of previous errors.</span><br><span class="line">语法错误，全部不执行</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义事务的过程中，命令执行出现错误怎么办？"><a href="#定义事务的过程中，命令执行出现错误怎么办？" class="headerlink" title="定义事务的过程中，命令执行出现错误怎么办？"></a>定义事务的过程中，命令执行出现错误怎么办？</h4><ul>
+<li><p>运行错误</p>
+<ul>
+<li>指命令格式正确，但是无法正确的执行。例如对list进行incr操作</li>
+</ul>
+</li>
+<li><p>处理结果</p>
+<ul>
+<li><p>能够正确运行的命令会执行，运行错误的命令不会被执行</p>
+</li>
+<li><p>注意：已经执行完毕的命令对应的数据不会自动回滚，需要程序员自己在代码中实现回滚。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">456</span></span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; lpush name a b c</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line"><span class="number">1</span>) OK</span><br><span class="line"><span class="number">2</span>) <span class="string">"123"</span></span><br><span class="line"><span class="number">3</span>) OK</span><br><span class="line"><span class="number">4</span>) <span class="string">"456"</span></span><br><span class="line"><span class="number">5</span>) (error) WRONGTYPE Operation against a key holding the wrong kind of value</span><br><span class="line"><span class="number">6</span>) <span class="string">"456"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-4-手动进行事务回滚"><a href="#5-4-手动进行事务回滚" class="headerlink" title="5.4.手动进行事务回滚"></a>5.4.手动进行事务回滚</h2><ul>
+<li>记录操作过程中被影响的数据之前的状态<ul>
+<li>单数据：string</li>
+<li>多数据：hash、list、set、zset</li>
+</ul>
+</li>
+<li>设置指令恢复所有的被修改的项<ul>
+<li>单数据：直接set（注意周边属性，例如时效）</li>
+<li>多数据：修改对应值或整体克隆复制</li>
+</ul>
+</li>
+</ul>
+<h1 id="6-锁"><a href="#6-锁" class="headerlink" title="6.锁"></a>6.锁</h1><h2 id="6-1-基于特定条件的事务执行"><a href="#6-1-基于特定条件的事务执行" class="headerlink" title="6.1.基于特定条件的事务执行"></a>6.1.基于特定条件的事务执行</h2><ul>
+<li>业务场景<ul>
+<li>天猫双11热卖过程中，对已经售罄的货物追加补货，4个业务员都有权限进行补货。补货的操作可能是一系列的操作，牵扯到多个连续操作，如何保障不会重复操作？</li>
+</ul>
+</li>
+<li>业务分析<ul>
+<li>多个客户端有可能同时操作同一组数据，并且该数据一旦被操作修改后，将不适用于继续操作</li>
+<li>在操作之前锁定要操作的数据，一旦发生变化，终止当前操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-2-基于特定条件的事务执行——锁"><a href="#6-2-基于特定条件的事务执行——锁" class="headerlink" title="6.2.基于特定条件的事务执行——锁"></a>6.2.基于特定条件的事务执行——锁</h2><ul>
+<li>对 key 添加监视锁，在执行exec前如果key发生了变化，终止事务执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">watch key1 [key2……]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>取消对所有 key 的监视</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">unwatch</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>redis 应用基于状态控制的批量任务执行</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">清除数据</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; flushdb</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys * </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> age <span class="number">321</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line"><span class="string">"123"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> aa bb</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> aa</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line"><span class="number">1</span>) OK</span><br><span class="line"><span class="number">2</span>) <span class="string">"bb"</span></span><br></pre></td></tr></table></figure>
+<p>监控到有别的客户端使用name</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name age</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">set</span> aa cc</span><br><span class="line">QUEUED</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> aa</span><br><span class="line">QUEUED</span><br><span class="line"></span><br><span class="line">客户端<span class="number">2</span>：<span class="built_in">set</span> name <span class="number">321</span></span><br><span class="line">    </span><br><span class="line">客户端<span class="number">1</span>：</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; exec</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+
+<p>不能开启事务，监控</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; multi</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name</span><br><span class="line">(error) ERR WATCH inside MULTI is <span class="keyword">not</span> allowed</span><br><span class="line"></span><br><span class="line">释放锁</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; watch name</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="built_in">get</span> name</span><br><span class="line"><span class="string">"321"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; unwatch</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-3-基于特定条件的事务执行——分布式锁"><a href="#6-3-基于特定条件的事务执行——分布式锁" class="headerlink" title="6.3.基于特定条件的事务执行——分布式锁"></a>6.3.基于特定条件的事务执行——分布式锁</h2><ul>
+<li>业务场景<ul>
+<li>天猫双11热卖过程中，对已经售罄的货物追加补货，且补货完成。客户购买热情高涨，3秒内将所有商品购买完毕。本次补货已经将库存全部清空，如何避免最后一件商品不被多人同时购买？【超卖问题】</li>
+</ul>
+</li>
+<li>业务分析<ul>
+<li>使用watch监控一个key有没有改变已经不能解决问题，此处要监控的是具体数据</li>
+<li>虽然redis是单线程的，但是多个客户端对同一数据同时进行操作时，如何避免不被同时修改？</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>使用 setnx 设置一个公共锁：setnx lock-key value</p>
+</li>
+<li><p>利用setnx命令的返回值特征，有值则返回设置失败，无值则返回设置成功</p>
+<ul>
+<li>对于返回设置成功的，拥有控制权，进行下一步的具体业务操作</li>
+<li>对于返回设置失败的，不具有控制权，排队或等待</li>
+</ul>
+</li>
+<li><p>操作完毕通过del操作释放锁</p>
+</li>
+<li><p>注意：上述解决方案是一种设计概念，依赖规范保障，具有风险性</p>
+</li>
+<li><p>redis 应用基于分布式锁对应的场景控制</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> num <span class="number">10</span></span><br><span class="line">setnx lock-num <span class="number">1</span></span><br><span class="line">incrby num <span class="number">-1</span></span><br><span class="line">del lock-num</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-4-基于特定条件的事务执行——分布式锁改良"><a href="#6-4-基于特定条件的事务执行——分布式锁改良" class="headerlink" title="6.4.基于特定条件的事务执行——分布式锁改良"></a>6.4.基于特定条件的事务执行——分布式锁改良</h2><ul>
+<li>业务场景<ul>
+<li>依赖分布式锁的机制，某个用户操作时对应客户端宕机，且此时已经获取到锁。如何解决？</li>
+</ul>
+</li>
+<li>业务分析<ul>
+<li>由于锁操作由用户控制加锁解锁，必定会存在加锁后未解锁的风险</li>
+<li>需要解锁操作不能仅依赖用户控制，系统级别要给出对应的保底处理方案</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>使用 expire 为锁key添加时间限定，到时不释放，放弃锁</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">expire lock-key second</span><br><span class="line">pexpire lock-key milliseconds</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>由于操作通常都是微秒或毫秒级，因此该锁定时间不宜设置过大。具体时间需要业务测试后确认。<ul>
+<li>例如：持有锁的操作最长执行时间127ms，最短执行时间7ms。</li>
+<li>测试百万次最长执行时间对应命令的最大耗时，测试百万次网络延迟平均耗时</li>
+<li>锁时间设定推荐：最大耗时<em>120%+平均网络延迟</em>110%</li>
+<li>如果业务最大耗时&lt;&lt;网络平均延迟，通常为2个数量级，取其中单个耗时较长即可</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">清除数据</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; flushdb</span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; keys * </span><br><span class="line"><span class="built_in">set</span> name <span class="number">123</span></span><br><span class="line">setnx lock-name <span class="number">1</span></span><br><span class="line">expire lock-name <span class="number">20</span></span><br><span class="line"><span class="built_in">get</span> name</span><br><span class="line">del lock-name</span><br><span class="line">setnx lock-name <span class="number">1</span></span><br><span class="line">expire lock-name <span class="number">20</span></span><br><span class="line"></span><br><span class="line">客户端<span class="number">2</span>：</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setnx lock-name <span class="number">1</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setnx lock-name <span class="number">1</span></span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line">......<span class="number">.20</span>秒后</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; setnx lock-name <span class="number">1</span></span><br><span class="line">(integer) <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>后端</category>
