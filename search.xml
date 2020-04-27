@@ -4,7 +4,506 @@
     <title>Rides再次学习5</title>
     <url>/post/509c6801.html</url>
     <content><![CDATA[<p>rides的学习与使用</p>
-<a id="more"></a>]]></content>
+<a id="more"></a>
+
+<h1 id="1-哨兵模式"><a href="#1-哨兵模式" class="headerlink" title="1.哨兵模式"></a>1.哨兵模式</h1><h2 id="1-1-哨兵简介"><a href="#1-1-哨兵简介" class="headerlink" title="1-1.哨兵简介"></a>1-1.哨兵简介</h2><h3 id="1-主机“宕机”"><a href="#1-主机“宕机”" class="headerlink" title="1.主机“宕机”"></a>1.主机“宕机”</h3><ul>
+<li>关闭master和所有slave </li>
+<li>找一个slave作为master</li>
+<li>修改其他slave的配置，连接新的主</li>
+<li>启动新的master与slave</li>
+<li>全量复制<em>N+部分复制</em>N</li>
+</ul>
+<p><img src="../../images/rides/5/5-9.png" alt="5-9"></p>
+<p><img src="../../images/rides/5/5-10.png" alt="5-10"></p>
+<ul>
+<li>关闭期间的数据服务谁来承接？ </li>
+<li>找一个主？怎么找法？</li>
+<li>修改配置后，原始的主恢复了怎么办？</li>
+</ul>
+<h3 id="2-哨兵"><a href="#2-哨兵" class="headerlink" title="2.哨兵"></a>2.哨兵</h3><p>哨兵(sentinel) 是一个分布式系统，用于对主从结构中的每台服务器进行监控，当出现故障时通过投票机制选择新的master并将所有slave连接到新的master。</p>
+<p><img src="../../images/rides/5/5-7.png" alt="5-7"></p>
+<p><img src="../../images/rides/5/5-8.png" alt="5-8"></p>
+<h3 id="3-哨兵的作用"><a href="#3-哨兵的作用" class="headerlink" title="3.哨兵的作用"></a>3.哨兵的作用</h3><ul>
+<li>监控<ul>
+<li>不断的检查master和slave是否正常运行。</li>
+<li>master存活检测、master与slave运行情况检测</li>
+</ul>
+</li>
+<li>通知（提醒）<ul>
+<li>当被监控的服务器出现问题时，向其他（哨兵间，客户端）发送通知。</li>
+</ul>
+</li>
+<li>自动故障转移<ul>
+<li>断开master与slave连接，选取一个slave作为master，将其他slave连接到新的master，并告知客户端新的服务器地址</li>
+</ul>
+</li>
+<li>注意：<ul>
+<li>哨兵也是一台redis服务器，只是不提供数据服务</li>
+<li>通常哨兵配置数量为单数</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-2-配置哨兵"><a href="#1-2-配置哨兵" class="headerlink" title="1-2.配置哨兵"></a>1-2.配置哨兵</h2><ul>
+<li>配置一拖二的主从结构</li>
+<li>配置三个哨兵（配置相同，端口不同）<ul>
+<li>参看sentinel.conf</li>
+</ul>
+</li>
+<li>启动哨兵</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">redis-sentinel sentinel- 端口号 .conf</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-21.png" alt="5-21"></p>
+<p><strong>配置：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">哨兵<span class="number">1</span>：</span><br><span class="line">cd redis<span class="number">-5.0</span><span class="number">.8</span></span><br><span class="line">cat sentinel.conf</span><br><span class="line">cat sentinel.conf | grep -v <span class="string">"#"</span> | grep -v <span class="string">"^$"</span></span><br><span class="line">cat sentinel.conf | grep -v <span class="string">"#"</span> | grep -v <span class="string">"^$"</span> &gt; ./conf/sentinel<span class="number">-26379.</span>conf</span><br><span class="line">cd conf </span><br><span class="line">ll</span><br><span class="line">vim sentinel<span class="number">-26379.</span>conf </span><br><span class="line"></span><br><span class="line">dir /redis/<span class="number">5.0</span><span class="number">.8</span>/data</span><br><span class="line">复制</span><br><span class="line">sed 's/26379/26380/g' sentinel-26379.conf &gt; sentinel-26380.conf</span><br><span class="line">sed 's/26379/26381/g' sentinel-26379.conf &gt; sentinel-26381.conf</span><br><span class="line">ll</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-1.png" alt="5-1"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sed &#39;s&#x2F;6380&#x2F;6381&#x2F;g&#39; redis-6380.conf &gt; redis-6381.conf</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-2.png" alt="5-2"></p>
+<p>完成准备工作，启动</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">master:</span><br><span class="line">redis-server /conf/redis<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">slave1：	</span><br><span class="line">redis-server /conf/redis<span class="number">-6380.</span>conf</span><br><span class="line"></span><br><span class="line">slave2：	</span><br><span class="line">redis-server /conf/redis<span class="number">-6381.</span>conf</span><br><span class="line"></span><br><span class="line">哨兵<span class="number">1</span>：</span><br><span class="line">redis-sentinel sentinel<span class="number">-26379.</span>conf</span><br><span class="line">哨兵<span class="number">1</span>客户端：</span><br><span class="line">redis-cli -p <span class="number">26379</span></span><br><span class="line">查看配置，自动改</span><br><span class="line">cat /conf/sentinel<span class="number">-26379.</span>conf</span><br><span class="line"></span><br><span class="line">哨兵<span class="number">2</span>：</span><br><span class="line">redis-sentinel sentinel<span class="number">-26380.</span>conf</span><br><span class="line">哨兵<span class="number">2</span>客户端：</span><br><span class="line">redis-cli -p <span class="number">26380</span></span><br><span class="line"></span><br><span class="line">查看配置，自动改</span><br><span class="line">cat /conf/sentinel<span class="number">-26379.</span>conf</span><br><span class="line"></span><br><span class="line">哨兵<span class="number">3</span>：</span><br><span class="line">redis-sentinel sentinel<span class="number">-26381.</span>conf</span><br><span class="line">哨兵<span class="number">3</span>客户端：</span><br><span class="line">redis-cli -p <span class="number">26381</span></span><br><span class="line"></span><br><span class="line">master客户端:</span><br><span class="line">redis-cli -p <span class="number">6379</span></span><br><span class="line">slave1客户端:</span><br><span class="line">redis-cli -p <span class="number">6380</span></span><br><span class="line">master客户端:</span><br><span class="line"><span class="built_in">set</span> name name</span><br><span class="line">slave1客户端:</span><br><span class="line"><span class="built_in">get</span> name</span><br><span class="line"></span><br><span class="line">停掉master，ctrl+c</span><br><span class="line">在哨兵<span class="number">1</span>查看</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-3.png" alt="5-3"></p>
+<h2 id="1-3-哨兵工作原理"><a href="#1-3-哨兵工作原理" class="headerlink" title="1-3.哨兵工作原理"></a>1-3.哨兵工作原理</h2><h3 id="1-主从切换"><a href="#1-主从切换" class="headerlink" title="1.主从切换"></a>1.主从切换</h3><ul>
+<li>哨兵在进行主从切换过程中经历三个阶段<ul>
+<li>监控</li>
+<li>通知</li>
+<li>故障转移</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-阶段一：监控阶段"><a href="#2-阶段一：监控阶段" class="headerlink" title="2.阶段一：监控阶段"></a>2.阶段一：监控阶段</h3><ul>
+<li>用于同步各个节点的状态信息</li>
+<li>获取各个sentinel的状态（是否在线）</li>
+<li>获取master的状态<ul>
+<li>master属性</li>
+<li>runid</li>
+<li>role：master</li>
+<li>各个slave的详细信息</li>
+</ul>
+</li>
+<li>获取所有slave的状态（根据master中的slave信息）<ul>
+<li>slave属性</li>
+<li>runid</li>
+<li>role：slave</li>
+<li>master_host、master_port</li>
+<li>offset</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../images/rides/5/5-4.png" alt="5-4"></p>
+<p><img src="../../images/rides/5/5-5.png" alt="5-5"></p>
+<h3 id="3-阶段二：通知阶段"><a href="#3-阶段二：通知阶段" class="headerlink" title="3.阶段二：通知阶段"></a>3.阶段二：通知阶段</h3><p><img src="../../images/rides/5/5-6.png" alt="5-6"></p>
+<h3 id="4-阶段三：故障转移阶段"><a href="#4-阶段三：故障转移阶段" class="headerlink" title="4.阶段三：故障转移阶段"></a>4.阶段三：故障转移阶段</h3><p><img src="../../images/rides/5/5-11.png" alt="5-11"></p>
+<p>客观下线后</p>
+<p>先选一个头，投票机制</p>
+<p><img src="../../images/rides/5/5-12.png" alt="5-12"></p>
+<p><img src="../../images/rides/5/5-13.png" alt="5-13"></p>
+<p><img src="../../images/rides/5/5-14.png" alt="5-14"></p>
+<ul>
+<li>服务器列表中挑选备选master<ul>
+<li>在线的</li>
+<li>响应慢的</li>
+<li>与原master断开时间久的</li>
+<li>优先原则</li>
+<li>优先级</li>
+<li>offset</li>
+<li>runid</li>
+</ul>
+</li>
+<li>发送指令（ sentinel ）<ul>
+<li>向新的master发送slaveof no one</li>
+<li>向其他slave发送slaveof 新masterIP端口</li>
+</ul>
+</li>
+</ul>
+<p><strong>在线的</strong></p>
+<p><img src="../../images/rides/5/5-15.png" alt="5-15"></p>
+<p><strong>响应慢的</strong></p>
+<p><img src="../../images/rides/5/5-16.png" alt="5-16"></p>
+<p><img src="../../images/rides/5/5-17.png" alt="5-17"></p>
+<p><strong>与原master断开时间久的</strong></p>
+<p><img src="../../images/rides/5/5-18.png" alt="5-18"></p>
+<p><img src="../../images/rides/5/5-19.png" alt="5-19"></p>
+<p><strong>优先原则</strong></p>
+<p><img src="../../images/rides/5/5-20.png" alt="5-20"></p>
+<ul>
+<li>监控<ul>
+<li>同步信息</li>
+</ul>
+</li>
+<li>通知<ul>
+<li>保持联通</li>
+</ul>
+</li>
+<li>故障转移<ul>
+<li>发现问题</li>
+<li>竞选负责人</li>
+<li>优选新master</li>
+<li>新master上任，其他slave切换master，原master作为slave故障回复后连接</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-集群"><a href="#2-集群" class="headerlink" title="2.集群"></a>2.集群</h1><h2 id="2-1-集群简介"><a href="#2-1-集群简介" class="headerlink" title="2-1.集群简介"></a>2-1.集群简介</h2><h3 id="1-业务发展过程中遇到的峰值瓶颈？"><a href="#1-业务发展过程中遇到的峰值瓶颈？" class="headerlink" title="1.业务发展过程中遇到的峰值瓶颈？"></a>1.业务发展过程中遇到的峰值瓶颈？</h3><ul>
+<li>redis提供的服务OPS可以达到10万/秒，当前业务OPS已经达到10万/秒</li>
+<li>内存单机容量达到256G，当前业务需求内存容量1T</li>
+<li>使用集群的方式可以快速解决上述问题</li>
+</ul>
+<h3 id="2-集群架构"><a href="#2-集群架构" class="headerlink" title="2.集群架构"></a>2.集群架构</h3><p>集群就是使用网络将若干台计算机联通起来，并提供统一的管理方式，使其对外呈现单机的服务效果</p>
+<p><strong>集群作用：</strong></p>
+<ul>
+<li>分散单台服务器的访问压力，实现负载均衡</li>
+<li>分散单台服务器的存储压力，实现可扩展性</li>
+<li>降低单台服务器宕机带来的业务灾难</li>
+</ul>
+<p><img src="../../images/rides/5/5-22.png" alt="5-22"></p>
+<p><img src="../../images/rides/5/5-23.png" alt="5-23"></p>
+<h2 id="2-2Redis集群结构设计"><a href="#2-2Redis集群结构设计" class="headerlink" title="2.2Redis集群结构设计"></a>2.2Redis集群结构设计</h2><h3 id="1-数据存储设计"><a href="#1-数据存储设计" class="headerlink" title="1.数据存储设计"></a>1.数据存储设计</h3><ul>
+<li>通过算法设计，计算出key应该保存的位置</li>
+<li>将所有的存储空间计划切割成16384份，每台主机保存一部分</li>
+<li>每份代表的是一个存储空间，不是一个key的保存空间</li>
+<li>将key按照计算出的结果放到对应的存储空间</li>
+</ul>
+<p><img src="../../images/rides/5/5-24.png" alt="5-24"></p>
+<ul>
+<li>增强可扩展性</li>
+</ul>
+<p><img src="../../images/rides/5/5-25.png" alt="5-25"></p>
+<h3 id="2-集群内部通讯设计"><a href="#2-集群内部通讯设计" class="headerlink" title="2.集群内部通讯设计"></a>2.集群内部通讯设计</h3><ul>
+<li>各个数据库相互通信，保存各个库中槽的编号数据</li>
+<li>一次命中，直接返回</li>
+<li>一次未命中，告知具体位置</li>
+</ul>
+<p><img src="../../images/rides/5/5-26.png" alt="5-26"></p>
+<h2 id="2-3-cluster集群结构搭建"><a href="#2-3-cluster集群结构搭建" class="headerlink" title="2.3.cluster集群结构搭建"></a>2.3.cluster集群结构搭建</h2><h3 id="1-搭建方式"><a href="#1-搭建方式" class="headerlink" title="1.搭建方式"></a>1.搭建方式</h3><ul>
+<li>原生安装（单条命令）<ul>
+<li>配置服务器（3主3从）</li>
+<li>建立通信（Meet）</li>
+<li>分槽（Slot）</li>
+</ul>
+</li>
+<li>搭建主从（master-slave）<ul>
+<li>工具安装（批处理）</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-Cluster配置"><a href="#2-Cluster配置" class="headerlink" title="2.Cluster配置"></a>2.Cluster配置</h3><ul>
+<li>添加节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster-enabled yes|no</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>cluster配置文件名，该文件属于自动生成，仅用于快速查找文件并查询文件内容</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster-config-file &lt;filename&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>节点服务响应超时时间，用于判定该节点是否下线或切换为从节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster-node-timeout &lt;milliseconds&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>master连接的slave最小数量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster-migration-barrier &lt;count&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="搭建集群"><a href="#搭建集群" class="headerlink" title="搭建集群"></a>搭建集群</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">cd data</span><br><span class="line">清空</span><br><span class="line">cd conf</span><br><span class="line">vim redis.conf</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-<span class="built_in">config</span>-file nodes<span class="number">-6379.</span>conf</span><br><span class="line">#实验</span><br><span class="line">cluster-node-timeout <span class="number">10000</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-27.png" alt="5-27"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">主客户端</span><br><span class="line">cat redis.conf &gt; redis<span class="number">-6379.</span>conf</span><br><span class="line">ll</span><br><span class="line">set 's/6379/6380/g' redis-6349.conf &gt; redis-6380.conf</span><br><span class="line">set 's/6379/6381/g' redis-6349.conf &gt; redis-6381.conf</span><br><span class="line">set 's/6379/6382/g' redis-6349.conf &gt; redis-6382.conf</span><br><span class="line">set 's/6379/6383/g' redis-6349.conf &gt; redis-6383.conf</span><br><span class="line">set 's/6379/6384/g' redis-6349.conf &gt; redis-6384.conf</span><br><span class="line">set 's/6379/6385/g' redis-6349.conf &gt; redis-6385.conf</span><br><span class="line"></span><br><span class="line">master1</span><br><span class="line">redis-server /conf/redis<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">master2</span><br><span class="line">redis-server /conf/redis<span class="number">-6380.</span>conf</span><br><span class="line"></span><br><span class="line">master3</span><br><span class="line">redis-server /conf/redis<span class="number">-6381.</span>conf</span><br><span class="line"></span><br><span class="line">slave1</span><br><span class="line">redis-server /conf/redis<span class="number">-6382.</span>conf</span><br><span class="line"></span><br><span class="line">slave2</span><br><span class="line">redis-server /conf/redis<span class="number">-6383.</span>conf</span><br><span class="line"></span><br><span class="line">slave3</span><br><span class="line">redis-server /conf/redis<span class="number">-6384.</span>conf</span><br><span class="line"></span><br><span class="line">主客户端</span><br><span class="line">ps -ef |grep redis</span><br><span class="line">cd ..</span><br><span class="line">cd src</span><br><span class="line">ll | grep redis-</span><br><span class="line">查看，没有需要安装</span><br><span class="line">ruby -v</span><br><span class="line">gem -v</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-28.png" alt="5-28"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">主客户端</span><br><span class="line">cd src</span><br><span class="line">redis-trib.rb</span><br><span class="line">#写上的为master</span><br><span class="line">./redis-trib.rb create --replicas <span class="number">1</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6380</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6381</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6382</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6383</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6384</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-29.png" alt="5-29"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">客户端</span><br><span class="line">cd data</span><br><span class="line">ll</span><br><span class="line">cat nodes<span class="number">-6379.</span>conf</span><br><span class="line"></span><br><span class="line">master客户端</span><br><span class="line">redis-cli</span><br><span class="line"><span class="built_in">set</span> name name</span><br><span class="line">(erroe)</span><br><span class="line">redis-cli -c</span><br><span class="line"><span class="built_in">set</span> name name</span><br><span class="line"></span><br><span class="line">slavel客户端</span><br><span class="line">redis-cli -c -p <span class="number">6382</span></span><br><span class="line"><span class="built_in">get</span> name</span><br></pre></td></tr></table></figure>
+
+<h4 id="主从下线与主从切换"><a href="#主从下线与主从切换" class="headerlink" title="主从下线与主从切换"></a>主从下线与主从切换</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">slave1    6382</span><br><span class="line">ctrl+c</span><br><span class="line"></span><br><span class="line">master1与其他客户端日志不同</span><br><span class="line"></span><br><span class="line">master1   6379</span><br><span class="line">ctrl+c</span><br><span class="line"></span><br><span class="line">slave1</span><br><span class="line">一秒连一次，10次（自己设置的）</span><br><span class="line"></span><br><span class="line">slavel客户端</span><br><span class="line">#查看情况</span><br><span class="line">cluster nodes</span><br><span class="line"></span><br><span class="line">master1</span><br><span class="line">redis-server &#x2F;conf&#x2F;redis-6379.conf</span><br><span class="line"></span><br><span class="line">slavel客户端</span><br><span class="line">#查看情况</span><br><span class="line">cluster nodes</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Cluster节点操作命令"><a href="#2-Cluster节点操作命令" class="headerlink" title="2.Cluster节点操作命令"></a>2.Cluster节点操作命令</h3><ul>
+<li>查看集群节点信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster nodes</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进入一个从节点 redis，切换其主节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster replicate &lt;master-id&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>发现一个新节点，新增主节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster meet ip:port</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>忽略一个没有solt的节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster forget &lt;id&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>手动故障转移</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cluster failover</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-redis-trib命令"><a href="#3-redis-trib命令" class="headerlink" title="3.redis-trib命令"></a>3.redis-trib命令</h3><ul>
+<li>添加节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-trib.rb add-node</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-trib.rb del-node</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重新分片</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-trib.rb reshard</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-企业级解决方案"><a href="#3-企业级解决方案" class="headerlink" title="3.企业级解决方案"></a>3.企业级解决方案</h1><h2 id="1-缓存预热"><a href="#1-缓存预热" class="headerlink" title="1.缓存预热"></a>1.缓存预热</h2><h3 id="“宕机”：服务器启动后迅速宕机"><a href="#“宕机”：服务器启动后迅速宕机" class="headerlink" title="“宕机”：服务器启动后迅速宕机"></a>“宕机”：服务器启动后迅速宕机</h3><h3 id="问题排查："><a href="#问题排查：" class="headerlink" title="问题排查："></a>问题排查：</h3><ol>
+<li><p>请求数量较高</p>
+</li>
+<li><p>主从之间数据吞吐量较大，数据同步操作频度较高</p>
+</li>
+</ol>
+<h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><p>前置准备工作：</p>
+<ol>
+<li>日常例行统计数据访问记录，统计访问频度较高的热点数据</li>
+<li>利用LRU数据删除策略，构建数据留存队列<br>例如：storm与kafka配合</li>
+</ol>
+<p>准备工作：<br>3. 将统计结果中的数据分类，根据级别，redis优先加载级别较高的热点数据<br>4. 利用分布式多服务器同时进行数据读取，提速数据加载过程<br>5. 热点数据主从同时预热</p>
+<p>实施：<br>6. 使用脚本程序固定触发数据预热过程<br>7. 如果条件允许，使用了CDN（内容分发网络），效果会更好</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    缓存预热就是系统启动前，提前将相关的缓存数据直接加载到缓存系统。避免在用户请求的时候，先查询数据库，然后再将数据缓存的问题！用户直接查询事先被预热的缓存数据！</p>
+<h2 id="2-缓存雪崩"><a href="#2-缓存雪崩" class="headerlink" title="2.缓存雪崩"></a>2.缓存雪崩</h2><h3 id="数据库服务器崩溃"><a href="#数据库服务器崩溃" class="headerlink" title="数据库服务器崩溃"></a>数据库服务器崩溃</h3><ol>
+<li>系统平稳运行过程中，忽然数据库连接量激增</li>
+<li>应用服务器无法及时处理请求</li>
+<li>大量408，500错误页面出现</li>
+<li>客户反复刷新页面获取数据</li>
+<li>数据库崩溃</li>
+<li>应用服务器崩溃</li>
+<li>重启应用服务器无效</li>
+<li>Redis服务器崩溃</li>
+<li>Redis集群崩溃</li>
+<li>重启数据库后再次被瞬间流量放倒</li>
+</ol>
+<h3 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h3><ol>
+<li>在一个<strong>较短</strong>的时间内，缓存中<strong>较多</strong>的key<strong>集中过期</strong></li>
+<li>此周期内请求访问过期的数据，redis未命中，redis向数据库获取数据</li>
+<li>数据库同时接收到大量的请求无法及时处理</li>
+<li>Redis大量请求被积压，开始出现超时现象</li>
+<li>数据库流量激增，数据库崩溃</li>
+<li>重启后仍然面对缓存中无数据可用</li>
+<li>Redis服务器资源被严重占用，Redis服务器崩溃</li>
+<li>Redis集群呈现崩塌，集群瓦解</li>
+<li>应用服务器无法及时得到数据响应请求，来自客户端的请求数量越来越多，应用服务器崩溃</li>
+<li>应用服务器，redis，数据库全部重启，效果不理想</li>
+</ol>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><ul>
+<li>短时间范围内</li>
+<li>大量key集中过期</li>
+</ul>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案-1"></a>解决方案-1</h3><ol>
+<li>更多的页面静态化处理</li>
+<li>构建多级缓存架构<br>Nginx缓存+redis缓存+ehcache缓存</li>
+<li>检测Mysql严重耗时业务进行优化<br>对数据库的瓶颈排查：例如超时查询、耗时较高事务等</li>
+<li>灾难预警机制<br>监控redis服务器性能指标<ol>
+<li>CPU占用、CPU使用率</li>
+<li>内存容量</li>
+<li>查询平均响应时间</li>
+<li>线程数</li>
+</ol>
+</li>
+<li>限流、降级<ol>
+<li>短时间范围内牺牲一些客户体验，限制一部分请求访问，降低应用服务器压力，待业务低速运转后再逐步放开访问</li>
+</ol>
+</li>
+</ol>
+<h3 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案-2"></a>解决方案-2</h3><ol>
+<li>LRU与LFU切换</li>
+<li>数据有效期策略调整<ol>
+<li>根据业务数据有效期进行分类错峰，A类90分钟，B类80分钟，C类70分钟</li>
+<li>过期时间使用固定时间+随机值的形式，稀释集中到期的key的数量</li>
+</ol>
+</li>
+<li>超热数据使用永久key</li>
+<li>定期维护（自动+人工）<ol>
+<li>对即将过期数据做访问量分析，确认是否延时，配合访问量统计，做热点数据的延时</li>
+</ol>
+</li>
+<li>加锁</li>
+</ol>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>​    缓存雪崩就是瞬间过期数据量太大，导致对数据库服务器造成压力。如能够有效避免过期时间集中，可以有效解决雪崩现象的出现（约40%），配合其他策略一起使用，并监控服务器的运行数据，根据运行记录做快速调整。</p>
+<p><img src="../../images/rides/5/5-30.png" alt="5-30"></p>
+<h2 id="3-缓存击穿"><a href="#3-缓存击穿" class="headerlink" title="3.缓存击穿"></a>3.缓存击穿</h2><h3 id="数据库服务器崩溃-1"><a href="#数据库服务器崩溃-1" class="headerlink" title="数据库服务器崩溃"></a>数据库服务器崩溃</h3><ol>
+<li>系统平稳运行过程中</li>
+<li>数据库连接量瞬间激增</li>
+<li>Redis服务器无大量key过期</li>
+<li>Redis内存平稳，无波动</li>
+<li>Redis服务器CPU正常</li>
+<li>数据库崩溃</li>
+</ol>
+<h3 id="问题排查-1"><a href="#问题排查-1" class="headerlink" title="问题排查"></a>问题排查</h3><ol>
+<li>Redis中某个key过期，该key访问量巨大</li>
+<li>多个数据请求从服务器直接压到Redis后，均未命中</li>
+<li>Redis在短时间内发起了大量对数据库中同一数据的访问</li>
+</ol>
+<h3 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h3><ul>
+<li>单个key高热数据</li>
+<li>key过期</li>
+</ul>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
+<li>预先设定<ol>
+<li>以电商为例，每个商家根据店铺等级，指定若干款主打商品，在购物节期间，加大此类信息key的过期时长</li>
+<li>注意：购物节不仅仅指当天，以及后续若干天，访问峰值呈现逐渐降低的趋势</li>
+</ol>
+</li>
+<li>现场调整<ol>
+<li>监控访问量，对自然流量激增的数据延长过期时间或设置为永久性key</li>
+</ol>
+</li>
+<li>后台刷新数据<ol>
+<li>启动定时任务，高峰期来临之前，刷新数据有效期，确保不丢失</li>
+</ol>
+</li>
+<li>二级缓存<ol>
+<li>设置不同的失效时间，保障不会被同时淘汰就行</li>
+</ol>
+</li>
+<li>加锁<ol>
+<li>分布式锁，防止被击穿，但是要注意也是性能瓶颈，慎重！</li>
+</ol>
+</li>
+</ol>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>​    缓存击穿就是单个高热数据过期的瞬间，数据访问量较大，未命中redis后，发起了大量对同一数据的数据库访问，导致对数据库服务器造成压力。应对策略应该在业务数据分析与预防方面进行，配合运行监控测试与即时调整策略，毕竟单个key的过期监控难度较高，配合雪崩处理策略即可。</p>
+<h2 id="4-缓存穿透"><a href="#4-缓存穿透" class="headerlink" title="4.缓存穿透"></a>4.缓存穿透</h2><h3 id="数据库服务器崩溃-2"><a href="#数据库服务器崩溃-2" class="headerlink" title="数据库服务器崩溃"></a>数据库服务器崩溃</h3><ol>
+<li>系统平稳运行过程中</li>
+<li>应用服务器流量随时间增量较大</li>
+<li>Redis服务器命中率随时间逐步降低</li>
+<li>Redis内存平稳，内存无压力</li>
+<li>Redis服务器CPU占用激增</li>
+<li>数据库服务器压力激增</li>
+<li>数据库崩溃</li>
+</ol>
+<h3 id="问题排查-2"><a href="#问题排查-2" class="headerlink" title="问题排查"></a>问题排查</h3><ol>
+<li>Redis中大面积出现未命中</li>
+<li>出现非正常URL访问</li>
+</ol>
+<h3 id="问题分析-2"><a href="#问题分析-2" class="headerlink" title="问题分析"></a>问题分析</h3><ul>
+<li>获取的数据在数据库中也不存在，数据库查询未得到对应数据</li>
+<li>Redis获取到null数据未进行持久化，直接返回</li>
+<li>下次此类数据到达重复上述过程</li>
+<li>出现黑客攻击服务器</li>
+</ul>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
+<li>缓存null<ol>
+<li>对查询结果为null的数据进行缓存（长期使用，定期清理），设定短时限，例如30-60秒，最高5分钟</li>
+</ol>
+</li>
+<li>白名单策略<ol>
+<li>提前预热各种分类数据id对应的bitmaps，id作为bitmaps的offset，相当于设置了数据白名单。当加载正常数据时，放行，加载异常数据时直接拦截（效率偏低）</li>
+<li>使用布隆过滤器（有关布隆过滤器的命中问题对当前状况可以忽略）</li>
+</ol>
+</li>
+<li>实施监控<ol>
+<li>实时监控redis命中率（业务正常范围时，通常会有一个波动值）与null数据的占比<ol>
+<li>非活动时段波动：通常检测3-5倍，超过5倍纳入重点排查对象</li>
+<li>活动时段波动：通常检测10-50倍，超过50倍纳入重点排查对象</li>
+</ol>
+</li>
+<li>根据倍数不同，启动不同的排查流程。然后使用黑名单进行防控（运营）</li>
+</ol>
+</li>
+<li>key加密<ol>
+<li>问题出现后，临时启动防灾业务key，对key进行业务层传输加密服务，设定校验程序，过来的key校验</li>
+<li>例如每天随机分配60个加密串，挑选2到3个，混淆到页面数据id中，发现访问key不满足规则，驳回数据访问</li>
+</ol>
+</li>
+</ol>
+<h3 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>缓存击穿访问了不存在的数据，跳过了合法数据的redis数据缓存阶段，每次访问数据库，导致对数据库服务器造成压力。通常此类数据的出现量是一个较低的值，当出现此类情况以毒攻毒，并及时报警。应对策略应该在临时预案防范方面多做文章。</li>
+<li>无论是黑名单还是白名单，都是对整体系统的压力，警报解除后尽快移除。</li>
+</ul>
+<h2 id="5-性能指标监控"><a href="#5-性能指标监控" class="headerlink" title="5.性能指标监控"></a>5.性能指标监控</h2><h3 id="监控指标"><a href="#监控指标" class="headerlink" title="监控指标"></a>监控指标</h3><ul>
+<li>性能指标：Performance</li>
+</ul>
+<p><img src="../../images/rides/5/5-31.png" alt="5-31"></p>
+<ul>
+<li>内存指标：Memory</li>
+</ul>
+<p><img src="../../images/rides/5/5-32.png" alt="5-32"></p>
+<ul>
+<li>基本活动指标：Basic activity</li>
+</ul>
+<p><img src="../../images/rides/5/5-33.png" alt="5-33"></p>
+<ul>
+<li>持久性指标：Persistence</li>
+</ul>
+<p><img src="../../images/rides/5/5-34.png" alt="5-34"></p>
+<ul>
+<li>错误指标：Error</li>
+</ul>
+<p><img src="../../images/rides/5/5-35.png" alt="5-35"></p>
+<h3 id="监控方式"><a href="#监控方式" class="headerlink" title="监控方式"></a>监控方式</h3><ul>
+<li>工具<ul>
+<li>Cloud Insight Redis</li>
+<li>Prometheus</li>
+<li>Redis-stat</li>
+<li>Redis-faina</li>
+<li>RedisLive</li>
+<li>zabbix</li>
+</ul>
+</li>
+<li>命令<ul>
+<li>benchmark</li>
+<li>redis cli</li>
+<li>monitor</li>
+<li>showlog</li>
+</ul>
+</li>
+</ul>
+<h3 id="benchmark"><a href="#benchmark" class="headerlink" title="benchmark"></a>benchmark</h3><ul>
+<li>命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-benchmark [-h ] [-p ] [-c ] [-n &lt;requests]&gt; [-k ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>范例1：说明：50个连接，10000次请求对应的性能</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-benchmark</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>范例2：说明：100个连接，5000次请求对应的性能</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-benchmark -c 100 -n 5000</span><br></pre></td></tr></table></figure>
+
+<p>性能监控命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">直接在&#x2F;目录下</span><br><span class="line">&#x2F;]# redis-benchmark</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../images/rides/5/5-36.png" alt="5-36"></p>
+<h3 id="monitor"><a href="#monitor" class="headerlink" title="monitor"></a>monitor</h3><ul>
+<li>命令：打印服务器调试信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">monitor</span><br></pre></td></tr></table></figure>
+
+<h3 id="showlong"><a href="#showlong" class="headerlink" title="showlong"></a>showlong</h3><ul>
+<li>命令<ul>
+<li>get ：获取慢查询日志</li>
+<li>len ：获取慢查询日志条目数</li>
+<li>reset ：重置慢查询日志</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">showlong [operator]</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>相关配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">slowlog-log-slower-than 1000 #设置慢查询的时间下线，单位：微妙</span><br><span class="line">slowlog-max-len 100 #设置慢查询命令对应的日志显示长度，单位：命令数</span><br></pre></td></tr></table></figure>
+
+]]></content>
       <categories>
         <category>后端</category>
       </categories>
@@ -1683,8 +2182,8 @@
         <category>数据库</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
         <tag>linux</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
