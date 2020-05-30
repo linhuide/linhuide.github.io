@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SVN</title>
+    <url>/post/ec3edfbe.html</url>
+    <content><![CDATA[<p>SVN</p>
+<a id="more"></a>
+
+<h2 id="VisualSVN"><a href="#VisualSVN" class="headerlink" title="VisualSVN"></a>VisualSVN</h2><h2 id="1-创建"><a href="#1-创建" class="headerlink" title="1.创建"></a>1.创建</h2><p>svnadmin create 文件夹路径</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">svnadmin create</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-开启"><a href="#2-开启" class="headerlink" title="2.开启"></a>2.开启</h2><p>svnserve  -d（后台运行）  -r（监管目录） 版本仓库目录</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">svnserve -d -r</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TortoiseSVN"><a href="#TortoiseSVN" class="headerlink" title="TortoiseSVN"></a>TortoiseSVN</h2><p>svn://localhost</p>
+<p>检出，更新，提交</p>
+]]></content>
+      <categories>
+        <category>版本控制</category>
+      </categories>
+      <tags>
+        <tag>SVN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux部署</title>
     <url>/post/a2ca3b62.html</url>
     <content><![CDATA[<p>SpringBoot 项目部署到 Linux上</p>
@@ -2234,8 +2258,8 @@
         <category>数据库</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
         <tag>linux</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
