@@ -404,7 +404,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -488,7 +488,7 @@
 
   
   <div class="theme-info">
-      <span class="post-count">|&ensp;&ensp;     站点总字数 :  117.2k</span>
+      <span class="post-count">|&ensp;&ensp;     站点总字数 :  120.6k</span>
   </div>
 </div>
 
@@ -1042,7 +1042,30 @@
 </html>
 <script type="text/javascript" src="/js/src/love.js"></script>
 
-fetched === false) {
+== 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
         searchFunc(path, 'local-search-input', 'local-search-result');
       } else {
         proceedsearch();
